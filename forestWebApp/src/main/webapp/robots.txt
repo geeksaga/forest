@@ -1,0 +1,4 @@
+User-agent:*
+Disallow:/WEB-INF
+Allow:/js
+Allow:/css

@@ -1,0 +1,275 @@
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+apply plugin: 'spring-boot' 
+apply plugin: 'war'
+apply plugin: 'tomcat'
+apply plugin: 'cargo'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.0'
+        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.4'
+    }
+}
+
+war {
+    baseName = 'forest'
+    version = '0.0.1-SNAPSHOT'
+}
+
+/*
+configurations {
+    all*.exclude group: 'org.hibernate.javax.persistence', module: 'hibernate-jpa-2.0-api'
+}
+*/
+
+dependencies {
+    String tomcatVersion = '8.0.15'
+    
+	/*
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}"
+    tomcat "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+    */
+    
+    // compile 'javax.servlet.jsp:jsp-api:2.2'
+    // compile 'javax.servlet.jsp.jstl:jstl:1.2'
+    // compile "taglibs:standard:1.1.2"
+    
+    // compile 'org.glassfish.web:el-impl:2.2'
+    
+    // providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    // providedCompile 'javax.websocket:javax.websocket-api:1.0'
+    // providedCompile 'javax.servlet.jsp:jsp-api:2.2'
+    // providedCompile "org.apache.tomcat:tomcat-servlet-api:${tomcatVersion}"
+
+    def cargoVersion = '1.4.5'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+
+
+    def springVersion = "4.1.3.RELEASE"
+    compile("org.springframework.boot:spring-boot-starter-parent:$rootProject.ext.springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-web:$rootProject.ext.springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-tomcat:$rootProject.ext.springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-security:$rootProject.ext.springBootVersion")
+    
+    compile("org.springframework.boot:spring-boot-starter-actuator:$rootProject.ext.springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-redis:$rootProject.ext.springBootVersion")
+    
+    /*
+    compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
+    compile "org.springframework.security:spring-security-web:${springSecurityVersion}"
+    compile "org.springframework.security:spring-security-config:${springSecurityVersion}"
+    compile "org.springframework.security:spring-security-oauth2:${springSecurityOAuthVersion}"
+    */
+    //exclude module: 'cglib' //by artifact name
+    //exclude group: 'org.jmock' //by group
+    //exclude group: 'org.unwanted', module: 'iAmBuggy' //by both name and group
+    
+    compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'
+    
+    
+    compile 'org.slf4j:slf4j-api:1.7.6'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.6'
+
+    compile 'ch.qos.logback:logback-classic:1.1.2'
+    compile 'ch.qos.logback:logback-core:1.1.2'
+
+	compile project(':forestHibernate')
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1'
+    compile 'commons-fileupload:commons-fileupload:1.3.1'
+    
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:$rootProject.ext.springBootVersion")
+    providedRuntime("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+    
+    testCompile('org.thymeleaf:thymeleaf-testing:2.1.4.RELEASE')
+    
+    testCompile("org.springframework.boot:spring-boot-starter-test:$rootProject.ext.springBootVersion")
+}
+
+tomcatRun {
+    contextPath = ""
+    URIEncoding = 'UTF-8'
+    dependsOn war
+}
+
+tomcatRunWar {
+    dependsOn war
+}
+
+cargoRedeployRemote {
+    dependsOn war
+}
+
+cargoDeployRemote {
+    dependsOn war
+}
+
+cargo {
+    containerId = 'tomcat8x'
+    port = 8080
+
+    deployable {
+        context = "${project.name}"
+    }
+
+    remote {
+        hostname = '127.0.0.1'
+        username = 'forest'
+        password = 'forest'
+    }
+}
+
+task gruntRun {
+    String command = '. grunt serve'
+    String directory = 'src/main/com'
+    String ready = 'Waiting...'
+
+    doLast {
+        ProcessBuilder builder = new ProcessBuilder(command.split(' '))
+        builder.redirectErrorStream(true)
+        builder.directory(file(directory))
+        Process process = builder.start()
+
+        InputStream stdout = process.getInputStream()
+        BufferedReader reader = new BufferedReader(new
+                InputStreamReader(stdout))
+
+        def line
+        while ((line = reader.readLine()) != null) {
+            println line
+            if (line.contains(ready)) {
+                println "$command is ready"
+                break;
+            }
+        }
+    }
+}
+
+/*
+test {
+    jvmArgs = ['-ea', '-Xmx256m']
+    logging.captureStandardOutput(LogLevel.INFO)
+    testReport = false
+}
+*/
+
+// 프로젝트 초기화
+// 1. java source directory 생성 : src/main/java, src/test/java
+// 2. resource directory 생성    : src/main/resource, src/test/resource
+// 3. web source directory 생성  : src/main/webapp, src/main/webapp/WEB-INF
+task initProject(description: 'initialize project') << {
+    createDir = {
+        println "create source directory: $it"
+        it.mkdirs()
+    }
+    sourceSets*.java.srcDirs*.each createDir
+    sourceSets*.resources.srcDirs*.each createDir
+    createDir webAppDir
+    createDir new File(webAppDir, '/WEB-INF')
+}
+
+/*
+task initProject << {
+	createDir = {
+		it.mkdirs();
+	}
+	
+	sourceSets*.java.srcDirs*.each createDir
+	sourceSets*.resources.srcDirs*.each createDir
+	createDir webAppDir
+	createDir new File(webAppDir, '/WEB-INF/views');
+
+	processResources {
+		from(sourceSets.main.resources.srcDirs) {
+		}
+	}
+}
+*/
+
+eclipse {
+/*
+    classpath {
+        file {
+            withXml {
+                
+                Map<String, String> map = new HashMap<String, String>()
+                map.put('exported', 'true')
+                map.put('path', 'org.springsource.ide.eclipse.gradle.classpathcontainer')
+                map.put('kind', 'con')
+                
+                def node = it.asNode()
+                node.appendNode('classpathentry', map)
+            }
+        }
+    }
+*/
+    project  {
+        name = 'forestWebApp'
+        comment = 'forest web project'
+        natures = [
+            'org.springframework.ide.eclipse.core.springnature',
+            'org.springsource.ide.eclipse.gradle.core.nature',
+            'org.eclipse.jdt.core.javanature',
+            'org.eclipse.wst.common.project.facet.core.nature',
+            'org.eclipse.wst.common.modulecore.ModuleCoreNature',
+            'org.eclipse.jem.workbench.JavaEMFNature',
+        ]
+    }
+    
+    jdt {
+	    sourceCompatibility = javaVersion
+	    targetCompatibility = javaVersion
+	    
+		file {
+			withProperties { 
+				properties -> properties.setProperty("encoding//src/main/java", "utf-8")
+					      properties.setProperty("encoding//src/main/resources", "utf-8")
+					      properties.setProperty("encoding//src/test/java", "utf-8")
+					      properties.setProperty("encoding//src/test/resources", "utf-8")
+			}		
+		}
+    }
+    
+    wtp {
+        // .settings 폴더의 org.eclipse.wst.common.component 파일을 설정한다.
+        component {
+            //contextPath = project.name // 원하는 contextPath 지정. 단, 빈 컨텍스트패스는 "/" 로 지정
+            contextPath = "/" // 원하는 contextPath 지정. 단, 빈 컨텍스트패스는 "/" 로 지정
+        }
+        // .settings 폴더의 org.eclipse.wst.common.project.facet.core.xml 파일을 설정한다.
+        facet {
+            facet name: "jst.web" , version: "3.1"
+            facet name: "jst.java" , version: "1.8"
+            facet name: 'wst.jsdt.web' , version: '1.0'   // Javascript
+        }
+    }    
+}
+
+/*
+eclipse.classpath.file {
+    // beforeMerged { classpath ->
+    whenMerged { classpath ->
+        classpath.entries.remove { entry -> entry.kind == 'con' }
+        
+        classpath.entries.findAll { entry -> entry.kind == 'con' }*.path = 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+        // org.eclipse.jst.j2ee.internal.web.container
+        
+        // classpath.entries.findAll { entry -> entry.kind == 'lib' }*.exported = false
+        classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+    }
+}
+*/
+
+tasks.eclipse.dependsOn cleanEclipse
