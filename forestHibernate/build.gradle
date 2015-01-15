@@ -1,0 +1,248 @@
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'forest-jpa-hibernate'
+    version =  '0.1.0'
+}
+
+dependencies {
+    // compile "org.springframework:spring-orm:$rootProject.ext.springVersion"
+    // compile "org.springframework.data:spring-data-jpa:$rootProject.ext.springjpaVersion"
+    
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:$rootProject.ext.springBootVersion")
+    // compile("org.springframework.boot:spring-boot-starter-security:$rootProject.ext.springBootVersion")
+    
+
+    // compile "org.hibernate:hibernate-entitymanager:4.3.7.Final"
+    compile "org.hibernate:hibernate-validator:5.1.3.Final"
+    compile "org.hibernate:hibernate-validator-annotation-processor:5.1.3.Final"
+
+    compile("com.mysema.querydsl:querydsl-core:$rootProject.ext.querydslVersion")
+    compile("com.mysema.querydsl:querydsl-jpa:$rootProject.ext.querydslVersion")
+    compile("com.mysema.querydsl:querydsl-sql:$rootProject.ext.querydslVersion")
+    
+    compile("com.mysema.querydsl:querydsl-apt:$rootProject.ext.querydslVersion") {
+        exclude group: 'com.google.guava'
+    }
+    
+    
+    compile("c3p0:c3p0:0.9.1.2")
+    compile("com.jolbox:bonecp:0.8.0.RELEASE")
+    
+    compile("org.hsqldb:hsqldb:2.3.2")
+    // compile("com.h2database:h2:1.3.160")
+    
+    // compile("org.glassfish.web:javax.el:2.2.6")
+    compile("joda-time:joda-time:2.6")
+    
+    // compile("javax.servlet:javax.servlet-api:3.1.0")
+    
+    /*
+    provided("com.mysema.querydsl:querydsl-apt:$rootProject.ext.querydslVersion") {
+        exclude group: 'com.google.guava'
+    }
+    */
+    // compile "org.springframework:spring-webmvc:$rootProject.ext.springVersion"
+    // compile "org.springframework:spring-aop:$rootProject.ext.springVersion"
+    
+    provided("org.springframework.security:spring-security-core:3.2.5.RELEASE")
+    
+    testCompile("org.springframework.boot:spring-boot-starter-test:$rootProject.ext.springBootVersion")
+    
+    testRuntime("javax.el:javax.el-api:3.0.0")
+    testRuntime("org.springframework.boot:spring-boot-starter-test:$rootProject.ext.springBootVersion")
+    
+    
+    /*
+	querydslapt(
+		[group: 'com.mysema.querydsl', name: 'querydsl-apt', version: "${versions.querydsl}"]
+	)
+	*/
+	
+	/*
+	testRuntime(
+        [group: 'junit', name: 'junit', version: '4.11'],
+		[group: 'org.slf4j', name: 'slf4j-api', version: "${versions.slf4j}"],
+		[group: 'org.slf4j', name: 'jcl-over-slf4j', version: "${versions.slf4j}"],
+		[group: 'org.slf4j', name: 'log4j-over-slf4j', version: "${versions.slf4j}"],
+		[group: 'org.slf4j', name: 'slf4j-jcl', version: "${versions.slf4j}"],
+		[group: 'ch.qos.logback', name: 'logback-core', version: "${versions.logback}"],
+		[group: 'ch.qos.logback', name: 'logback-classic', version: "${versions.logback}"],
+		[group: 'ch.qos.logback', name: 'logback-access', version: "${versions.logback}"],
+		[group: 'org.springframework', name: 'org.springframework.web.servlet', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'org.springframework.web', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'org.springframework.core', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'org.springframework.test', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'org.springframework.beans', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'org.springframework.jdbc', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'org.springframework.orm', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'spring-context', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'spring-tx', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'spring-webmvc', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'org.springframework.jdbc', version: "${versions.spring}"],
+		[group: 'org.springframework', name: 'spring-context-support', version: "${versions.spring}"],
+		[group: 'org.springframework.data', name: 'spring-data-jpa', version: "${versions.springDataJpa}"],
+		[group: 'org.hibernate', name: 'hibernate-core', version: "${versions.hibernate}"],
+		[group: 'org.hibernate', name: 'hibernate-validator', version: '4.3.0.Final'],
+		[group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${versions.hibernate}"],
+		[group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'],
+		[group: 'com.google.guava', name: 'guava', version: '13.0.1'],
+		[group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.9'],
+		[group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.1.6'],
+		[group: 'javax.servlet', name: 'jstl', version: '1.2'],
+		[group: 'mysql', name: 'mysql-connector-java', version: "${versions.mysqlConnector}"],
+		[group: 'jaxen', name: 'jaxen', version: '1.1.4'],
+		[group: 'dom4j', name: 'dom4j', version: '1.6.1'],
+		[group: 'commons-lang', name: 'commons-lang', version: '2.6'],
+		[group: 'org.hamcrest', name: 'hamcrest-all', version: '1.+'],
+		[group: 'org.mockito', name: 'mockito-all', version: '1.+'],
+		[group: 'com.h2database', name: 'h2', version: '1.3.160'],		
+		[group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'],
+		[group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'],
+		[group: 'com.jolbox', name: 'bonecp', version: '0.7.1.RELEASE'],
+        [group: 'org.jsoup', name: 'jsoup', version: '1.7.2'],
+		[group: 'org.hsqldb', name: 'hsqldb', version: '2.0.0'],
+		[group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'],
+		[group: 'com.mysema.querydsl', name : 'querydsl-jpa', version: "${versions.querydsl}"]
+    )
+    */
+}
+
+/*
+// TEST 설정
+test {
+    jvmArgs = ['-ea', '-Xmx256m']
+    logging.captureStandardOutput(LogLevel.INFO)
+    testReport = false
+}
+*/
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['src/main/generated']
+        }
+    }
+}
+
+// sourceSets.generated.output.resourcesDir = sourceSets.generated.output.classesDir
+
+configurations {
+	querydslapt
+}
+
+/*
+task initProject << {
+	createDir = {
+		it.mkdirs();
+	}
+	
+	sourceSets*.java.srcDirs*.each createDir
+	sourceSets*.resources.srcDirs*.each createDir
+	createDir webAppDir
+	createDir new File(webAppDir, '/WEB-INF/views');
+
+	processResources {
+		from(sourceSets.main.resources.srcDirs) {
+		}
+	}
+}
+*/
+
+/*
+jar {
+    baseName = 'forest.hibernate'
+    version =  '0.1.0'
+}
+*/
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.provided
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "com.mysema.query.apt.jpa.JPAAnnotationProcessor"
+    ]
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}
+
+compileJava {
+    dependsOn generateQueryDSL
+    source sourceSets.generated.java.srcDirs.iterator().next()
+}
+
+compileGeneratedJava {
+    dependsOn generateQueryDSL
+    options.warnings = false
+    classpath += sourceSets.main.runtimeClasspath
+}
+
+clean {
+    delete sourceSets.generated.java.srcDirs
+}
+
+idea {
+    module {
+        sourceDirs += file('src/main/generated')
+    }
+}
+
+eclipse {
+    classpath {
+        // defaultOutputDir = file("${buildDir}/classes/main")
+        // containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    
+        file {
+            withXml {
+                
+                Map<String, String> map = new HashMap<String, String>()
+                map.put('exported', 'true')
+                map.put('path', 'org.springsource.ide.eclipse.gradle.classpathcontainer')
+                map.put('kind', 'con')
+                
+                def node = it.asNode()
+                node.appendNode('classpathentry', [kind: 'src', path: 'src/main/generated'])
+                node.appendNode('classpathentry', map)
+            }
+        }
+    }
+
+    project  {
+        name = 'forestHibernate'
+        comment = 'forest project'
+        natures = [
+            'org.springframework.ide.eclipse.core.springnature',
+            'org.springsource.ide.eclipse.gradle.core.nature',
+            'org.eclipse.jdt.core.javanature',
+        ]
+    }
+    
+    jdt {
+	    sourceCompatibility = javaVersion
+	    targetCompatibility = javaVersion
+    }
+}
+
+/*
+eclipse.classpath.file {
+    // beforeMerged { classpath ->
+    whenMerged { classpath ->
+        classpath.entries.remove { entry -> entry.kind == 'con' }
+        
+        classpath.entries.findAll { entry -> entry.kind == 'con' }*.path = 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+        
+        // classpath.entries.findAll { entry -> entry.kind == 'lib' }*.exported = false
+        classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+    }
+}
+*/
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
+
+
+tasks.eclipse.dependsOn cleanEclipse
+tasks.eclipse.dependsOn generateQueryDSL
+// tasks.eclipse.dependsOn initProject
+tasks.idea.dependsOn generateQueryDSL
