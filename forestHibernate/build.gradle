@@ -6,9 +6,6 @@ jar {
 }
 
 dependencies {
-    // compile "org.springframework:spring-orm:$rootProject.ext.springVersion"
-    // compile "org.springframework.data:spring-data-jpa:$rootProject.ext.springjpaVersion"
-    
     compile("org.springframework.boot:spring-boot-starter-data-jpa:$rootProject.ext.springBootVersion")
     // compile("org.springframework.boot:spring-boot-starter-security:$rootProject.ext.springBootVersion")
     
@@ -58,58 +55,9 @@ dependencies {
 		[group: 'com.mysema.querydsl', name: 'querydsl-apt', version: "${versions.querydsl}"]
 	)
 	*/
-	
-	/*
-	testRuntime(
-        [group: 'junit', name: 'junit', version: '4.11'],
-		[group: 'org.slf4j', name: 'slf4j-api', version: "${versions.slf4j}"],
-		[group: 'org.slf4j', name: 'jcl-over-slf4j', version: "${versions.slf4j}"],
-		[group: 'org.slf4j', name: 'log4j-over-slf4j', version: "${versions.slf4j}"],
-		[group: 'org.slf4j', name: 'slf4j-jcl', version: "${versions.slf4j}"],
-		[group: 'ch.qos.logback', name: 'logback-core', version: "${versions.logback}"],
-		[group: 'ch.qos.logback', name: 'logback-classic', version: "${versions.logback}"],
-		[group: 'ch.qos.logback', name: 'logback-access', version: "${versions.logback}"],
-		[group: 'org.springframework', name: 'org.springframework.web.servlet', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'org.springframework.web', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'org.springframework.core', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'org.springframework.test', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'org.springframework.beans', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'org.springframework.jdbc', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'org.springframework.orm', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'spring-context', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'spring-tx', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'spring-webmvc', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'org.springframework.jdbc', version: "${versions.spring}"],
-		[group: 'org.springframework', name: 'spring-context-support', version: "${versions.spring}"],
-		[group: 'org.springframework.data', name: 'spring-data-jpa', version: "${versions.springDataJpa}"],
-		[group: 'org.hibernate', name: 'hibernate-core', version: "${versions.hibernate}"],
-		[group: 'org.hibernate', name: 'hibernate-validator', version: '4.3.0.Final'],
-		[group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${versions.hibernate}"],
-		[group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'],
-		[group: 'com.google.guava', name: 'guava', version: '13.0.1'],
-		[group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.9'],
-		[group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.1.6'],
-		[group: 'javax.servlet', name: 'jstl', version: '1.2'],
-		[group: 'mysql', name: 'mysql-connector-java', version: "${versions.mysqlConnector}"],
-		[group: 'jaxen', name: 'jaxen', version: '1.1.4'],
-		[group: 'dom4j', name: 'dom4j', version: '1.6.1'],
-		[group: 'commons-lang', name: 'commons-lang', version: '2.6'],
-		[group: 'org.hamcrest', name: 'hamcrest-all', version: '1.+'],
-		[group: 'org.mockito', name: 'mockito-all', version: '1.+'],
-		[group: 'com.h2database', name: 'h2', version: '1.3.160'],		
-		[group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'],
-		[group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'],
-		[group: 'com.jolbox', name: 'bonecp', version: '0.7.1.RELEASE'],
-        [group: 'org.jsoup', name: 'jsoup', version: '1.7.2'],
-		[group: 'org.hsqldb', name: 'hsqldb', version: '2.0.0'],
-		[group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'],
-		[group: 'com.mysema.querydsl', name : 'querydsl-jpa', version: "${versions.querydsl}"]
-    )
-    */
 }
 
 /*
-// TEST 설정
 test {
     jvmArgs = ['-ea', '-Xmx256m']
     logging.captureStandardOutput(LogLevel.INFO)
@@ -125,36 +73,9 @@ sourceSets {
     }
 }
 
-// sourceSets.generated.output.resourcesDir = sourceSets.generated.output.classesDir
-
 configurations {
 	querydslapt
 }
-
-/*
-task initProject << {
-	createDir = {
-		it.mkdirs();
-	}
-	
-	sourceSets*.java.srcDirs*.each createDir
-	sourceSets*.resources.srcDirs*.each createDir
-	createDir webAppDir
-	createDir new File(webAppDir, '/WEB-INF/views');
-
-	processResources {
-		from(sourceSets.main.resources.srcDirs) {
-		}
-	}
-}
-*/
-
-/*
-jar {
-    baseName = 'forest.hibernate'
-    version =  '0.1.0'
-}
-*/
 
 task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
     source = sourceSets.main.java
