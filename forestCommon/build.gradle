@@ -1,0 +1,34 @@
+dependencies {
+}
+
+eclipse {
+    classpath {
+        file {
+            withXml {
+                
+                Map<String, String> map = new HashMap<String, String>()
+                map.put('exported', 'true')
+                map.put('path', 'org.springsource.ide.eclipse.gradle.classpathcontainer')
+                map.put('kind', 'con')
+                
+                def node = it.asNode()
+                node.appendNode('classpathentry', map)
+            }
+        }
+    }
+
+    project  {
+        name = 'forestCommon'
+        comment = 'forest common project'
+        natures = [
+            'org.springframework.ide.eclipse.core.springnature',
+            'org.springsource.ide.eclipse.gradle.core.nature',
+            'org.eclipse.jdt.core.javanature',
+        ]
+    }
+    
+    jdt {
+	    sourceCompatibility = javaVersion
+	    targetCompatibility = javaVersion
+    }
+}
