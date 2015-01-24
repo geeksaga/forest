@@ -76,13 +76,6 @@ dependencies {
     
     compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'
     
-    
-    compile 'org.slf4j:slf4j-api:1.7.6'
-    compile 'org.slf4j:jcl-over-slf4j:1.7.6'
-
-    compile 'ch.qos.logback:logback-classic:1.1.2'
-    compile 'ch.qos.logback:logback-core:1.1.2'
-
 	compile project(':forestHibernate')
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1'
@@ -165,10 +158,6 @@ test {
 }
 */
 
-// 프로젝트 초기화
-// 1. java source directory 생성 : src/main/java, src/test/java
-// 2. resource directory 생성    : src/main/resource, src/test/resource
-// 3. web source directory 생성  : src/main/webapp, src/main/webapp/WEB-INF
 task initProject(description: 'initialize project') << {
     createDir = {
         println "create source directory: $it"
@@ -243,15 +232,13 @@ eclipse {
     }
     
     wtp {
-        // .settings 폴더의 org.eclipse.wst.common.component 파일을 설정한다.
         component {
-            //contextPath = project.name // 원하는 contextPath 지정. 단, 빈 컨텍스트패스는 "/" 로 지정
-            contextPath = "/" // 원하는 contextPath 지정. 단, 빈 컨텍스트패스는 "/" 로 지정
+            contextPath = "/"
         }
-        // .settings 폴더의 org.eclipse.wst.common.project.facet.core.xml 파일을 설정한다.
+        
         facet {
             facet name: "jst.web" , version: "3.1"
-            facet name: "jst.java" , version: "1.8"
+            facet name: "jst.java" , version: "1.7"
             facet name: 'wst.jsdt.web' , version: '1.0'   // Javascript
         }
     }    

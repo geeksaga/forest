@@ -1,15 +1,12 @@
 package com.geeksaga.forest.repositories.entity;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,6 +16,10 @@ import com.geeksaga.forest.config.DataConfig;
 import com.geeksaga.forest.repositories.UserManagerRepository;
 import com.google.common.collect.Lists;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DataConfig.class)
 public class UserManagerRepositoryTest //extends AbstractRepositoryTestSupport

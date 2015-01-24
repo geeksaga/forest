@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.geeksaga.forest.dao.EntityDao;
 import com.geeksaga.forest.repositories.entity.BaseEntity;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 public abstract class AbstractSpringDataDao<T extends BaseEntity> implements EntityDao<T>
 {
     @Autowired

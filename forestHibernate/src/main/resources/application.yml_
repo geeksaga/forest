@@ -1,0 +1,39 @@
+# https://github.com/spring-projects/spring-boot/blob/6b83e0ad5de5f127cad5b12ab1738923c4a58a9f/docs/application.yml
+
+  spring:
+    application.name: forest jpa
+    config.name: application
+    profiles.active:
+    messages.basename: Forest JPA
+    messages:
+    basename: messages
+   
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog
+    username: root
+    password: root
+    
+  db:
+    drvier: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:mem:forest
+    username: sa
+    password:
+   
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+       ddl-auto: create-drop
+     
+  hibernate:
+    dialect: org.hibernate.dialect.H2Dialect
+    hbm2ddl.auto: create-drop
+    show-sql: true
+    format-sql: true
+     
+  logging:
+    #file: 'C:\\TA.log'
+    level:
+      org.springframework: 'INFO'
+      org.hibernate.SQL: 'INFO'      

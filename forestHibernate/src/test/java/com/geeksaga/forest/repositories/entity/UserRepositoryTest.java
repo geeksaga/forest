@@ -16,6 +16,10 @@ import com.geeksaga.forest.repositories.UserRepository;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
 import com.google.common.collect.Lists;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 public class UserRepositoryTest extends AbstractRepositoryTestSupport
 {
     @Autowired

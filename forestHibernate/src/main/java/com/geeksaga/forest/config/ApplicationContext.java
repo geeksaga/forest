@@ -6,24 +6,24 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-//@Configuration
-//@ComponentScan(basePackages = { "com.geeksaga.forest" })
-//@EnableWebMvc
-//@Import({ DataConfig.class })
-//@ImportResource({ "classpath:trace-context.xml" })
-//@PropertySource("classpath:spring.properties")
+// @Configuration
+// @ComponentScan(basePackages = { "com.geeksaga.forest" })
+// @EnableWebMvc
+// @Import({ DataConfig.class })
+// @ImportResource({ "classpath:trace-context.xml" })
+// @PropertySource("classpath:spring.properties")
 public class ApplicationContext // extends WebMvcConfigurerAdapter
 {
-//    // Maps resources path to webapp/resources
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry)
-//    {
-//        // registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-//        registry.addResourceHandler("/image/**").addResourceLocations("/image/");
-//        registry.addResourceHandler("/img/**").addResourceLocations("/img/");
-//        registry.addResourceHandler("/script/**").addResourceLocations("/script/");
-//    }
+    // // Maps resources path to webapp/resources
+    // @Override
+    // public void addResourceHandlers(ResourceHandlerRegistry registry)
+    // {
+    // // registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    // registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+    // registry.addResourceHandler("/image/**").addResourceLocations("/image/");
+    // registry.addResourceHandler("/img/**").addResourceLocations("/img/");
+    // registry.addResourceHandler("/script/**").addResourceLocations("/script/");
+    // }
 
     // Provides internationalization of messages
     @Bean

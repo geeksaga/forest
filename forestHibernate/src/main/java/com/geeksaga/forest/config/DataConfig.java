@@ -1,7 +1,6 @@
 package com.geeksaga.forest.config;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -27,13 +25,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 // import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Configuration
-@PropertySources({ @PropertySource("classpath:application.properties") })
-@ComponentScan(basePackages = { "com.geeksaga.forest.service", "com.geeksaga.forest.dao", "com.geeksaga.forest.repositories.jpa", "com.geeksaga.forest.repository.entity",
-        "com.geeksaga.forest.repository.querydsl" })
-@EnableTransactionManagement
-// @EnableJpaRepositories("com.geeksaga.forest.repository")
+//@PropertySources({ @PropertySource("classpath:application.properties") })
 @PropertySource("classpath:spring.properties")
+@Configuration
+@ComponentScan(basePackages = { "com.geeksaga.forest.service", "com.geeksaga.forest.dao", "com.geeksaga.forest.repositories.jpa",
+        "com.geeksaga.forest.repository.entity", "com.geeksaga.forest.repository.querydsl" })
+@EnableTransactionManagement
 @EnableJpaRepositories("com.geeksaga.forest.repositories")
 public class DataConfig // extends WebMvcConfigurerAdapter
 {
@@ -88,13 +85,13 @@ public class DataConfig // extends WebMvcConfigurerAdapter
     // return em;
     // }
 
-//    @Bean
-//    public Properties japProperties()
-//    {
-//        Properties properties = new Properties();
-//        properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-//        return properties;
-//    }
+    // @Bean
+    // public Properties japProperties()
+    // {
+    // Properties properties = new Properties();
+    // properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+    // return properties;
+    // }
 
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory emf)
@@ -120,8 +117,8 @@ public class DataConfig // extends WebMvcConfigurerAdapter
         lemfb.setDataSource(dataSource());
         lemfb.setJpaVendorAdapter(jpaVendorAdapter());
         lemfb.setPackagesToScan("com.geeksaga");
-//        lemfb.setPersistenceUnitName("jpa.sample.plain");
-        
+        // lemfb.setPersistenceUnitName("jpa.sample.plain");
+
         return lemfb;
     }
 
