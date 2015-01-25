@@ -47,7 +47,7 @@ public class Seed extends BaseEntity implements Serializable
     private String registTimestamp;
     
     @Basic
-    @Column(name = "modifyTimestamp")
+    @Column(name = "modifyTimestamp", nullable = false)
     private String modifyTimestamp;
 
     public String getTitle()
@@ -128,5 +128,10 @@ public class Seed extends BaseEntity implements Serializable
     public void setModifyTimestamp(String modifyTimestamp)
     {
         this.modifyTimestamp = modifyTimestamp;
+    }
+    
+    public String toString()
+    {
+        return "Seed [title = " + title + ", content =" + content + "]";
     }
 }

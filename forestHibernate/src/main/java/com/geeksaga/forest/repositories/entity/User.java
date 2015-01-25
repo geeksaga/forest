@@ -34,6 +34,9 @@ public class User extends BaseEntity implements Serializable
     @Column(name = "name")
     private String name;
 
+    @Column(name = "authority")
+    private String authority;
+
     // @JsonManagedReference
     // @OneToOne(mappedBy = "user", cascade = { CascadeType.ALL })
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -109,6 +112,16 @@ public class User extends BaseEntity implements Serializable
         this.name = name;
     }
 
+    public String getAuthority()
+    {
+        return authority;
+    }
+
+    public void setAuthority(String authority)
+    {
+        this.authority = authority;
+    }
+    
     public Set<Role> getRoles()
     {
         return roles;

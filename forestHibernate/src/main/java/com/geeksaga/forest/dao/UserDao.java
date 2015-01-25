@@ -1,5 +1,6 @@
 package com.geeksaga.forest.dao;
 
+import com.geeksaga.forest.repositories.entity.SecurityUser;
 import com.geeksaga.forest.repositories.entity.User;
 
 /**
@@ -9,4 +10,6 @@ import com.geeksaga.forest.repositories.entity.User;
 public interface UserDao extends EntityDao<User>
 {
     User findByName(String name);
+    
+    SecurityUser authenticate(SecurityUser securityUser);
 }

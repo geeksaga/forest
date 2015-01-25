@@ -11,6 +11,10 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import com.geeksaga.forest.repositories.entity.User;
 import com.geeksaga.forest.repositories.entity.UserManager;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 public interface UserRepository extends JpaRepository<User, Long>, QueryDslPredicateExecutor<User>
 {
     Page<User> findByUserManagerSid(Long userManagerSid, Pageable pageable);

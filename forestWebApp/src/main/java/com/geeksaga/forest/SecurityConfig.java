@@ -7,12 +7,29 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.geeksaga.forest.service.AuthorityService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     @Autowired
-    public void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception
+    private AuthorityService userDetailsService;
+
+    // @Autowired
+    // private AuthenticationEntryPoint authenticationEntryPoint;
+    //
+    // @Autowired
+    // private AccessDeniedHandler accessDeniedHandler;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception
+    {
+        auth.userDetailsService(userDetailsService);// .passwordEncoder(passwordEncoder);
+    }
+
+    @Autowired
+    protected void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception
     {
         auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
     }
@@ -26,6 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         // http.authorizeRequests().antMatchers("/db/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_DBA')");
         http.authorizeRequests().anyRequest().authenticated();
         http.formLogin().loginPage("/login").permitAll().and().logout().permitAll();
-        // http.formLogin().permitAll().and().logout().permitAll();
+        // http.formLogin().loginPage("/login").loginProcessingUrl("/login_post").permitAll().and().logout().permitAll();
+        // .exceptionHandling()
+        // .authenticationEntryPoint(authenticationEntryPoint)
+        // .accessDeniedHandler(accessDeniedHandler)
     }
 }

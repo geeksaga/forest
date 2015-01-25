@@ -1,4 +1,4 @@
-package com.geeksaga.forest.restcontroller;
+package com.geeksaga.forest.rest;
 
 import java.util.concurrent.atomic.AtomicLong;
 

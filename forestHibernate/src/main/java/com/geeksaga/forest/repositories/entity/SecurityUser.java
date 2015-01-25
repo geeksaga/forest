@@ -2,12 +2,14 @@ package com.geeksaga.forest.repositories.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 public class SecurityUser extends User implements UserDetails
 {
     private static final long serialVersionUID = 1L;

@@ -3,9 +3,6 @@ package com.geeksaga.forest;
 import java.nio.charset.Charset;
 
 import javax.servlet.Filter;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,25 +15,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.DispatcherServlet;
 
-import com.geeksaga.forest.config.ApplicationContext;
 import com.geeksaga.forest.repositories.entity.User;
 import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 
-// @Configuration
-// @ComponentScan
-// @EnableAutoConfiguration
-// @Configuration
 // @ComponentScan(basePackages = { "com.geeksaga.forest" }, excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
 // "com.geeksaga.forest.web.*" }))
-// @PropertySource(value = { "classpath:application.properties" })
-// @EnableScheduling
-// @EnableAspectJAutoProxy
-// @EnableCaching
 
 @ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.repositories", "com.geeksaga.forest.service",
         "com.geeksaga.forest.controller" })
