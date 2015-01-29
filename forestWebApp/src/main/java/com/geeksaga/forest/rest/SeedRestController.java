@@ -12,27 +12,31 @@ import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.forest.repositories.entity.Seed;
 import com.geeksaga.forest.service.SeedService;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 @RestController
 public class SeedRestController
 {
     @Autowired
     private SeedService seedServcie;
-    
+
     @RequestMapping("/seeds/list")
     public List<Seed> find(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size)
     {
         return seedServcie.findTopN(page, size);
     }
-    
+
     @RequestMapping("/seeds/save")
     public Seed save(Seed seed)
     {
         System.out.println(seed);
-        
+
         seed.setTitle("Test 1 " + DateConvertor.getDateTimeFormat());
         seed.setContent("Test Content 1");
-        
+
         return seedServcie.save(seed);
     }
 }
