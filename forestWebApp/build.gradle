@@ -28,6 +28,12 @@ configurations {
 }
 */
 
+repositories {
+   flatDir {
+       dirs 'libs'
+   }
+}
+
 dependencies {
     String tomcatVersion = '8.0.15'
     
@@ -75,6 +81,14 @@ dependencies {
     //exclude group: 'org.unwanted', module: 'iAmBuggy' //by both name and group
     
     compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'
+    
+    compile 'org.apache.lucene:lucene-core:4.10.3'
+    compile 'org.apache.lucene:lucene-analyzers-common:4.10.3'
+    compile 'org.apache.lucene:lucene-queryparser:4.10.3'
+    
+    compile name: 'arirang-analyzer-4.6-140808'
+    
+    compile 'org.apache.commons:commons-lang3:3.3.2'
     
 	compile project(':forestHibernate')
 
@@ -204,6 +218,15 @@ eclipse {
         }
     }
 */
+	classpath {
+	    file {
+            withXml {
+                def node = it.asNode()
+                node.appendNode('classpathentry', [kind: 'lib', path: 'libs/arirang-analyzer-4.6-140808.jar'])
+            }
+        }
+	}
+
     project  {
         name = 'forestWebApp'
         comment = 'forest web project'

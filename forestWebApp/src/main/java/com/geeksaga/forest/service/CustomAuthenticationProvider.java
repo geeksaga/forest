@@ -13,12 +13,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.geeksaga.forest.repositories.entity.SecurityUser;
 
-@Component
+@Service
 public class CustomAuthenticationProvider implements AuthenticationProvider
 {
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
@@ -26,9 +27,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
     @Autowired
     AuthorityService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    
     // @Autowired
     // private SaltSource saltSource;
 
