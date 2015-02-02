@@ -45,6 +45,33 @@ public class ForestWebApplication extends SpringBootServletInitializer
     // servletContext.addListener(new ContextLoaderListener(rootContext));
     // }
 
+    // @Override
+    // public void onStartup(ServletContext container) {
+    //
+    // AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+    // rootContext.register(AppConfig.class);
+    //
+    // container.addListener(new ContextLoaderListener(rootContext));
+    //
+    // AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
+    // dispatcherContext.register(WebConfig.class);
+    //
+    // MultipartConfigElement config = new MultipartConfigElement("C:\\Temp", 20848820, 418018841, 1048576);
+    // DispatcherServlet dispatcherServlet = new DispatcherServlet(dispatcherContext);
+    //
+    // ServletRegistration.Dynamic dispatcher =
+    // container.addServlet("dispatcher", dispatcherServlet);
+    // dispatcher.setLoadOnStartup(1);
+    // dispatcher.addMapping("/*");
+    //
+    // ServletRegistration.Dynamic dispatcher =
+    // container.addServlet("dispatcher", dispatcherServlet);
+    // dispatcher.setLoadOnStartup(1);
+    // dispatcher.addMapping("/*");
+    //
+    // dispatcher.setMultipartConfig(new MultipartConfigElement("/tmp", 1024*1024*5, 1024*1024*5*5, 1024*1024));
+    // }
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application)
     {

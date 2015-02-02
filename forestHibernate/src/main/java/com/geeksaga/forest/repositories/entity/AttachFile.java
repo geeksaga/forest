@@ -35,7 +35,7 @@ public class AttachFile extends BaseEntity implements Serializable
     private String fileExtension;
     
     @Column(name = "file_size")
-    private int fileSize;
+    private long fileSize;
     
     @Column(name = "file_desc")
     private String fileDesc;
@@ -109,12 +109,12 @@ public class AttachFile extends BaseEntity implements Serializable
         this.fileExtension = fileExtension;
     }
 
-    public int getFileSize()
+    public long getFileSize()
     {
         return fileSize;
     }
 
-    public void setFileSize(int fileSize)
+    public void setFileSize(long fileSize)
     {
         this.fileSize = fileSize;
     }

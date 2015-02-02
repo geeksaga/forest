@@ -1,12 +1,17 @@
 package com.geeksaga.forest;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 // @EnableWebMvc
+@Import({ ThymeleafConfig.class })
 public class WebConfig extends WebMvcConfigurerAdapter
 {
     // @Override
@@ -18,17 +23,14 @@ public class WebConfig extends WebMvcConfigurerAdapter
     // @Override
     // public void addInterceptors(InterceptorRegistry registry)
     // {
-    //
     // LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
     // localeChangeInterceptor.setParamName("lang");
     // registry.addInterceptor(localeChangeInterceptor);
-    //
     // }
     //
     // @Bean
     // public LocaleResolver localeResolver()
     // {
-    //
     // CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
     // cookieLocaleResolver.setDefaultLocale(StringUtils.parseLocaleString("en"));
     // return cookieLocaleResolver;
@@ -42,13 +44,23 @@ public class WebConfig extends WebMvcConfigurerAdapter
     }
 
     // @Bean
+    // public MultipartResolver multipartResolver() {
+    // CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+    // resolver.setMaxUploadSize(100000);
+    // return resolver;
+    // }
+
+    @Bean
+    public MultipartResolver multipartResolver()
+    {
+        return new StandardServletMultipartResolver();
+    }
+
+    // @Bean
     // public MessageSource messageSource()
     // {
-    //
     // ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
     // messageSource.setBasenames("classpath:messages/messages", "classpath:messages/validation");
-    // // if true, the key of the message will be displayed if the key is not
-    // // found, instead of throwing a NoSuchMessageException
     // messageSource.setUseCodeAsDefaultMessage(true);
     // messageSource.setDefaultEncoding("UTF-8");
     // // # -1 : never reload, 0 always reload
@@ -61,11 +73,6 @@ public class WebConfig extends WebMvcConfigurerAdapter
     // {
     // configurer.enable();
     // }
-    //
-    // // @Bean(name = "multipartResolver")
-    // // public CommonsMultipartResolver multipartResolver() {
-    // // return new CommonsMultipartResolver();
-    // // }
     //
     // @Bean
     // public InternalResourceViewResolver viewResolver()

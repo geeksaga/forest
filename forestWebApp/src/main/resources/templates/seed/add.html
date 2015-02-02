@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Seed Add</title>
+  <title>Seed Add</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <div th:if="${param.error}">Invalid username and password.</div>
-    <form th:action="@{/seed/add}" method="post">
-        <div>
-            <label> title : <input type="text" name="username" /></label>
-        </div>
-        <div>
-            <label> content: <input type="password" name="password" /></label>
-        </div>
-        <div>
-            <input type="submit" value="Sign In" />
-        </div>
-    </form>
+	<div th:if="${param.error}">Invalid username and password.</div>
+	<form th:action="@{/seed/add}" method="post" enctype="multipart/form-data">
+	    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<div>
+			<label> title : <input type="text" name="title" /></label>
+		</div>
+		<div>
+			<label> content: <input type="text" name="content" /></label>
+		</div>
+		<div>
+			<input type="file" name="file" />
+		</div>
+		<div>
+			<input type="submit" value="Sign In" />
+		</div>
+	</form>
 </body>
 </html>

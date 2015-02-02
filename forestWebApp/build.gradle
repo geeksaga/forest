@@ -70,6 +70,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:$rootProject.ext.springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-redis:$rootProject.ext.springBootVersion")
     
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf:$rootProject.ext.springBootVersion")
+    
+    
     /*
     compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
     compile "org.springframework.security:spring-security-web:${springSecurityVersion}"
@@ -80,7 +83,7 @@ dependencies {
     //exclude group: 'org.jmock' //by group
     //exclude group: 'org.unwanted', module: 'iAmBuggy' //by both name and group
     
-    compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'
+    // compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'
     
     compile 'org.apache.lucene:lucene-core:4.10.3'
     compile 'org.apache.lucene:lucene-analyzers-common:4.10.3'
@@ -100,7 +103,7 @@ dependencies {
         exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
     }
     
-    testCompile('org.thymeleaf:thymeleaf-testing:2.1.4.RELEASE')
+    //testCompile('org.thymeleaf:thymeleaf-testing:2.1.4.RELEASE')
     
     testCompile("org.springframework.boot:spring-boot-starter-test:$rootProject.ext.springBootVersion")
 }

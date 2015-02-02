@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
@@ -34,11 +35,10 @@ public class AuthorityService implements UserDetailsService
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, DataAccessException
     {
         // StringTokenizer st = new StringTokenizer(email, "___");
-        String password = "aabcb987e4b425751e210413562e78f776de6285";
-        
+
         SecurityUser securityUser = new SecurityUser();
         securityUser.setEmail(email);
-        StandardPasswordEncoder spe = new StandardPasswordEncoder();
+        BCryptPasswordEncoder spe = new BCryptPasswordEncoder();
         securityUser.setPassword(spe.encode("password"));
         securityUser.setEnabled(true);
         securityUser.setAccountNonLocked(true);
@@ -58,7 +58,7 @@ public class AuthorityService implements UserDetailsService
             logger.info(e.getMessage(), e);
         }
 
-        return (authenticateUser == null) ? new SecurityUser() : authenticateUser;
+        return (authenticateUser == null) ? securityUser : authenticateUser;
     }
 
     public static SecurityUser getUser(Object object)

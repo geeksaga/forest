@@ -15,11 +15,16 @@
 package com.geeksaga.forest.repositories.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.geeksaga.common.annotation.PrintToString;
 import com.geeksaga.common.util.HtmlUtil;
@@ -60,6 +65,19 @@ public class Seed extends BaseEntity implements Serializable
     @Basic
     @Column(name = "modifyTimestamp", nullable = false)
     private String modifyTimestamp;
+
+    @Transient
+    private List<MultipartFile> file = new ArrayList<MultipartFile>();
+
+    public List<MultipartFile> getFile()
+    {
+        return file;
+    }
+
+    public void setFile(List<MultipartFile> file)
+    {
+        this.file = file;
+    }
 
     public String getIndexingData()
     {
