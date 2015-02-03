@@ -1,8 +1,10 @@
 package com.geeksaga.forest;
 
+import javax.servlet.MultipartConfigElement;
+
+import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -11,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 // @EnableWebMvc
-@Import({ ThymeleafConfig.class })
+// @Import({ ThymeleafConfig.class })
 public class WebConfig extends WebMvcConfigurerAdapter
 {
     // @Override
@@ -50,10 +52,27 @@ public class WebConfig extends WebMvcConfigurerAdapter
     // return resolver;
     // }
 
+    // @Bean
+    // public MultipartResolver multipartResolver()
+    // {
+    // return new CommonsMultipartResolver();
+    // }
+
     @Bean
     public MultipartResolver multipartResolver()
     {
         return new StandardServletMultipartResolver();
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement()
+    {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+
+        factory.setMaxFileSize(500000000);
+        factory.setMaxRequestSize(500000000);
+
+        return factory.createMultipartConfig();
     }
 
     // @Bean
