@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.service;
 
 import javax.servlet.http.HttpSession;
@@ -13,17 +27,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
 import com.geeksaga.forest.dao.UserDao;
 import com.geeksaga.forest.repositories.entity.SecurityUser;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Service(BeanIds.USER_DETAILS_SERVICE)
 public class AuthorityService implements UserDetailsService
 {

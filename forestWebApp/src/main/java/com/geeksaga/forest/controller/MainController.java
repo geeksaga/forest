@@ -5,10 +5,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController
@@ -16,7 +14,7 @@ public class MainController
     @Value("${application.message:Hello World}")
     private String message = "Hello World";
 
-    @RequestMapping("/")
+    @RequestMapping("/welcome")
     public String welcome(Map<String, Object> model)
     {
         model.put("time", new Date());
@@ -27,9 +25,9 @@ public class MainController
         return "welcome";
     }
 
-    @RequestMapping(value = { "/index" }, method = RequestMethod.GET)
-    public ModelAndView index(ModelMap model)
+    @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+    public String index()
     {
-        return new ModelAndView("index");
+        return "index";
     }
 }

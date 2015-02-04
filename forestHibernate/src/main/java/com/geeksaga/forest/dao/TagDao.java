@@ -1,14 +1,30 @@
-package com.geeksaga.forest.dao;
-
-import com.geeksaga.forest.repositories.entity.Tag;
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
 
 /**
  * @author geeksaga
  * @version 0.1
  */
+package com.geeksaga.forest.dao;
+
+import java.util.List;
+
+import com.geeksaga.forest.repositories.entity.Tag;
+
 public interface TagDao extends EntityDao<Tag>
 {
+    Tag save(Tag tag);
+    
+    List<Tag> save(Iterable<Tag> list);
+    
     Tag findByTagName(Tag tag);
     
-    Tag updateCnt(Tag tag);
+    int updateCnt(Tag tag);
 }

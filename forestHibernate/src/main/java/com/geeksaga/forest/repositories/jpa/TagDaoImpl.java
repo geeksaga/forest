@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.repositories.jpa;
 
 import java.util.Iterator;
@@ -11,48 +25,66 @@ import com.geeksaga.forest.dao.TagDao;
 import com.geeksaga.forest.repositories.TagRepository;
 import com.geeksaga.forest.repositories.entity.Tag;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Repository
 public class TagDaoImpl extends AbstractSpringDataDao<Tag> implements TagDao
 {
     @Autowired
     private TagRepository tagRepository;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.geeksaga.forest.dao.TagDao#save(com.geeksaga.forest.repositories.entity.Tag)
+     */
     public Tag save(Tag tag)
     {
         tag.setSid(KeyGenerator.generateKeyToLong());
-        
-        return tagRepository.save(tag);
+
+        tagRepository.save(tag);
+
+        return tag;
     }
-    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.geeksaga.forest.dao.TagDao#save(java.lang.Iterable)
+     */
     public List<Tag> save(Iterable<Tag> list)
     {
         Iterator<Tag> iter = list.iterator();
-        
-        while(iter.hasNext())
+
+        while (iter.hasNext())
         {
             Tag seed = iter.next();
             seed.setSid(KeyGenerator.generateKeyToLong());
         }
-        
-        return tagRepository.save(list);
+
+        tagRepository.save(list);
+
+        return (List<Tag>) list;
     }
-    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.geeksaga.forest.dao.TagDao#findByTagName(com.geeksaga.forest.repositories.entity.Tag)
+     */
     public Tag findByTagName(Tag tag)
     {
         return tagRepository.findByTagName(tag.getTagName());
     }
-    
-    public Tag updateCnt(Tag tag)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.geeksaga.forest.dao.TagDao#updateCnt(com.geeksaga.forest.repositories.entity.Tag)
+     */
+    public int updateCnt(Tag tag)
     {
-        tag.setHitCnt(tag.getHitCnt() + 1);
-        
-        return tagRepository.save(tag);
+        return tagRepository.updateCnt(tag.getTagName());
     }
-    
+
     public List<Tag> findAll()
     {
         return tagRepository.findAll();

@@ -16,17 +16,23 @@ package com.geeksaga.forest.repositories.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.geeksaga.common.annotation.PrintToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.geeksaga.common.util.HtmlUtil;
 
 @Entity
@@ -35,7 +41,6 @@ public class Seed extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @PrintToString
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
@@ -43,15 +48,11 @@ public class Seed extends BaseEntity implements Serializable
     private String content;
 
     @Basic
-    @Column(name = "userSid")
+    @Column(name = "user_sid")
     private Long userSid;
 
     @Basic
-    @Column(name = "tagName")
-    private String tagName;
-
-    @Basic
-    @Column(name = "tagSid")
+    @Column(name = "tag_sid")
     private Long tagSid;
 
     @Basic
@@ -59,41 +60,48 @@ public class Seed extends BaseEntity implements Serializable
     private String delYn;
 
     @Basic
-    @Column(name = "registTimestamp", nullable = false)
+    @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
 
     @Basic
-    @Column(name = "modifyTimestamp", nullable = false)
+    @Column(name = "modify_timestamp", nullable = false)
     private String modifyTimestamp;
+    
+    @Transient
+    private String tag;
 
     @Transient
     private List<MultipartFile> file = new ArrayList<MultipartFile>();
+    
+    // @ManyToMany(cascade = CascadeType.ALL)
+    // @JoinTable(joinColumns = { @JoinColumn(name = "employeeId") }, inverseJoinColumns = {
+    // @JoinColumn(table = "project", name = "projectId"), @JoinColumn(table = "localproject", name = "projectId"),
+    // @JoinColumn(table = "globalproject", name = "projectId") })
+    @Transient
+    private List<AttachFile> files = new ArrayList<AttachFile>();
 
-    public List<MultipartFile> getFile()
-    {
-        return file;
-    }
-
-    public void setFile(List<MultipartFile> file)
-    {
-        this.file = file;
-    }
-
+    /**
+     * 검색엔진에 추가할 인덱스 데이터
+     * 
+     * @return
+     */
+    @JsonIgnore
     public String getIndexingData()
     {
         StringBuilder sb = new StringBuilder();
         sb.append(getTitle());
         sb.append("\r\n");
-        sb.append(getTagName());
+        sb.append(getTag());
         sb.append("\r\n");
         sb.append(HtmlUtil.removeTag(getContent()));
 
-        // Iterator<AttatchFile> iterator = getFileList().iterator();
-        //
-        // while(iterator.hasNext()) {
-        // sb.append("\r\n");
-        // sb.append(iterator.next().getOriginalName());
-        // }
+        Iterator<MultipartFile> iterator = getFile().iterator();
+
+        while (iterator.hasNext())
+        {
+            sb.append("\r\n");
+            sb.append(iterator.next().getOriginalFilename());
+        }
 
         return sb.toString();
     }
@@ -128,16 +136,6 @@ public class Seed extends BaseEntity implements Serializable
         this.userSid = userSid;
     }
 
-    public String getTagName()
-    {
-        return tagName;
-    }
-
-    public void setTagName(String tagName)
-    {
-        this.tagName = tagName;
-    }
-
     public Long getTagSid()
     {
         return tagSid;
@@ -148,6 +146,8 @@ public class Seed extends BaseEntity implements Serializable
         this.tagSid = tagSid;
     }
 
+    @JsonIgnore
+    @JsonProperty(value = "delYn")
     public String getDelYn()
     {
         return delYn;
@@ -176,6 +176,40 @@ public class Seed extends BaseEntity implements Serializable
     public void setModifyTimestamp(String modifyTimestamp)
     {
         this.modifyTimestamp = modifyTimestamp;
+    }
+    
+    @JsonIgnore
+    @JsonProperty(value = "tag")
+    public String getTag()
+    {
+        return tag;
+    }
+
+    public void setTag(String tag)
+    {
+        this.tag = tag;
+    }
+    
+    @JsonIgnore
+    @JsonProperty(value = "file")
+    public List<MultipartFile> getFile()
+    {
+        return file;
+    }
+
+    public void setFile(List<MultipartFile> file)
+    {
+        this.file = file;
+    }
+    
+    public List<AttachFile> getFiles()
+    {
+        return files;
+    }
+
+    public void setFiles(List<AttachFile> files)
+    {
+        this.files = files;
     }
 
     public String toString()

@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.service.impl;
 
 import java.util.StringTokenizer;
@@ -15,12 +29,7 @@ import com.geeksaga.forest.repositories.entity.Tag;
 import com.geeksaga.forest.repositories.entity.TagMap;
 import com.geeksaga.forest.service.TagMapService;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Service
-@Transactional
 public class TagMapServiceImpl implements TagMapService
 {
     @Autowired
@@ -34,6 +43,7 @@ public class TagMapServiceImpl implements TagMapService
      * @see com.geeksaga.forest.service.TagMapService#add(com.geeksaga.forest.repositories.entity.Tag,
      * com.geeksaga.forest.repositories.entity.TagMap.CNT_TYPE)
      */
+    @Transactional
     public Tag add(Tag tags, TagMap.CNT_TYPE type)
     {
         return add(tags, type, false);
@@ -66,24 +76,22 @@ public class TagMapServiceImpl implements TagMapService
 
                 if (findTag == null)
                 {
-                    Long tagSid = KeyGenerator.generateKeyToLong();
-                    tag.setSid(tagSid);
-                    tagMap.getPk().setTagSid(tagSid);
+                    tag = tagDao.save(tag);
 
-                    tagDao.add(tag);
+                    tagMap.getPk().setTagSid(tag.getSid());
                 }
                 else
                 {
                     tagMap.getPk().setTagSid(findTag.getSid());
-                    tag.setSid(findTag.getSid());
 
-                    tagDao.updateCnt(tag);
+                    tagDao.updateCnt(findTag);
                 }
 
-                if (!tagMapDao.exists(tagMap))
-                {
-                    tagMapDao.save(tagMap);
-                }
+                // FIXME exists error
+                // if (!tagMapDao.exists(tagMap))
+                // {
+                tagMapDao.save(tagMap);
+                // }
 
                 if (isFirst)
                 {
@@ -101,7 +109,7 @@ public class TagMapServiceImpl implements TagMapService
             if (update && tagCnt > 0)
             {
                 // FIXME update count for target
-                //tagMapDao.updateCnt(tags, type);
+                // tagMapDao.updateCnt(tags, type);
             }
         }
 

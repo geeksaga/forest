@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.controller;
 
 import java.io.IOException;
@@ -7,21 +21,19 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
 import com.geeksaga.forest.common.util.FileUtil;
 import com.geeksaga.forest.common.util.RequestUtils;
+import com.geeksaga.forest.repositories.entity.SecurityUser;
 import com.geeksaga.forest.repositories.entity.Seed;
+import com.geeksaga.forest.service.AuthorityService;
 import com.geeksaga.forest.service.SeedService;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Controller
 public class SeedController
 {
@@ -29,33 +41,38 @@ public class SeedController
     private SeedService seedServcie;
 
     @RequestMapping(value = { "/seed/add" }, method = RequestMethod.GET)
-    public String save(Model model)
+    public String save(Seed seed, Model model)
     {
-        Seed seed = new Seed();
-        seed.setTitle("한글");
-        
-         model.addAttribute("seed", seed);
-
-        // return new ModelAndView("seed/add", model);
         return "seed/add";
     }
 
     @RequestMapping(value = { "/seed/add" }, method = RequestMethod.POST)
-    public String add(@Valid @ModelAttribute("seed") Seed seed, BindingResult bindingResult, WebRequest request) throws IOException
-    // public String add(@Valid Seed seed, BindingResult bindingResult, WebRequest request) throws IOException
-    // public ModelAndView add(Seed seed, @RequestParam("file") MultipartFile file, WebRequest request) throws IOException
+    public String add(@Valid Seed seed, BindingResult bindingResult, WebRequest request) throws IOException
     {
+        SecurityUser user = AuthorityService.getUser(request);
+
+        if (user != null && !StringUtils.isEmpty(user.getSid()))
+        {
+            seed.setUserSid(user.getSid());
+        }
+        else
+        {
+            seed.setUserSid(0L);
+        }
+
         System.out.println(seed);
 
         // if (!file.isEmpty())
         // {
         // byte[] bytes = file.getBytes();
 
-        FileUtil.processFile(RequestUtils.getRequest(request), seed.getFile(), "0");
+        seed.setFiles(FileUtil.processFile(RequestUtils.getRequest(request), seed.getFile(), "0"));
         // }
         // if (bindingResult.hasErrors()) {
         //
         // }
+
+        seedServcie.save(seed);
 
         return "redirect:/index";
     }

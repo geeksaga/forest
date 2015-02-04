@@ -1,3 +1,18 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
+// http://www.javabeat.net/embeddable-embedded-embeddedid-jpa-annotations/
 package com.geeksaga.forest.repositories.entity;
 
 import java.io.Serializable;
@@ -9,12 +24,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.geeksaga.common.annotation.PrintToString;
-
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Entity
 @Table(name = "pw_tag_map", schema = "")
 public class TagMap implements Serializable
@@ -27,8 +36,8 @@ public class TagMap implements Serializable
     };
 
     @EmbeddedId
-    private PK pk;
-    
+    private PK pk = new PK();
+
     @Basic
     @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
@@ -50,7 +59,7 @@ public class TagMap implements Serializable
     {
         this.pk = pk;
     }
-    
+
     public String getRegistTimestamp()
     {
         return registTimestamp;
@@ -62,13 +71,13 @@ public class TagMap implements Serializable
     }
 
     @Embeddable
-    public class PK implements Serializable
+    public static class PK implements Serializable
     {
         private static final long serialVersionUID = 1L;
 
         public PK()
         {}
-        
+
         public PK(Long targetSid)
         {
             this.targetSid = targetSid;
@@ -77,7 +86,6 @@ public class TagMap implements Serializable
         @Column(name = "target_sid", nullable = false)
         private Long targetSid;
 
-        @PrintToString
         @Column(name = "tag_sid", nullable = false)
         private Long tagSid;
 
