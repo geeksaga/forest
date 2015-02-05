@@ -9,6 +9,8 @@
  */
 
 /**
+ * http://www.java2s.com/Tutorials/Java/JPA/4330__JPA_Query_Exists.htm
+ * 
  * @author geeksaga
  * @version 0.1
  */
@@ -22,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.geeksaga.common.util.HangleParser;
-import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.dao.TagDao;
 import com.geeksaga.forest.dao.TagMapDao;
 import com.geeksaga.forest.repositories.entity.Tag;
@@ -87,11 +88,10 @@ public class TagMapServiceImpl implements TagMapService
                     tagDao.updateCnt(findTag);
                 }
 
-                // FIXME exists error
-                // if (!tagMapDao.exists(tagMap))
-                // {
-                tagMapDao.save(tagMap);
-                // }
+                if (!tagMapDao.exists(tagMap.getPk()))
+                {
+                    tagMapDao.save(tagMap);
+                }
 
                 if (isFirst)
                 {

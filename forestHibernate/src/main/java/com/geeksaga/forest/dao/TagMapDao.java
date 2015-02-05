@@ -36,5 +36,5 @@ public interface TagMapDao
      * @param tagMap
      * @return
      */
-    boolean exists(TagMap tagMap);
+    boolean exists(TagMap.PK tagMap);
 }

@@ -64,8 +64,8 @@ public class KeyGenerator
         long newGenerateKey = Long.valueOf(generateKey.toString());
 
         generateKey.delete(0, generateKey.length());
-        // generateKey.append(String.valueOf(newGenerateKey + UNIQUE_KEY.updateAndGet(i -> i > 8 ? i = 0 : i + 1)));
-        generateKey.append(String.valueOf(newGenerateKey + updateAndGet()));
+        generateKey.append(String.valueOf(newGenerateKey + UNIQUE_KEY.updateAndGet(i -> i > 8 ? i = 0 : i + 1)));
+        // generateKey.append(String.valueOf(newGenerateKey + updateAndGet()));
 
         // FIXME
         // System.out.println(BEFORE_GEN_KEY.get());
@@ -87,19 +87,20 @@ public class KeyGenerator
         return generateKey.toString();
     }
 
-    private static int updateAndGet()
-    {
-        if(UNIQUE_KEY.get() > 8)
-        {
-            UNIQUE_KEY.set(1);
-        }
-        else
-        {
-            UNIQUE_KEY.incrementAndGet();
-        }
-        
-        return UNIQUE_KEY.get();
-    }
+    // For JRE 1.7
+    // private static int updateAndGet()
+    // {
+    // if (UNIQUE_KEY.get() > 8)
+    // {
+    // UNIQUE_KEY.set(1);
+    // }
+    // else
+    // {
+    // UNIQUE_KEY.incrementAndGet();
+    // }
+    //
+    // return UNIQUE_KEY.get();
+    // }
 
     private static String calculateDate()
     {

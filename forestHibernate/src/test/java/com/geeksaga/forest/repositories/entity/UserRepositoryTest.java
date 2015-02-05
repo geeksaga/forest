@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.repositories.entity;
 
 import static org.junit.Assert.assertEquals;
@@ -16,10 +30,6 @@ import com.geeksaga.forest.repositories.UserRepository;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
 import com.google.common.collect.Lists;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 public class UserRepositoryTest extends AbstractRepositoryTestSupport
 {
     @Autowired

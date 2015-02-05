@@ -23,9 +23,11 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -66,19 +68,34 @@ public class Seed extends BaseEntity implements Serializable
     @Basic
     @Column(name = "modify_timestamp", nullable = false)
     private String modifyTimestamp;
-    
+
     @Transient
     private String tag;
 
     @Transient
     private List<MultipartFile> file = new ArrayList<MultipartFile>();
-    
+
     // @ManyToMany(cascade = CascadeType.ALL)
     // @JoinTable(joinColumns = { @JoinColumn(name = "employeeId") }, inverseJoinColumns = {
     // @JoinColumn(table = "project", name = "projectId"), @JoinColumn(table = "localproject", name = "projectId"),
     // @JoinColumn(table = "globalproject", name = "projectId") })
     @Transient
     private List<AttachFile> files = new ArrayList<AttachFile>();
+
+    // @OneToMany(mappedBy = "tag_sid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tag_sid", nullable = true, insertable = true, updatable = false)
+    private List<Tag> tags = new ArrayList<Tag>();
+
+    public List<Tag> getTags()
+    {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags)
+    {
+        this.tags = tags;
+    }
 
     /**
      * 검색엔진에 추가할 인덱스 데이터
@@ -177,7 +194,7 @@ public class Seed extends BaseEntity implements Serializable
     {
         this.modifyTimestamp = modifyTimestamp;
     }
-    
+
     @JsonIgnore
     @JsonProperty(value = "tag")
     public String getTag()
@@ -189,7 +206,7 @@ public class Seed extends BaseEntity implements Serializable
     {
         this.tag = tag;
     }
-    
+
     @JsonIgnore
     @JsonProperty(value = "file")
     public List<MultipartFile> getFile()
@@ -201,7 +218,7 @@ public class Seed extends BaseEntity implements Serializable
     {
         this.file = file;
     }
-    
+
     public List<AttachFile> getFiles()
     {
         return files;

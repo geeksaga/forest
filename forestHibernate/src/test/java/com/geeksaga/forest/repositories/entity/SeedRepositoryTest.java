@@ -1,7 +1,22 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.repositories.entity;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -19,10 +34,6 @@ import com.geeksaga.forest.repositories.SeedRepository;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
 import com.google.common.collect.Lists;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 public class SeedRepositoryTest extends AbstractRepositoryTestSupport
 {
     @Autowired
@@ -42,7 +53,7 @@ public class SeedRepositoryTest extends AbstractRepositoryTestSupport
         seed1.setDelYn("N");
         seed1.setRegistTimestamp(DateConvertor.getDateTimeFormat());
         seed1.setModifyTimestamp(DateConvertor.getDateTimeFormat());
-        
+
         Seed seed2 = new Seed();
         seed2.setSid(KeyGenerator.generateKeyToLong());
         seed2.setTitle("Test 2");
@@ -50,7 +61,7 @@ public class SeedRepositoryTest extends AbstractRepositoryTestSupport
         seed2.setDelYn("N");
         seed2.setRegistTimestamp(DateConvertor.getDateTimeFormat());
         seed2.setModifyTimestamp(DateConvertor.getDateTimeFormat());
-        
+
         Seed seed3 = new Seed();
         seed3.setSid(KeyGenerator.generateKeyToLong());
         seed3.setTitle("Test 3");
@@ -87,10 +98,19 @@ public class SeedRepositoryTest extends AbstractRepositoryTestSupport
         Pageable page = new PageRequest(0, 2);
 
         Page<Seed> findPage = seedRepository.findAll(page);
-        
-        if(findPage != null)
+
+        if (findPage != null)
         {
             assertThat(2, is(findPage.getSize()));
         }
+    }
+
+    @Test
+    public void findAll()
+    {
+        List<Seed> seeds = (List<Seed>) seedRepository.findAll();
+
+        System.out.println(seeds);
+        assertEquals(3, seeds.size());
     }
 }

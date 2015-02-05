@@ -70,7 +70,7 @@ public class TagMapDaoImpl implements TagMapDao
      * 
      * @see com.geeksaga.forest.dao.TagMapDao#exists(com.geeksaga.forest.repositories.entity.TagMap)
      */
-    public boolean exists(TagMap tagMap)
+    public boolean exists(TagMap.PK tagMap)
     {
         return tagMapRepository.exists(tagMap);
     }
