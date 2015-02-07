@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 
 import com.geeksaga.common.util.KeyGenerator;
-import com.geeksaga.forest.repositories.entity.User;
+import com.geeksaga.forest.entity.User;
 
 @Ignore
 public class BasicFactorySetup

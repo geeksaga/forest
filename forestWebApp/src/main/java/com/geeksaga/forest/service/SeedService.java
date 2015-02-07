@@ -16,7 +16,7 @@ package com.geeksaga.forest.service;
 
 import java.util.List;
 
-import com.geeksaga.forest.repositories.entity.Seed;
+import com.geeksaga.forest.entity.Seed;
 
 public interface SeedService
 {

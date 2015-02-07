@@ -12,24 +12,24 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.repositories.entity;
+package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.geeksaga.common.util.HtmlUtil;
 
 @Entity
-@Table(name = "pw_seeds", schema = "")
+@Table(name = "pw_seeds", catalog = "", schema = "", uniqueConstraints = { @UniqueConstraint(columnNames = "title") })
 public class Seed extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -46,26 +46,21 @@ public class Seed extends BaseEntity implements Serializable
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, updatable = true)
     private String content;
 
-    @Basic
-    @Column(name = "user_sid")
+    @Column(name = "user_sid", nullable = false)
     private Long userSid;
 
-    @Basic
-    @Column(name = "tag_sid")
+    @Column(name = "tag_sid", updatable = true)
     private Long tagSid;
 
-    @Basic
-    @Column(name = "delYn", nullable = false, columnDefinition = "VARCHAR(1) DEFAULT 'N'")
+    @Column(name = "delYn", updatable = true, columnDefinition = "VARCHAR(1) DEFAULT 'N'")
     private String delYn;
 
-    @Basic
     @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
 
-    @Basic
     @Column(name = "modify_timestamp", nullable = false)
     private String modifyTimestamp;
 
@@ -75,6 +70,9 @@ public class Seed extends BaseEntity implements Serializable
     @Transient
     private List<MultipartFile> file = new ArrayList<MultipartFile>();
 
+    // @ElementCollection
+    // @CollectionTable
+    // @OrderColumn
     // @ManyToMany(cascade = CascadeType.ALL)
     // @JoinTable(joinColumns = { @JoinColumn(name = "employeeId") }, inverseJoinColumns = {
     // @JoinColumn(table = "project", name = "projectId"), @JoinColumn(table = "localproject", name = "projectId"),
@@ -82,19 +80,47 @@ public class Seed extends BaseEntity implements Serializable
     @Transient
     private List<AttachFile> files = new ArrayList<AttachFile>();
 
-    // @OneToMany(mappedBy = "tag_sid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "tag_sid", nullable = true, insertable = true, updatable = false)
-    private List<Tag> tags = new ArrayList<Tag>();
+    // @OneToMany(mappedBy = "seed", fetch = FetchType.LAZY)//, cascade = CascadeType.ALL)
+    // @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // @JoinColumn(name = "sid", nullable = true, insertable = true, updatable = false)
+    @Transient
+    private Collection<Tag> tags = new ArrayList<Tag>();
 
-    public List<Tag> getTags()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.seed", cascade = CascadeType.ALL)
+    private Set<TagMap> tagSet = new HashSet<TagMap>(0);
+
+    public Set<TagMap> getTagSet()
+    {
+        return tagSet;
+    }
+
+    public void setTagSet(Set<TagMap> tagSet)
+    {
+        this.tagSet = tagSet;
+    }
+
+    // @OneToMany(mappedBy = "seed")//, fetch = FetchType.LAZY)
+    public Collection<Tag> getTags()
     {
         return tags;
     }
 
-    public void setTags(List<Tag> tags)
+    public void setTags(Collection<Tag> tags)
     {
         this.tags = tags;
+    }
+
+    public Seed()
+    {}
+    
+    public Seed(Long sid, String title, String content, Long userSid, String registTimestamp, String modifyTimeStampp)
+    {
+        this.sid = sid;
+        this.title = title;
+        this.content = content;
+        this.userSid = userSid;
+        this.registTimestamp = registTimestamp;
+        this.modifyTimestamp = modifyTimeStampp;
     }
 
     /**

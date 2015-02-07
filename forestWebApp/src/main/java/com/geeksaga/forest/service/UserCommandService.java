@@ -2,14 +2,14 @@ package com.geeksaga.forest.service;
 
 import java.util.List;
 
-import com.geeksaga.forest.repositories.entity.SecurityUser;
-import com.geeksaga.forest.repositories.entity.User;
+import com.geeksaga.forest.entity.SecurityUser;
+import com.geeksaga.forest.entity.User;
 
 /**
  * @author geeksaga
  * @version 0.1
  */
-public interface UserService
+public interface UserCommandService
 {
      List<User> listup();
  

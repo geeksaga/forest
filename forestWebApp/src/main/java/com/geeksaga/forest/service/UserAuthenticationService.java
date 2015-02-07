@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import com.geeksaga.forest.repositories.entity.SecurityUser;
+import com.geeksaga.forest.entity.SecurityUser;
 
 /**
  * @author geeksaga

@@ -12,11 +12,12 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.repositories.jpa;
+package com.geeksaga.forest.dao.impl;
 
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,15 +27,20 @@ import org.springframework.stereotype.Repository;
 import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.dao.SeedDao;
+import com.geeksaga.forest.entity.QSeed;
+import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.repositories.SeedRepository;
-import com.geeksaga.forest.repositories.entity.QSeed;
-import com.geeksaga.forest.repositories.entity.Seed;
 
 @Repository
-public class SeedDaoImpl extends AbstractSpringDataDao<Seed> implements SeedDao
+public class SeedDaoImpl extends AbstractSpringData<Seed> implements SeedDao
 {
     @Autowired
     private SeedRepository seedRepository;
+    
+    public SeedDaoImpl()
+    {
+        super(Seed.class);
+    }
 
     /*
      * (non-Javadoc)
@@ -49,7 +55,7 @@ public class SeedDaoImpl extends AbstractSpringDataDao<Seed> implements SeedDao
         seed.setModifyTimestamp(DateConvertor.getDateTimeFormat());
 
         seedRepository.save(seed);
-
+        
         return seed;
     }
 
@@ -104,5 +110,19 @@ public class SeedDaoImpl extends AbstractSpringDataDao<Seed> implements SeedDao
     public Seed findBySid(Long sid)
     {
         return seedRepository.findOne(QSeed.seed.sid.eq(sid));
+    }
+
+    public Long modifyById(Seed seed)
+    {
+        QSeed qSeed = QSeed.seed;
+
+        update(qSeed).where(qSeed.sid.eq(seed.getSid())).set(qSeed.content, seed.getContent()).execute();
+
+        return 0L;
+    }
+
+    public Session getSession()
+    {
+        return (Session) getEntityManager().getDelegate();
     }
 }

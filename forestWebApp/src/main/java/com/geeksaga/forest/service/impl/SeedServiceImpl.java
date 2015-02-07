@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geeksaga.forest.dao.SeedDao;
-import com.geeksaga.forest.repositories.entity.Seed;
-import com.geeksaga.forest.repositories.entity.Tag;
-import com.geeksaga.forest.repositories.entity.TagMap.CNT_TYPE;
+import com.geeksaga.forest.entity.Seed;
+import com.geeksaga.forest.entity.Tag;
+import com.geeksaga.forest.entity.TagMap.CNT_TYPE;
 import com.geeksaga.forest.search.LuceneEngine;
 import com.geeksaga.forest.service.SeedService;
 import com.geeksaga.forest.service.TagMapService;
@@ -63,7 +63,7 @@ public class SeedServiceImpl implements SeedService
                 tags.setTargetSid(seed.getSid());
                 tags.setTagName(seed.getTag());
 
-                tagMapService.add(tags, CNT_TYPE.TAG_PLUS_CNT);
+                tagMapService.add(seed, tags, CNT_TYPE.TAG_PLUS_CNT);
             }
         }
         catch (Throwable thr)

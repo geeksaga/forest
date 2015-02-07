@@ -1,4 +1,4 @@
-package com.geeksaga.forest.repositories.entity;
+package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 

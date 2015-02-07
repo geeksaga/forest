@@ -12,7 +12,7 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.repositories.jpa;
+package com.geeksaga.forest.dao.impl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -22,15 +22,20 @@ import org.springframework.stereotype.Repository;
 
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.dao.TagDao;
+import com.geeksaga.forest.entity.Tag;
 import com.geeksaga.forest.repositories.TagRepository;
-import com.geeksaga.forest.repositories.entity.Tag;
 
 @Repository
-public class TagDaoImpl extends AbstractSpringDataDao<Tag> implements TagDao
+public class TagDaoImpl extends AbstractSpringData<Tag> implements TagDao
 {
     @Autowired
     private TagRepository tagRepository;
 
+    public TagDaoImpl()
+    {
+        super(Tag.class);
+    }
+    
     /*
      * (non-Javadoc)
      * 

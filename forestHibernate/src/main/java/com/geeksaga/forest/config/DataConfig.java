@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.config;
 
 import java.io.IOException;
@@ -10,6 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -23,16 +38,13 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-// import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-//@PropertySources({ @PropertySource("classpath:application.properties") })
-@PropertySource("classpath:spring.properties")
+@PropertySources({ @PropertySource("classpath:application.properties"), @PropertySource("classpath:spring.properties") })
 @Configuration
-@ComponentScan(basePackages = { "com.geeksaga.forest.service", "com.geeksaga.forest.dao", "com.geeksaga.forest.repositories.jpa",
-        "com.geeksaga.forest.repository.entity", "com.geeksaga.forest.repository.querydsl" })
+@ComponentScan(basePackages = { "com.geeksaga.forest.dao", "com.geeksaga.forest.repositories.jpa",
+        "com.geeksaga.forest.entity", "com.geeksaga.forest.repositories.querydsl" })
 @EnableTransactionManagement
 @EnableJpaRepositories("com.geeksaga.forest.repositories")
-public class DataConfig // extends WebMvcConfigurerAdapter
+public class DataConfig
 {
     @Autowired
     private Environment env;
@@ -40,8 +52,7 @@ public class DataConfig // extends WebMvcConfigurerAdapter
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() throws IOException
     {
-        PropertySourcesPlaceholderConfigurer configHolder = new PropertySourcesPlaceholderConfigurer();
-        return configHolder;
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Bean
@@ -69,29 +80,6 @@ public class DataConfig // extends WebMvcConfigurerAdapter
         // throw new RuntimeException(e);
         // }
     }
-
-    // @Bean
-    // public LocalContainerEntityManagerFactoryBean entityManagerFactory()
-    // {
-    // LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-    // em.setPackagesToScan("com.geeksaga.forest.repository.entity");
-    // em.setDataSource(dataSource());
-    // em.setJpaVendorAdapter(hibernateJpaVendorAdapter());
-    //
-    // // em.setJpaProperties(japProperties());
-    // // em.setPersistenceXmlLocation("classpath*:META-INF/persistence.xml");
-    // // em.setPersistenceUnitName("hibernatePersistenceUnit");
-    //
-    // return em;
-    // }
-
-    // @Bean
-    // public Properties japProperties()
-    // {
-    // Properties properties = new Properties();
-    // properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-    // return properties;
-    // }
 
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory emf)
@@ -121,23 +109,6 @@ public class DataConfig // extends WebMvcConfigurerAdapter
 
         return lemfb;
     }
-
-    // @Bean
-    // public JpaTransactionManager transactionManager()
-    // {
-    // JpaTransactionManager transactionManager = new JpaTransactionManager();
-    // transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-    // return transactionManager;
-    // }
-
-    // @Bean
-    // public HibernateJpaVendorAdapter hibernateJpaVendorAdapter()
-    // {
-    // HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-    // hibernateJpaVendorAdapter.setShowSql(true);
-    //
-    // return hibernateJpaVendorAdapter;
-    // }
 
     @Bean
     public HibernateExceptionTranslator hibernateExceptionTranslator()

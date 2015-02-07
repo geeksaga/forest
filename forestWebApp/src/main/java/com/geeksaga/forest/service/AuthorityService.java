@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
 import com.geeksaga.forest.dao.UserDao;
-import com.geeksaga.forest.repositories.entity.SecurityUser;
+import com.geeksaga.forest.entity.SecurityUser;
 
 @Service(BeanIds.USER_DETAILS_SERVICE)
 public class AuthorityService implements UserDetailsService

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
 import com.geeksaga.forest.common.util.RequestUtils;
-import com.geeksaga.forest.repositories.entity.SecurityUser;
+import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.service.UserAuthenticationService;
-import com.geeksaga.forest.service.UserService;
+import com.geeksaga.forest.service.UserQueryService;
 
 /**
  * @author geeksaga
@@ -23,7 +23,7 @@ import com.geeksaga.forest.service.UserService;
 public class LoginController
 {
     @Autowired
-    private UserService userService;
+    private UserQueryService userService;
     @Autowired
     private UserAuthenticationService userAuthenticationService;
 

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geeksaga.common.util.DateConvertor;
-import com.geeksaga.forest.repositories.entity.Seed;
+import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.service.SeedService;
 
 @RestController

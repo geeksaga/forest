@@ -29,8 +29,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.geeksaga.forest.common.util.FileUtil;
 import com.geeksaga.forest.common.util.RequestUtils;
-import com.geeksaga.forest.repositories.entity.SecurityUser;
-import com.geeksaga.forest.repositories.entity.Seed;
+import com.geeksaga.forest.entity.SecurityUser;
+import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.service.AuthorityService;
 import com.geeksaga.forest.service.SeedService;
 

@@ -17,7 +17,7 @@ package com.geeksaga.forest.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
-import com.geeksaga.forest.repositories.entity.TagMap;
+import com.geeksaga.forest.entity.TagMap;
 
 public interface TagMapRepository extends JpaRepository<TagMap, TagMap.PK>, QueryDslPredicateExecutor<TagMap>
 {}

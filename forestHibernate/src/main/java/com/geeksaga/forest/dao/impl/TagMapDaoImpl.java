@@ -12,25 +12,31 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.repositories.jpa;
+package com.geeksaga.forest.dao.impl;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
 import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.forest.dao.TagMapDao;
+import com.geeksaga.forest.entity.TagMap;
 import com.geeksaga.forest.repositories.TagMapRepository;
-import com.geeksaga.forest.repositories.entity.TagMap;
 
 @Repository
-public class TagMapDaoImpl implements TagMapDao
+public class TagMapDaoImpl extends QueryDslRepositorySupport implements TagMapDao
 {
     @Autowired
     private TagMapRepository tagMapRepository;
 
+    public TagMapDaoImpl()
+    {
+        super(TagMap.class);
+    }
+    
     /*
      * (non-Javadoc)
      * 

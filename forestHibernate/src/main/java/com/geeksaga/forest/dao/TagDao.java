@@ -16,9 +16,9 @@ package com.geeksaga.forest.dao;
 
 import java.util.List;
 
-import com.geeksaga.forest.repositories.entity.Tag;
+import com.geeksaga.forest.entity.Tag;
 
-public interface TagDao extends EntityDao<Tag>
+public interface TagDao
 {
     Tag save(Tag tag);
     

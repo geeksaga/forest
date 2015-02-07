@@ -1,18 +1,10 @@
 package com.geeksaga.forest.repositories.querydsl;
 
-import java.util.List;
-
-//import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.geeksaga.forest.dao.EntityDao;
-import com.geeksaga.forest.repositories.entity.BaseEntity;
-import com.mysema.query.jpa.hibernate.HibernateDeleteClause;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import com.mysema.query.jpa.hibernate.HibernateUpdateClause;
+import com.geeksaga.forest.entity.BaseEntity;
 import com.mysema.query.types.path.EntityPathBase;
+//import org.hibernate.SessionFactory;
 
-public abstract class AbstractQueryDslDao<T extends BaseEntity, Q extends EntityPathBase<T>> implements EntityDao<T>
+public abstract class AbstractQueryDslDao<T extends BaseEntity, Q extends EntityPathBase<T>>
 {
 //    @Autowired
 //    protected SessionFactory sessionFactory;

@@ -21,13 +21,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geeksaga.forest.dao.UserDao;
-import com.geeksaga.forest.repositories.entity.SecurityUser;
-import com.geeksaga.forest.repositories.entity.User;
-import com.geeksaga.forest.service.UserService;
+import com.geeksaga.forest.entity.SecurityUser;
+import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.service.UserQueryService;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService
+public class UserServiceImpl implements UserQueryService
 {
     @Autowired
     private UserDao userDao;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService
     @Transactional(readOnly = true)
     public List<User> listup()
     {
-        return userDao.getAll();
+        return userDao.findAll();
     }
 
     /*

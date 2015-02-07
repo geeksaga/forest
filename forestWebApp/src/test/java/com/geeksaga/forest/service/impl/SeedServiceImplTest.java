@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.service.impl;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -9,16 +23,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.geeksaga.common.util.DateConvertor;
+import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.AbstractTestSupport;
 import com.geeksaga.forest.dao.SeedDao;
-import com.geeksaga.forest.repositories.entity.Seed;
+import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.service.SeedService;
 import com.google.common.collect.Lists;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 public class SeedServiceImplTest extends AbstractTestSupport
 {
     @Autowired
@@ -37,18 +49,15 @@ public class SeedServiceImplTest extends AbstractTestSupport
     {
         List<Seed> seeds = Lists.newArrayList();
 
-        Seed seed1 = new Seed();
-        seed1.setTitle("Test 1");
-        seed1.setContent("Test Content 1");
-        
-        Seed seed2 = new Seed();
-        seed2.setTitle("Test 2");
-        seed2.setContent("Test Content 2");
-        
-        Seed seed3 = new Seed();
-        seed3.setTitle("Test 3");
-        seed3.setContent("Test Content 3");
+        Seed seed1 = new Seed(KeyGenerator.generateKeyToLong(), "Test 1", "Content 1", 0l, DateConvertor.getDateTimeFormat(),
+                DateConvertor.getDateTimeFormat());
 
+        Seed seed2 = new Seed(KeyGenerator.generateKeyToLong(), "Test 2", "Content 2", 0l, DateConvertor.getDateTimeFormat(),
+                DateConvertor.getDateTimeFormat());
+
+        Seed seed3 = new Seed(KeyGenerator.generateKeyToLong(), "Test 3", "Content 3", 0l, DateConvertor.getDateTimeFormat(),
+                DateConvertor.getDateTimeFormat());
+        
         seeds.add(seed1);
         seeds.add(seed2);
         seeds.add(seed3);
@@ -59,9 +68,8 @@ public class SeedServiceImplTest extends AbstractTestSupport
     @Test
     public void testSave()
     {
-        Seed seed = new Seed();
-        seed.setTitle("Test 1");
-        seed.setContent("Test Content 1");
+        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "Test Save 1", "Save Content 1", 0l, DateConvertor.getDateTimeFormat(),
+                DateConvertor.getDateTimeFormat());
         
         seedService.save(seed);
     }

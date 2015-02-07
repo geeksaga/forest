@@ -26,8 +26,9 @@ import org.springframework.util.StringUtils;
 import com.geeksaga.common.util.HangleParser;
 import com.geeksaga.forest.dao.TagDao;
 import com.geeksaga.forest.dao.TagMapDao;
-import com.geeksaga.forest.repositories.entity.Tag;
-import com.geeksaga.forest.repositories.entity.TagMap;
+import com.geeksaga.forest.entity.Seed;
+import com.geeksaga.forest.entity.Tag;
+import com.geeksaga.forest.entity.TagMap;
 import com.geeksaga.forest.service.TagMapService;
 
 @Service
@@ -45,9 +46,9 @@ public class TagMapServiceImpl implements TagMapService
      * com.geeksaga.forest.repositories.entity.TagMap.CNT_TYPE)
      */
     @Transactional
-    public Tag add(Tag tags, TagMap.CNT_TYPE type)
+    public Tag add(Seed seed, Tag tags, TagMap.CNT_TYPE type)
     {
-        return add(tags, type, false);
+        return add(seed, tags, type, false);
     }
 
     /*
@@ -56,7 +57,7 @@ public class TagMapServiceImpl implements TagMapService
      * @see com.geeksaga.forest.service.TagMapService#add(com.geeksaga.forest.repositories.entity.Tag,
      * com.geeksaga.forest.repositories.entity.TagMap.CNT_TYPE, boolean)
      */
-    public Tag add(Tag tags, TagMap.CNT_TYPE type, boolean update)
+    public Tag add(Seed seed, Tag tags, TagMap.CNT_TYPE type, boolean update)
     {
         Tag resultTag = null;
 
@@ -71,26 +72,21 @@ public class TagMapServiceImpl implements TagMapService
                 String t = st.nextToken().trim();
 
                 Tag tag = new Tag(t, HangleParser.parse(t));
-                TagMap tagMap = new TagMap(tags.getTargetSid());
+                
+                Tag targetTag = tagDao.findByTagName(tag);
 
-                Tag findTag = tagDao.findByTagName(tag);
-
-                if (findTag == null)
+                if (targetTag == null)
                 {
-                    tag = tagDao.save(tag);
-
-                    tagMap.getPk().setTagSid(tag.getSid());
+                    targetTag = tagDao.save(tag);
                 }
-                else
-                {
-                    tagMap.getPk().setTagSid(findTag.getSid());
-
-                    tagDao.updateCnt(findTag);
-                }
+                
+                TagMap tagMap = new TagMap(seed, targetTag);
 
                 if (!tagMapDao.exists(tagMap.getPk()))
                 {
                     tagMapDao.save(tagMap);
+                    
+                    tagDao.updateCnt(targetTag);
                 }
 
                 if (isFirst)

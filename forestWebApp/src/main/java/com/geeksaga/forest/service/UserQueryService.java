@@ -12,18 +12,19 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.dao;
+package com.geeksaga.forest.service;
 
 import java.util.List;
 
 import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.entity.User;
 
-public interface UserDao
+public interface UserQueryService
 {
-    List<User> findAll();
-    
-    User findByName(String name);
-    
-    SecurityUser authenticate(SecurityUser securityUser);
+     List<User> listup();
+ 
+     SecurityUser authenticate(SecurityUser securityUser);
+     
+    // List<History> getHistories(int userId);
+    // void setUserLevelService(UserLevelService userLevelService);
 }

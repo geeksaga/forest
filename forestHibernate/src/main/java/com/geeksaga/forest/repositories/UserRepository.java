@@ -8,8 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
-import com.geeksaga.forest.repositories.entity.User;
-import com.geeksaga.forest.repositories.entity.UserManager;
+import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.entity.UserManager;
 
 /**
  * @author geeksaga

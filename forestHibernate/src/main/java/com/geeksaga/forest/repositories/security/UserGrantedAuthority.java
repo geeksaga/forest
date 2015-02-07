@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.repositories.security;
 
 import java.util.ArrayList;
@@ -6,10 +20,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @SuppressWarnings("deprecation")
 public class UserGrantedAuthority extends GrantedAuthorityImpl
 {

@@ -1,8 +1,8 @@
 package com.geeksaga.forest.repositories.querydsl;
 
 import com.geeksaga.forest.dao.UserDao;
-import com.geeksaga.forest.repositories.entity.QUser;
-import com.geeksaga.forest.repositories.entity.User;
+import com.geeksaga.forest.entity.QUser;
+import com.geeksaga.forest.entity.User;
 
 // @Repository
 public abstract class UserDaoImpl extends AbstractQueryDslDao<User, QUser> implements UserDao

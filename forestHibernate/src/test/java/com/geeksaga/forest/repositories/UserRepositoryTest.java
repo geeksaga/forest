@@ -12,7 +12,7 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.repositories.entity;
+package com.geeksaga.forest.repositories;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,6 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
+import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.entity.UserManager;
+import com.geeksaga.forest.entity.UserPredicates;
 import com.geeksaga.forest.repositories.UserManagerRepository;
 import com.geeksaga.forest.repositories.UserRepository;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
@@ -95,8 +98,8 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     {
         User user = new User();
         user.setSid(KeyGenerator.generateKeyToLong());
-        user.setName("geeksaga");
-        user.setEmail("geeksaga@geeksaga.com");
+        user.setName("save");
+        user.setEmail("save@geeksaga.com");
         user.setPassword(PasswordEncoderWrapper.encode("password"));
 
         user.setUserManager(savedUserManager);

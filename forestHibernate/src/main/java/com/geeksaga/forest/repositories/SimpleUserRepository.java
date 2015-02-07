@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.geeksaga.forest.repositories.entity.User;
+import com.geeksaga.forest.entity.User;
 
 public interface SimpleUserRepository extends CrudRepository<User, Integer>
 {

@@ -1,25 +1,52 @@
-package com.geeksaga.forest.repositories.jpa;
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
+package com.geeksaga.forest.dao.impl;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.memory.UserAttribute;
 import org.springframework.stereotype.Repository;
 
 import com.geeksaga.forest.dao.UserDao;
+import com.geeksaga.forest.entity.QUser;
+import com.geeksaga.forest.entity.SecurityUser;
+import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.repositories.UserRepository;
-import com.geeksaga.forest.repositories.entity.QUser;
-import com.geeksaga.forest.repositories.entity.SecurityUser;
-import com.geeksaga.forest.repositories.entity.User;
 import com.geeksaga.forest.repositories.security.UserGrantedAuthority;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Repository
-public class UserDaoImpl extends AbstractSpringDataDao<User> implements UserDao
+public class UserDaoImpl extends AbstractSpringData<User> implements UserDao
 {
     @Autowired
     private UserRepository userRepository;
+
+    public UserDaoImpl()
+    {
+        super(User.class);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.geeksaga.forest.dao.UserDao#findAll()
+     */
+    public List<User> findAll()
+    {
+        return userRepository.findAll();
+    }
 
     /*
      * (non-Javadoc)

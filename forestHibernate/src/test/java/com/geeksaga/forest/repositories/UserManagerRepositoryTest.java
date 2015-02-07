@@ -1,4 +1,4 @@
-package com.geeksaga.forest.repositories.entity;
+package com.geeksaga.forest.repositories;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.config.DataConfig;
+import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.entity.UserManager;
 import com.geeksaga.forest.repositories.UserManagerRepository;
 import com.google.common.collect.Lists;
 

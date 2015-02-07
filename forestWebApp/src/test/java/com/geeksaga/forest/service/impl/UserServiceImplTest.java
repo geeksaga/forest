@@ -10,8 +10,9 @@ import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.AbstractTestSupport;
 import com.geeksaga.forest.dao.UserDao;
-import com.geeksaga.forest.repositories.entity.User;
-import com.geeksaga.forest.service.UserService;
+import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.repositories.UserRepository;
+import com.geeksaga.forest.service.UserQueryService;
 
 /**
  * @author geeksaga
@@ -20,9 +21,11 @@ import com.geeksaga.forest.service.UserService;
 public class UserServiceImplTest extends AbstractTestSupport
 {
     @Autowired
-    private UserService userService;
+    private UserQueryService userService;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserRepository userRepository;
 
     // @Autowired
     // private HistoryDao historyDao;
@@ -30,39 +33,39 @@ public class UserServiceImplTest extends AbstractTestSupport
     @Before
     public void setUp()
     {
-        userDao.deleteAll();
+        userRepository.deleteAll();
 
         addTestData();
     }
 
     private void addTestData()
     {
-        User point99User = new User();
-        // point99User.setPoint(99);
-        point99User.setSid(KeyGenerator.generateKeyToLong());
-        point99User.setName("point99");
-        point99User.setEmail("geeksaga99@geeksaga.com");
-        point99User.setPassword(PasswordEncoderWrapper.encode("password"));
-        // point99User.setLevel(UserLevel.NORMAL);
-        userDao.add(point99User);
+        User user1 = new User();
+        // user1.setPoint(99);
+        user1.setSid(KeyGenerator.generateKeyToLong());
+        user1.setName("point99");
+        user1.setEmail("geeksaga99@geeksaga.com");
+        user1.setPassword(PasswordEncoderWrapper.encode("password"));
+        // user1.setLevel(UserLevel.NORMAL);
+        userRepository.saveAndFlush(user1);
 
-        User point299User = new User();
-        point299User.setSid(KeyGenerator.generateKeyToLong());
-        // point299User.setPoint(299);
-        point299User.setName("point199");
-        point299User.setEmail("geeksaga199@geeksaga.com");
-        point299User.setPassword(PasswordEncoderWrapper.encode("password"));
-        // point299User.setLevel(UserLevel.MASTER);
-        userDao.add(point299User);
+        User user2 = new User();
+        user2.setSid(KeyGenerator.generateKeyToLong());
+        // user2.setPoint(299);
+        user2.setName("point199");
+        user2.setEmail("geeksaga199@geeksaga.com");
+        user2.setPassword(PasswordEncoderWrapper.encode("password"));
+        // user2.setLevel(UserLevel.MASTER);
+        userRepository.saveAndFlush(user2);
 
-        User point301User = new User();
-        // point301User.setPoint(301);
-        point301User.setSid(KeyGenerator.generateKeyToLong());
-        point301User.setName("point299");
-        point301User.setEmail("geeksaga299@geeksaga.com");
-        point301User.setPassword(PasswordEncoderWrapper.encode("password"));
-        // point301User.setLevel(UserLevel.MVP);
-        userDao.add(point301User);
+        User user3 = new User();
+        // user3.setPoint(301);
+        user3.setSid(KeyGenerator.generateKeyToLong());
+        user3.setName("point299");
+        user3.setEmail("geeksaga299@geeksaga.com");
+        user3.setPassword(PasswordEncoderWrapper.encode("password"));
+        // user3.setLevel(UserLevel.MVP);
+        userRepository.saveAndFlush(user3);
     }
 
     @Test

@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.geeksaga.common.util.KeyGenerator;
-import com.geeksaga.forest.repositories.entity.AttachFile;
+import com.geeksaga.forest.entity.AttachFile;
 
 /**
  * @author geeksaga

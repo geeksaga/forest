@@ -1,8 +1,13 @@
 package com.geeksaga.forest;
 
 import java.nio.charset.Charset;
+import java.util.EnumSet;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,18 +18,21 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import com.geeksaga.forest.repositories.entity.User;
+import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 
 // @ComponentScan(basePackages = { "com.geeksaga.forest" }, excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
 // "com.geeksaga.forest.web.*" }))
 
-@ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.repositories", "com.geeksaga.forest.service",
-        "com.geeksaga.forest.controller" })
+@ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller" })
+@PropertySources({ @PropertySource("classpath:application.properties") })
 @SpringBootApplication
 @EntityScan(basePackageClasses = { User.class, AuditableUser.class })
 public class ForestWebApplication extends SpringBootServletInitializer
@@ -71,6 +79,15 @@ public class ForestWebApplication extends SpringBootServletInitializer
     //
     // dispatcher.setMultipartConfig(new MultipartConfigElement("/tmp", 1024*1024*5, 1024*1024*5*5, 1024*1024));
     // }
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException
+    {
+        FilterRegistration.Dynamic openEntityManagerInViewFilter = servletContext.addFilter("openEntityManagerInViewFilter",
+                new OpenEntityManagerInViewFilter());
+
+        openEntityManagerInViewFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+    }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application)

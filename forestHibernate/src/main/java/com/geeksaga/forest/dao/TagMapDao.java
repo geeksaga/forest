@@ -16,7 +16,7 @@ package com.geeksaga.forest.dao;
 
 import java.util.List;
 
-import com.geeksaga.forest.repositories.entity.TagMap;
+import com.geeksaga.forest.entity.TagMap;
 
 public interface TagMapDao
 {
