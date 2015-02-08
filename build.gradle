@@ -3,7 +3,7 @@ apply plugin: 'base'
 buildscript {
     ext {
         springBootVersion = '1.2.1.RELEASE'
-	    javaVersion = 1.7
+	    javaVersion = 1.8
 	
 	    springVersion = "4.1.4.RELEASE"
 	    springjpaVersion = "1.7.1.RELEASE"

@@ -61,7 +61,6 @@ dependencies {
             "org.codehaus.cargo:cargo-ant:$cargoVersion"
 
 
-    def springVersion = "4.1.3.RELEASE"
     compile("org.springframework.boot:spring-boot-starter-parent:$rootProject.ext.springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-web:$rootProject.ext.springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-tomcat:$rootProject.ext.springBootVersion")
