@@ -12,35 +12,29 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.dao.impl;
+package com.geeksaga.forest.service;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.geeksaga.common.util.KeyGenerator;
-import com.geeksaga.forest.dao.TagDao;
 import com.geeksaga.forest.entity.Tag;
 import com.geeksaga.forest.repositories.TagRepository;
 
-@Repository
-public class TagDaoImpl extends AbstractSpringData<Tag> implements TagDao
+@Service
+public class TagService extends AbstractSpringData<Tag>
 {
     @Autowired
     private TagRepository tagRepository;
 
-    public TagDaoImpl()
+    public TagService()
     {
         super(Tag.class);
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.geeksaga.forest.dao.TagDao#save(com.geeksaga.forest.repositories.entity.Tag)
-     */
     public Tag save(Tag tag)
     {
         tag.setSid(KeyGenerator.generateKeyToLong());
@@ -50,11 +44,6 @@ public class TagDaoImpl extends AbstractSpringData<Tag> implements TagDao
         return tag;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.geeksaga.forest.dao.TagDao#save(java.lang.Iterable)
-     */
     public List<Tag> save(Iterable<Tag> list)
     {
         Iterator<Tag> iter = list.iterator();
@@ -70,21 +59,11 @@ public class TagDaoImpl extends AbstractSpringData<Tag> implements TagDao
         return (List<Tag>) list;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.geeksaga.forest.dao.TagDao#findByTagName(com.geeksaga.forest.repositories.entity.Tag)
-     */
     public Tag findByTagName(Tag tag)
     {
         return tagRepository.findByTagName(tag.getTagName());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.geeksaga.forest.dao.TagDao#updateCnt(com.geeksaga.forest.repositories.entity.Tag)
-     */
     public int updateCnt(Tag tag)
     {
         return tagRepository.updateCnt(tag.getTagName());

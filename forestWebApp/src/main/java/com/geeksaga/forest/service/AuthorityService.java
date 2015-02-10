@@ -30,7 +30,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
-import com.geeksaga.forest.dao.UserDao;
 import com.geeksaga.forest.entity.SecurityUser;
 
 @Service(BeanIds.USER_DETAILS_SERVICE)
@@ -39,7 +38,7 @@ public class AuthorityService implements UserDetailsService
     private static final Log logger = LogFactory.getLog(AuthorityService.class);
 
     @Autowired
-    protected UserDao userDao;
+    protected UserCommandService userCommandService;
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, DataAccessException
     {
@@ -60,7 +59,7 @@ public class AuthorityService implements UserDetailsService
 
         try
         {
-            authenticateUser = userDao.authenticate(securityUser);
+            authenticateUser = userCommandService.authenticate(securityUser);
         }
         catch (Exception e)
         {

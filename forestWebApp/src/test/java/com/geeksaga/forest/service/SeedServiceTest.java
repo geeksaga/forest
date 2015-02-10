@@ -12,7 +12,7 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.service.impl;
+package com.geeksaga.forest.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -26,19 +26,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.AbstractTestSupport;
-import com.geeksaga.forest.dao.SeedDao;
 import com.geeksaga.forest.entity.Seed;
-import com.geeksaga.forest.service.SeedService;
 import com.google.common.collect.Lists;
 
-public class SeedServiceImplTest extends AbstractTestSupport
+public class SeedServiceTest extends AbstractTestSupport
 {
     @Autowired
-    private SeedService seedService;
+    private SeedQueryService seedQueryService;
     
     @Autowired
-    private SeedDao seedDao;
-
+    private SeedCommandService seedCommandService;
+    
     @Before
     public void setUp()
     {
@@ -62,7 +60,7 @@ public class SeedServiceImplTest extends AbstractTestSupport
         seeds.add(seed2);
         seeds.add(seed3);
         
-        seedDao.save(seeds);
+        seedCommandService.save(seeds);
     }
     
     @Test
@@ -71,13 +69,13 @@ public class SeedServiceImplTest extends AbstractTestSupport
         Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "Test Save 1", "Save Content 1", 0l, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
         
-        seedService.save(seed);
+        seedCommandService.save(seed);
     }
     
     @Test
     public void testFindTopN()
     {
-        List<Seed> list = seedService.findTopN(0, 2);
+        List<Seed> list = seedQueryService.findTopN(0, 2);
         
         assertThat(2, is(list.size()));
     }

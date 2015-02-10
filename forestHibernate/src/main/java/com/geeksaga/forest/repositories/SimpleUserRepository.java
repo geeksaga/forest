@@ -1,8 +1,5 @@
 package com.geeksaga.forest.repositories;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.geeksaga.forest.entity.User;

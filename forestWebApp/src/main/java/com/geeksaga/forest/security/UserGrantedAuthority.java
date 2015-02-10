@@ -12,7 +12,7 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.repositories.security;
+package com.geeksaga.forest.security;
 
 import java.util.ArrayList;
 import java.util.List;
