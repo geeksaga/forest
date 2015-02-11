@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    
+<head th:fragment="header">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" th:href="@{/css/default.css}" />
+    <title th:text="#{login.title}">Login</title>
+</head>
+
+<body>
+  <div class="content">
+    <div th:include="include :: banner"></div>
+
+    <div class="login signup">
+      <form action="#" th:action="@{/signup}" method="post" >
+        <fieldset>
+          <div>
+            <label for="firstName">First Name</label>
+            <input id="firstName" name="firstName" maxlength="255" type="text"/>
+          </div>
+          <div>
+            <label for="lastName">Last Name</label>
+            <input id="lastName" name="lastName" maxlength="255" type="text"/>
+          </div>
+          <div>
+              <label for="username">Username</label>
+              <input id="username" name="username" maxlength="255" type="text"/>
+          </div>
+          <div>
+              <label for="password">Password</label>
+              <input id="password" name="password" maxlength="255" type="password"/>
+          </div>
+          <div>
+            <label for="repassword">Retype password</label>
+            <input id="repassword" name="repassword" maxlength="255" type="password"/>
+          </div>
+          <button type="submit" th:text="#{signup.button}">Submit</button>
+        </fieldset>
+      </form>
+      <p><a href="#" th:href="@{/login}" th:text="#{signup.hasaccount}">Already have an account? Sign in!</a></p>
+    </div>
+    
+    <p class="status" th:if="${not #strings.isEmpty(status)}" th:text="#{'status.' + ${status}}">Status</p>
+  </div>    
+  <div th:include="include :: footer"></div>
+</body>
+</html>

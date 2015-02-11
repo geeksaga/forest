@@ -16,8 +16,11 @@ package com.geeksaga.forest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.memory.UserAttribute;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.QUser;
 import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.entity.User;
@@ -29,12 +32,33 @@ public class UserCommandService extends AbstractSpringData<User>
 {
     @Autowired
     private UserRepository userRepository;
+    
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserCommandService()
     {
         super(User.class);
     }
 
+    @Transactional
+    public User save(User user)
+    {
+        user.setSid(KeyGenerator.generateKeyToLong());
+        user.setEnabled(false);
+        user.setAccountNonExpired(true);
+        user.setCredentialsNonExpired(true);
+        user.setAccountNonLocked(true);
+
+        System.out.println(user);
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userRepository.save(user);
+
+        return user;
+    }
+
+    @Transactional(readOnly = true)
     public SecurityUser authenticate(SecurityUser securityUser)
     {
         SecurityUser authenrityUser = (SecurityUser) userRepository.findOne(QUser.user.email.eq(securityUser.getEmail()));

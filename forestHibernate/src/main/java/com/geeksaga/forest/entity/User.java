@@ -1,10 +1,23 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,31 +26,43 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Entity
 @Table(name = "pw_users", schema = "")
 public class User extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
+    @NotNull
+    @Size(min = 4, max = 255)
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @NotNull
+    @Size(min = 4, max = 255)
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Basic
+    @Size(max = 255)
     @Column(name = "name")
     private String name;
 
-    @Column(name = "authority")
+    @Column(name = "enabled", columnDefinition = "boolean default true")
+    private boolean enabled;
+    @Column(name = "account_non_locked", columnDefinition = "boolean default true")
+    private boolean accountNonLocked;
+    @Column(name = "account_non_expired", columnDefinition = "boolean default true")
+    private boolean accountNonExpired;
+    @Column(name = "credentials_non_expired", columnDefinition = "boolean default true")
+    private boolean credentialsNonExpired;
+    
+    @Transient
     private String authority;
 
-    // @JsonManagedReference
+    // @JsonManagedReference columnDefinition = "boolean default true"
     // @OneToOne(mappedBy = "user", cascade = { CascadeType.ALL })
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -111,6 +136,46 @@ public class User extends BaseEntity implements Serializable
     {
         this.name = name;
     }
+    
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
+
+    public boolean isAccountNonLocked()
+    {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked)
+    {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public boolean isAccountNonExpired()
+    {
+        return accountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired)
+    {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    public boolean isCredentialsNonExpired()
+    {
+        return credentialsNonExpired;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired)
+    {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
 
     public String getAuthority()
     {
@@ -121,7 +186,7 @@ public class User extends BaseEntity implements Serializable
     {
         this.authority = authority;
     }
-    
+
     public Set<Role> getRoles()
     {
         return roles;

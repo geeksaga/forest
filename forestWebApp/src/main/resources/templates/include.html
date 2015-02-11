@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	
 <head th:fragment="header">
     <meta charset="utf-8" />
-	<link rel="stylesheet" href="../../resources/css/style.css" th:href="@{/resources/css/style.css}" />
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<title>Include</title>
 </head>
 
@@ -16,7 +15,7 @@
 			</ul>
 		</div>
 		<div id="banner">
-			<h1 th:text="#{app.name}">App Name</h1>
+			<h1 th:text="#{app.name}">Forest</h1>
 			<h2>Socialize your app</h2>
 			<hr/>
 		</div>
@@ -24,13 +23,13 @@
 	
 	<div th:fragment="logo">
 		<div id="logo">
-			<h1 th:text="#{app.name}">App Name</h1>
+			<h1 th:text="#{app.name}">Forest</h1>
 			<h2>Socialize your app</h2>
 			<hr/>
 		</div>
 	</div>
 	
-	<div th:fragment="menu">
+	<!--div th:fragment="menu">
 		<div class="menu">
 			<ul>
 				<li><a href="#" th:href="@{/fb/profile}">Facebook Profile</a></li>
@@ -48,7 +47,7 @@
 			<button type="submit" th:text="#{'disconnect.button.' + ${source}}">Disconnect from Social</button>	
 			<input type="hidden" name="_method" value="delete" />
 		</form>
-	</div>
+	</div-->
 	
 	<div th:fragment="footer">
 		<div class="footer">

@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.entity;
 
 import java.util.ArrayList;
@@ -6,20 +20,10 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 public class SecurityUser extends User implements UserDetails
 {
     private static final long serialVersionUID = 1L;
 
-    // TODO 권한 관련 내용을 DB 상에는 varchar(1)로 저장하고 있다.
-    // boolean 타입을 사용해야 하나? 아니면 변환해서 처리 해야하나?
-    private boolean enabled;
-    private boolean accountNonExpired;
-    private boolean credentialsNonExpired;
-    private boolean accountNonLocked;
     private Collection<GrantedAuthority> authorities;
 
     public SecurityUser()
@@ -89,50 +93,6 @@ public class SecurityUser extends User implements UserDetails
     public String getUsername()
     {
         return super.getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired()
-    {
-        return accountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked()
-    {
-        return accountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired()
-    {
-        return credentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled)
-    {
-        this.enabled = enabled;
-    }
-
-    public void setAccountNonExpired(boolean accountNonExpired)
-    {
-        this.accountNonExpired = accountNonExpired;
-    }
-
-    public void setCredentialsNonExpired(boolean credentialsNonExpired)
-    {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked)
-    {
-        this.accountNonLocked = accountNonLocked;
     }
 
     public Collection<GrantedAuthority> getAuthorities()
