@@ -23,19 +23,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.forest.entity.Seed;
-import com.geeksaga.forest.service.SeedService;
+import com.geeksaga.forest.service.SeedCommandService;
+import com.geeksaga.forest.service.SeedQueryService;
 
 @RestController
 public class SeedRestController
 {
     @Autowired
-    private SeedService seedServcie;
+    private SeedQueryService seedQueryServcie;
+    
+    @Autowired
+    private SeedCommandService seedCommandServcie;
 
     @RequestMapping("/seeds/list")
     public List<Seed> find(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size)
     {
-        return seedServcie.findTopN(page, size);
+        return seedQueryServcie.findTopN(page, size);
     }
 
     @RequestMapping("/seeds/save")
@@ -46,6 +50,6 @@ public class SeedRestController
         seed.setTitle("Test 1 " + DateConvertor.getDateTimeFormat());
         seed.setContent("Test Content 1");
 
-        return seedServcie.save(seed);
+        return seedCommandServcie.save(seed);
     }
 }

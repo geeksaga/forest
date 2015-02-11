@@ -1,4 +1,18 @@
-package com.geeksaga.forest.service.impl;
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
+package com.geeksaga.forest.service;
 
 import java.util.List;
 
@@ -9,21 +23,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.AbstractTestSupport;
-import com.geeksaga.forest.dao.UserDao;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.repositories.UserRepository;
 import com.geeksaga.forest.service.UserQueryService;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
-public class UserServiceImplTest extends AbstractTestSupport
+public class UserServiceTest extends AbstractTestSupport
 {
     @Autowired
-    private UserQueryService userService;
-    @Autowired
-    private UserDao userDao;
+    private UserQueryService userQueryService;
     @Autowired
     private UserRepository userRepository;
 
@@ -69,9 +76,9 @@ public class UserServiceImplTest extends AbstractTestSupport
     }
 
     @Test
-    public void testListup() throws Exception
+    public void testFindAll() throws Exception
     {
-        List<User> listup = userService.listup();
+        List<User> listup = userQueryService.findAll();
         for (User user : listup)
         {
             System.out.println(user);

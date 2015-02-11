@@ -12,7 +12,7 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.dao.impl;
+package com.geeksaga.forest.service;
 
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 

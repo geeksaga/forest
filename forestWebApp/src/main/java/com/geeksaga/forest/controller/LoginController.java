@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +27,13 @@ import org.springframework.web.context.request.WebRequest;
 import com.geeksaga.forest.common.util.RequestUtils;
 import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.service.UserAuthenticationService;
-import com.geeksaga.forest.service.UserQueryService;
+import com.geeksaga.forest.service.UserCommandService;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Controller
 public class LoginController
 {
     @Autowired
-    private UserQueryService userService;
+    private UserCommandService userCommandService;
     @Autowired
     private UserAuthenticationService userAuthenticationService;
 
@@ -38,7 +48,7 @@ public class LoginController
 
     private boolean setSession(WebRequest request, SecurityUser securityUser, boolean loginHistory)
     {
-        SecurityUser authenticateUser = userService.authenticate(securityUser);
+        SecurityUser authenticateUser = userCommandService.authenticate(securityUser);
 
         if (authenticateUser != null)
         {

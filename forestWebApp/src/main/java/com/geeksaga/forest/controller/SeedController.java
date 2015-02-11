@@ -32,13 +32,17 @@ import com.geeksaga.forest.common.util.RequestUtils;
 import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.service.AuthorityService;
-import com.geeksaga.forest.service.SeedService;
+import com.geeksaga.forest.service.SeedCommandService;
+import com.geeksaga.forest.service.SeedQueryService;
 
 @Controller
 public class SeedController
 {
     @Autowired
-    private SeedService seedServcie;
+    private SeedQueryService seedQueryServcie;
+    
+    @Autowired
+    private SeedCommandService seedCommandServcie;
 
     @RequestMapping(value = { "/seed/add" }, method = RequestMethod.GET)
     public String save(Seed seed, Model model)
@@ -72,7 +76,7 @@ public class SeedController
         //
         // }
 
-        seedServcie.save(seed);
+        seedCommandServcie.save(seed);
 
         return "redirect:/index";
     }

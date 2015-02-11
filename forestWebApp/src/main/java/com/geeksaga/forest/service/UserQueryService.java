@@ -16,15 +16,31 @@ package com.geeksaga.forest.service;
 
 import java.util.List;
 
-import com.geeksaga.forest.entity.SecurityUser;
-import com.geeksaga.forest.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface UserQueryService
+import com.geeksaga.forest.entity.QUser;
+import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.repositories.UserRepository;
+
+@Service
+public class UserQueryService
 {
-     List<User> listup();
- 
-     SecurityUser authenticate(SecurityUser securityUser);
-     
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Transactional(readOnly = true)
+    public List<User> findAll()
+    {
+        return userRepository.findAll();
+    }
+    
+    public User findByName(String name)
+    {
+        return userRepository.findOne(QUser.user.name.eq(name));
+    }
+    
     // List<History> getHistories(int userId);
     // void setUserLevelService(UserLevelService userLevelService);
 }
