@@ -9,6 +9,11 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+// import org.jivesoftware.smack.ConnectionConfiguration;
+// import org.jivesoftware.smack.SASLAuthentication;
+// import org.jivesoftware.smack.XMPPConnection;
+// import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,9 +25,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.core.env.Environment;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.geeksaga.forest.entity.User;
@@ -34,9 +42,13 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 @ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller" })
 @PropertySources({ @PropertySource("classpath:application.properties") })
 @SpringBootApplication
+//@ImportResource("classpath:InstantMessage.xml")
 @EntityScan(basePackageClasses = { User.class, AuditableUser.class })
 public class ForestWebApplication extends SpringBootServletInitializer
 {
+    @Autowired
+    private Environment env;
+
     // private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
     // private static final String DISPATCHER_SERVLET_MAPPING = "/";
     //
@@ -111,8 +123,19 @@ public class ForestWebApplication extends SpringBootServletInitializer
         return characterEncodingFilter;
     }
 
+    @Bean
+    public TaskExecutor taskExecutor()
+    {
+        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.setCorePoolSize(5);
+        taskExecutor.setMaxPoolSize(10);
+        taskExecutor.setQueueCapacity(25);
+
+        return taskExecutor;
+    }
+
     // @Bean
-    // public JavaMailSenderImpl javaMailSenderImpl()
+    // public JavaMailSenderImpl javaMailSender()
     // {
     // JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
     // mailSenderImpl.setHost(env.getProperty("smtp.host"));
@@ -120,11 +143,26 @@ public class ForestWebApplication extends SpringBootServletInitializer
     // mailSenderImpl.setProtocol(env.getProperty("smtp.protocol"));
     // mailSenderImpl.setUsername(env.getProperty("smtp.username"));
     // mailSenderImpl.setPassword(env.getProperty("smtp.password"));
+    //
     // Properties javaMailProps = new Properties();
     // javaMailProps.put("mail.smtp.auth", true);
     // javaMailProps.put("mail.smtp.starttls.enable", true);
     // mailSenderImpl.setJavaMailProperties(javaMailProps);
+    //
     // return mailSenderImpl;
+    // }
+
+    // @Bean
+    // public XMPPConnection googleTalkConnection() throws Exception
+    // {
+    // SASLAuthentication.supportSASLMechanism("PLAIN", 0); // static initializer
+    //
+    // ConnectionConfiguration config = new ConnectionConfiguration("talk.google.com", 5222, "gmail.com");
+    // XMPPConnection connection = new XMPPTCPConnection(config);
+    // connection.connect();
+    // connection.login("sns@geeksaga.com", "password");
+    //
+    // return connection;
     // }
 
     @Bean

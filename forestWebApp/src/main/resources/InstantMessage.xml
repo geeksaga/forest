@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-xmpp="http://www.springframework.org/schema/integration/xmpp"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration-4.1.xsd
+		http://www.springframework.org/schema/integration/xmpp
+		http://www.springframework.org/schema/integration/xmpp/spring-integration-xmpp-4.1.xsd">
+
+	<context:property-placeholder location="classpath:application.properties" />
+
+	<int-xmpp:xmpp-connection id="googleTalkConnection" user="${user.login}" 
+		password="${user.password}" host="${user.host}" port="${user.port}" service-name="${user.service}" 
+		resource="${user.resource}" subscription-mode="accept_all"  />
+
+	<int:channel id="toUserChannel" />
+
+	<int-xmpp:header-enricher input-channel="toUserChannel" output-channel="outputChannel">
+		<int-xmpp:chat-to value="${send.to.user}" />
+	</int-xmpp:header-enricher>
+
+	<int:channel id="outputChannel" />
+
+	<int-xmpp:outbound-channel-adapter id="outboundChannelAdapter" channel="outputChannel" xmpp-connection="googleTalkConnection" auto-startup="true" />
+	
+	<int-xmpp:inbound-channel-adapter channel="imOutChannel" xmpp-connection="googleTalkConnection"/>
+
+	<int:logging-channel-adapter id="imOutChannel"/>
+</beans>

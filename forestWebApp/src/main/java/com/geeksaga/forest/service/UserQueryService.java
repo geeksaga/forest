@@ -36,9 +36,9 @@ public class UserQueryService
         return userRepository.findAll();
     }
     
-    public User findByName(String name)
+    public User findByFirstName(String firstName)
     {
-        return userRepository.findOne(QUser.user.name.eq(name));
+        return userRepository.findOne(QUser.user.firstName.eq(firstName));
     }
     
     // List<History> getHistories(int userId);

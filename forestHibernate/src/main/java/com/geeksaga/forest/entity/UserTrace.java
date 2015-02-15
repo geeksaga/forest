@@ -1,44 +1,59 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-import com.geeksaga.common.annotation.PrintToString;
-
-/**
- * @author geeksaga
- * @since 1.0
- * @version 0.1
- */
 @Entity
 @Table(name = "pw_user_trace", schema = "")
 public class UserTrace extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @PrintToString
-    private String userSid;
-    @PrintToString
+    @NotNull
+    @Column(name = "user_sid", nullable = false)
+    private Long userSid;
+    @NotNull
+    @Column(name = "action_type", nullable = false, length = 12)
     private String actionType;
-    @PrintToString
+    @NotNull
+    @Column(name = "action_target", nullable = false, length = 32)
     private String actionTarget;
-    @PrintToString
+    @NotNull
+    @Column(name = "action_id", nullable = false, length = 12)
     private String actionId;
-    @PrintToString
+    @NotNull
+    @Column(name = "user_ip", nullable = false, length = 32)
     private String userIp;
-    @PrintToString
+
+    @Column(name = "regist_timestamp", nullable = false, length = 14)
     private String registTimestamp;
 
-    public String getUserSid()
-    {
-        return userSid;
-    }
-
-    public void setUserSid(String userSid)
+    public void setUserSid(Long userSid)
     {
         this.userSid = userSid;
+    }
+
+    public Long getUserSid()
+    {
+        return userSid;
     }
 
     public String getActionType()

@@ -71,6 +71,15 @@ dependencies {
     
     compile("org.springframework.boot:spring-boot-starter-thymeleaf:$rootProject.ext.springBootVersion")
     
+    compile("org.springframework.boot:spring-boot-starter-integration:$rootProject.ext.springBootVersion")
+    
+    //compile("org.springframework.integration:spring-integration-core:4.1.1.RELEASE")
+    compile("org.springframework.integration:spring-integration-xmpp:4.1.1.RELEASE")
+    
+    //compile("org.igniterealtime.smack:smack-resolver-javax:4.0.6")
+    //compile("org.igniterealtime.smack:smack-tcp:4.0.6")
+    //compile("org.igniterealtime.smack:smack-extensions:4.0.6")
+    
     
     /*
     compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
@@ -92,6 +101,7 @@ dependencies {
     
     compile 'org.apache.commons:commons-lang3:3.3.2'
     
+	compile project(':forestCommon')
 	compile project(':forestHibernate')
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1'
@@ -263,7 +273,7 @@ eclipse {
         
         facet {
             facet name: "jst.web" , version: "3.1"
-            facet name: "jst.java" , version: "1.7"
+            facet name: "jst.java" , version: "1.8"
             facet name: 'wst.jsdt.web' , version: '1.0'   // Javascript
         }
     }    

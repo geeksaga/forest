@@ -29,6 +29,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.service.AuthenticationService;
 import com.geeksaga.forest.service.UserCommandService;
 import com.geeksaga.forest.service.UserQueryService;
 
@@ -40,6 +41,9 @@ public class UserController
 
     @Autowired
     private UserCommandService userCommandServcie;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @RequestMapping(value = { "/signup" }, method = RequestMethod.GET)
     public String signup(ModelMap model)
@@ -59,7 +63,7 @@ public class UserController
         authentication.setUserSid(user.getSid());
         authentication.setAuthenticationKey(KeyGenerator.generateKeyToLong());
 
-        // authenticationService.add(authentication);
+        authenticationService.save(authentication);
 
         // GeekSagaMessage message = new AuthenticationMailMessage(user, authentication.getAuthenticationKey());
         // sendMailService.setMessage(message);

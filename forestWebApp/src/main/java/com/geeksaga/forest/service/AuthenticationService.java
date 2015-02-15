@@ -20,31 +20,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authentication;
-import com.geeksaga.forest.entity.Authority;
-import com.geeksaga.forest.repositories.AuthorityRepository;
+import com.geeksaga.forest.repositories.AuthenticationRepository;
 
 @Service
-public class AuthorityService extends AbstractSpringData<Authority>
+public class AuthenticationService extends AbstractSpringData<Authentication>
 {
-    private static final Log logger = LogFactory.getLog(AuthorityService.class);
+    private static final Log logger = LogFactory.getLog(AuthenticationService.class);
 
     @Autowired
-    protected AuthorityRepository authorityRepository;
+    protected AuthenticationRepository authenticationRepository;
     
-    public AuthorityService()
+    public AuthenticationService()
     {
         super(Authentication.class);
     }
     
     @Transactional
-    public Authority save(Authority authority)
+    public Authentication save(Authentication authentication)
     {
-        authority.setSid(KeyGenerator.generateKeyToLong());
-        
-        authorityRepository.save(authority);
-        
-        return authority;
+        return authentication;
     }
 }

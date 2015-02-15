@@ -21,12 +21,6 @@ import java.io.Reader;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
-import org.apache.lucene.analysis.ko.HanjaMappingFilter;
-import org.apache.lucene.analysis.ko.KoreanAnalyzer;
-import org.apache.lucene.analysis.ko.KoreanFilter;
-import org.apache.lucene.analysis.ko.KoreanTokenizer;
-import org.apache.lucene.analysis.ko.PunctuationDelimitFilter;
-import org.apache.lucene.analysis.ko.WordSegmentFilter;
 import org.apache.lucene.analysis.standard.ClassicFilter;
 
 public class KoreanAnalyzerWrapper extends KoreanAnalyzer

@@ -47,18 +47,25 @@ public class User extends BaseEntity implements Serializable
     private String password;
 
     @Size(max = 255)
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "enabled", columnDefinition = "boolean default true")
+    @Size(max = 255)
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
     private boolean enabled;
-    @Column(name = "account_non_locked", columnDefinition = "boolean default true")
-    private boolean accountNonLocked;
-    @Column(name = "account_non_expired", columnDefinition = "boolean default true")
-    private boolean accountNonExpired;
-    @Column(name = "credentials_non_expired", columnDefinition = "boolean default true")
-    private boolean credentialsNonExpired;
     
+    @Column(name = "account_non_locked", nullable = false, columnDefinition = "boolean default true")
+    private boolean accountNonLocked;
+    
+    @Column(name = "account_non_expired", nullable = false, columnDefinition = "boolean default true")
+    private boolean accountNonExpired;
+    
+    @Column(name = "credentials_non_expired", nullable = false, columnDefinition = "boolean default true")
+    private boolean credentialsNonExpired;
+
     @Transient
     private String authority;
 
@@ -73,29 +80,35 @@ public class User extends BaseEntity implements Serializable
     @JoinColumn(name = "user_manager_sid", nullable = true, insertable = true, updatable = false)
     private UserManager userManager;
 
-    // public User(String id, String password, Collection<GrantedAuthority> authorities)
-    // {
-    // setId(id);
-    // setPassword(password);
-    // setEnabled(true);
-    // setAccountNonExpired(true);
-    // setCredentialsNonExpired(true);
-    // setAccountNonLocked(true);
-    // setAuthorities(authorities);
-    // }
-    //
-    // public User(String id, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
-    // boolean accountNonLocked, Collection<GrantedAuthority> authorities) throws IllegalArgumentException
-    // {
-    //
-    // setId(id);
-    // setPassword(password);
-    // setEnabled(enabled);
-    // setAccountNonExpired(accountNonLocked);
-    // setCredentialsNonExpired(credentialsNonExpired);
-    // setAccountNonLocked(accountNonLocked);
-    // setAuthorities(authorities);
-    // }
+    public User()
+    {}
+
+    public User(Long sid, String email, String password, String firstName, String lastName)
+    {
+        this(email, password, firstName, lastName);
+
+        setSid(sid);
+    }
+
+    public User(String email, String password, String firstName, String lastName)// , Collection<GrantedAuthority> authorities)
+    {
+        this(email, password, firstName, lastName, true, true, true, true);
+
+        // setAuthorities(authorities);
+    }
+
+    public User(String email, String password, String firstName, String lastName, boolean enabled, boolean accountNonExpired,
+            boolean credentialsNonExpired, boolean accountNonLocked)
+    {
+        setEmail(email);
+        setPassword(password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEnabled(enabled);
+        setAccountNonExpired(accountNonLocked);
+        setCredentialsNonExpired(credentialsNonExpired);
+        setAccountNonLocked(accountNonLocked);
+    }
 
     public UserManager getUserManager()
     {
@@ -127,16 +140,26 @@ public class User extends BaseEntity implements Serializable
         this.password = password;
     }
 
-    public String getName()
+    public String getFirstName()
     {
-        return name;
+        return firstName;
     }
 
-    public void setName(String name)
+    public void setFirstName(String firstName)
     {
-        this.name = name;
+        this.firstName = firstName;
     }
-    
+
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
+
     public boolean isEnabled()
     {
         return enabled;
@@ -200,6 +223,6 @@ public class User extends BaseEntity implements Serializable
     @Override
     public String toString()
     {
-        return "User [sid=" + sid + ", name=" + name + ", email=" + email + "]";
+        return "User [sid=" + sid + ", name=" + firstName + ", email=" + email + "]";
     }
 }

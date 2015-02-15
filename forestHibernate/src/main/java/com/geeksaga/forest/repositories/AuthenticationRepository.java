@@ -17,7 +17,7 @@ package com.geeksaga.forest.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
-import com.geeksaga.forest.entity.AttachFile;
+import com.geeksaga.forest.entity.Authentication;
 
-public interface AttachFileRepository extends JpaRepository<AttachFile, Long>, QueryDslPredicateExecutor<AttachFile>
+public interface AuthenticationRepository extends JpaRepository<Authentication, Long>, QueryDslPredicateExecutor<Authentication>
 {}

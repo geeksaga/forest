@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.geeksaga.forest.service.AuthorityService;
+import com.geeksaga.forest.service.CustomUserDetailService;
 import com.geeksaga.forest.service.LoginFailureHandler;
 import com.geeksaga.forest.service.LoginSuccessHandler;
 
@@ -17,7 +17,7 @@ import com.geeksaga.forest.service.LoginSuccessHandler;
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     @Autowired
-    private AuthorityService userDetailsService;
+    private CustomUserDetailService userDetailsService;
 
     // @Autowired
     // private AuthenticationEntryPoint authenticationEntryPoint;

@@ -39,7 +39,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
 
     @Autowired
-    AuthorityService userService;
+    CustomUserDetailService userService;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     

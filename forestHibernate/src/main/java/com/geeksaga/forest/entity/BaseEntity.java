@@ -17,12 +17,14 @@ package com.geeksaga.forest.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
 public class BaseEntity
 {
     @Id
-    @Column(name = "sid")
+    @NotNull
+    @Column(name = "sid", nullable = false, updatable = false)
     protected Long sid;
 
     public Long getSid()

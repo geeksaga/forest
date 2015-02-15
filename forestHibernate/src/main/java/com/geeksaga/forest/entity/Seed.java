@@ -30,6 +30,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,24 +44,29 @@ public class Seed extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
+    @NotNull
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
+    @NotNull
     @Column(name = "content", nullable = false, updatable = true)
     private String content;
 
+    @NotNull
     @Column(name = "user_sid", nullable = false)
     private Long userSid;
 
     @Column(name = "tag_sid", updatable = true)
     private Long tagSid;
 
-    @Column(name = "delYn", updatable = true, columnDefinition = "VARCHAR(1) DEFAULT 'N'")
-    private String delYn;
+    @Column(name = "del_yn", updatable = true, columnDefinition = "boolean default false")
+    private boolean del;
 
+    @NotNull
     @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
 
+    @NotNull
     @Column(name = "modify_timestamp", nullable = false)
     private String modifyTimestamp;
 
@@ -107,20 +113,20 @@ public class Seed extends BaseEntity implements Serializable
 
     public void setTags(Collection<Tag> tags)
     {
-        this.tags = tags;
+        setTags(tags);
     }
 
     public Seed()
     {}
     
-    public Seed(Long sid, String title, String content, Long userSid, String registTimestamp, String modifyTimeStampp)
+    public Seed(Long sid, String title, String content, Long userSid, String registTimestamp, String modifyTimeStamp)
     {
-        this.sid = sid;
-        this.title = title;
-        this.content = content;
-        this.userSid = userSid;
-        this.registTimestamp = registTimestamp;
-        this.modifyTimestamp = modifyTimeStampp;
+        setSid(sid);
+        setTitle(title);
+        setContent(content);
+        setUserSid(userSid);
+        setRegistTimestamp(registTimestamp);
+        setModifyTimestamp(modifyTimeStamp);
     }
 
     /**
@@ -190,17 +196,17 @@ public class Seed extends BaseEntity implements Serializable
     }
 
     @JsonIgnore
-    @JsonProperty(value = "delYn")
-    public String getDelYn()
+    @JsonProperty(value = "del")
+    public boolean isDel()
     {
-        return delYn;
+        return del;
     }
 
-    public void setDelYn(String delYn)
+    public void setDel(boolean del)
     {
-        this.delYn = delYn;
+        this.del = del;
     }
-
+    
     public String getRegistTimestamp()
     {
         return registTimestamp;

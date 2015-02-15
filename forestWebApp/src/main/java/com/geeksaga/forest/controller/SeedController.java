@@ -31,7 +31,7 @@ import com.geeksaga.forest.common.util.FileUtil;
 import com.geeksaga.forest.common.util.RequestUtils;
 import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.entity.Seed;
-import com.geeksaga.forest.service.AuthorityService;
+import com.geeksaga.forest.service.CustomUserDetailService;
 import com.geeksaga.forest.service.SeedCommandService;
 import com.geeksaga.forest.service.SeedQueryService;
 
@@ -53,7 +53,7 @@ public class SeedController
     @RequestMapping(value = { "/seed/add" }, method = RequestMethod.POST)
     public String add(@Valid Seed seed, BindingResult bindingResult, WebRequest request) throws IOException
     {
-        SecurityUser user = AuthorityService.getUser(request);
+        SecurityUser user = CustomUserDetailService.getUser(request);
 
         if (user != null && !StringUtils.isEmpty(user.getSid()))
         {
