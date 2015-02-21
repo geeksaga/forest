@@ -9,6 +9,12 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.SASLAuthentication;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 // import org.jivesoftware.smack.ConnectionConfiguration;
 // import org.jivesoftware.smack.SASLAuthentication;
 // import org.jivesoftware.smack.XMPPConnection;
@@ -21,6 +27,7 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
@@ -33,6 +40,7 @@ import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import com.geeksaga.forest.common.util.MessageUtils;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 
@@ -40,61 +48,47 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 // "com.geeksaga.forest.web.*" }))
 
 @ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller" })
-@PropertySources({ @PropertySource("classpath:application.properties") })
+@PropertySources({ @PropertySource("classpath:application.properties"),
+        @PropertySource("classpath:application-${spring.profiles.active}.properties") })
 @SpringBootApplication
-//@ImportResource("classpath:InstantMessage.xml")
+// @ImportResource("classpath:InstantMessage.xml")
 @EntityScan(basePackageClasses = { User.class, AuditableUser.class })
 public class ForestWebApplication extends SpringBootServletInitializer
 {
+    private static final Logger logger = LoggerFactory.getLogger(ForestWebApplication.class);
+    
     @Autowired
     private Environment env;
+    
+    @Autowired
+    private MessageSource messageSource;
 
-    // private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
-    // private static final String DISPATCHER_SERVLET_MAPPING = "/";
-    //
     // @Override
     // public void onStartup(ServletContext servletContext) throws ServletException
     // {
     // AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
     // rootContext.register(ApplicationContext.class);
     //
-    // ServletRegistration.Dynamic dispatcher = servletContext.addServlet(DISPATCHER_SERVLET_NAME, new DispatcherServlet(rootContext));
+    // ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
     // dispatcher.setLoadOnStartup(1);
-    // dispatcher.addMapping(DISPATCHER_SERVLET_MAPPING);
+    // dispatcher.addMapping("/");
     //
     // servletContext.addListener(new ContextLoaderListener(rootContext));
-    // }
-
-    // @Override
-    // public void onStartup(ServletContext container) {
-    //
-    // AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-    // rootContext.register(AppConfig.class);
-    //
-    // container.addListener(new ContextLoaderListener(rootContext));
-    //
-    // AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-    // dispatcherContext.register(WebConfig.class);
-    //
-    // MultipartConfigElement config = new MultipartConfigElement("C:\\Temp", 20848820, 418018841, 1048576);
-    // DispatcherServlet dispatcherServlet = new DispatcherServlet(dispatcherContext);
-    //
-    // ServletRegistration.Dynamic dispatcher =
-    // container.addServlet("dispatcher", dispatcherServlet);
-    // dispatcher.setLoadOnStartup(1);
-    // dispatcher.addMapping("/*");
-    //
-    // ServletRegistration.Dynamic dispatcher =
-    // container.addServlet("dispatcher", dispatcherServlet);
-    // dispatcher.setLoadOnStartup(1);
-    // dispatcher.addMapping("/*");
-    //
-    // dispatcher.setMultipartConfig(new MultipartConfigElement("/tmp", 1024*1024*5, 1024*1024*5*5, 1024*1024));
     // }
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException
     {
+        super.onStartup(servletContext);
+
+        String activeProfile = System.getProperty("spring.profiles.active");
+        if (activeProfile == null)
+        {
+            activeProfile = "dev";
+        }
+
+        servletContext.setInitParameter("spring.profiles.active", activeProfile);
+
         FilterRegistration.Dynamic openEntityManagerInViewFilter = servletContext.addFilter("openEntityManagerInViewFilter",
                 new OpenEntityManagerInViewFilter());
 
@@ -137,40 +131,48 @@ public class ForestWebApplication extends SpringBootServletInitializer
     // @Bean
     // public JavaMailSenderImpl javaMailSender()
     // {
-    // JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
-    // mailSenderImpl.setHost(env.getProperty("smtp.host"));
-    // mailSenderImpl.setPort(env.getProperty("smtp.port", Integer.class));
-    // mailSenderImpl.setProtocol(env.getProperty("smtp.protocol"));
-    // mailSenderImpl.setUsername(env.getProperty("smtp.username"));
-    // mailSenderImpl.setPassword(env.getProperty("smtp.password"));
-    //
     // Properties javaMailProps = new Properties();
     // javaMailProps.put("mail.smtp.auth", true);
     // javaMailProps.put("mail.smtp.starttls.enable", true);
-    // mailSenderImpl.setJavaMailProperties(javaMailProps);
     //
-    // return mailSenderImpl;
+    // JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
+    // javaMailSenderImpl.setHost(env.getProperty("smtp.host"));
+    // javaMailSenderImpl.setPort(env.getProperty("smtp.port", Integer.class));
+    // javaMailSenderImpl.setProtocol(env.getProperty("smtp.protocol"));
+    // javaMailSenderImpl.setUsername(env.getProperty("smtp.username"));
+    // javaMailSenderImpl.setPassword(env.getProperty("smtp.password"));
+    // javaMailSenderImpl.setJavaMailProperties(javaMailProps);
+    //
+    // return javaMailSenderImpl;
     // }
 
-    // @Bean
-    // public XMPPConnection googleTalkConnection() throws Exception
-    // {
-    // SASLAuthentication.supportSASLMechanism("PLAIN", 0); // static initializer
-    //
-    // ConnectionConfiguration config = new ConnectionConfiguration("talk.google.com", 5222, "gmail.com");
-    // XMPPConnection connection = new XMPPTCPConnection(config);
-    // connection.connect();
-    // connection.login("sns@geeksaga.com", "password");
-    //
-    // return connection;
-    // }
+    @Bean
+    public XMPPConnection googleTalkConnection() throws Exception
+    {
+        SASLAuthentication.supportSASLMechanism("PLAIN", 0); // static initializer
+
+        ConnectionConfiguration config = new ConnectionConfiguration(env.getProperty("spring.xmpp.user.host"), env.getProperty(
+                "spring.xmpp.user.port", Integer.class), env.getProperty("spring.xmpp.user.service"));
+
+        XMPPConnection connection = new XMPPTCPConnection(config);
+        connection.connect();
+        connection.login(env.getProperty("spring.xmpp.user.login"), env.getProperty("spring.xmpp.user.password"));
+
+        return connection;
+    }
 
     @Bean
     public CacheManager cacheManager()
     {
         return new ConcurrentMapCacheManager();
     }
-
+    
+    @Bean
+    public MessageUtils messageUtils()
+    {
+        return new MessageUtils(messageSource);
+    }
+    
     public static void main(String[] args) throws Exception
     {
         SpringApplication.run(ForestWebApplication.class, args);

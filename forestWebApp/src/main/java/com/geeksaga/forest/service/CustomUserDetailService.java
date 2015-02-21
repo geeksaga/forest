@@ -16,8 +16,8 @@ package com.geeksaga.forest.service;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.config.BeanIds;
@@ -26,7 +26,6 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
@@ -35,24 +34,23 @@ import com.geeksaga.forest.entity.SecurityUser;
 @Service(BeanIds.USER_DETAILS_SERVICE)
 public class CustomUserDetailService implements UserDetailsService
 {
-    private static final Log logger = LogFactory.getLog(CustomUserDetailService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailService.class);
 
     @Autowired
     protected UserCommandService userCommandService;
 
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, DataAccessException
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
     {
         // StringTokenizer st = new StringTokenizer(email, "___");
 
-        SecurityUser securityUser = new SecurityUser();
-        securityUser.setEmail(email);
-        BCryptPasswordEncoder spe = new BCryptPasswordEncoder();
-        securityUser.setPassword(spe.encode("password"));
-        securityUser.setEnabled(true);
-        securityUser.setAccountNonLocked(true);
-        securityUser.setAccountNonExpired(true);
-        securityUser.setCredentialsNonExpired(true);
+        SecurityUser securityUser = new SecurityUser(username);
         
+        // BCryptPasswordEncoder spe = new BCryptPasswordEncoder();
+        // securityUser.setPassword(spe.encode("password"));
+        // securityUser.setEnabled(true);
+        // securityUser.setAccountNonLocked(true);
+        // securityUser.setAccountNonExpired(true);
+        // securityUser.setCredentialsNonExpired(true);
         // user.setPid(st.nextToken());
 
         SecurityUser authenticateUser = null;

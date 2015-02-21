@@ -34,10 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.AttachFile;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 public class FileUtil
 {
     protected static final Logger logger = LoggerFactory.getLogger(FileUtil.class);

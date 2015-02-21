@@ -28,17 +28,22 @@ public class SecurityUser extends User implements UserDetails
 
     public SecurityUser()
     {}
+    
+    public SecurityUser(String email)
+    {
+        setEmail(email);
+    }
 
     public SecurityUser(User user)
     {
         if (user != null)
         {
-            this.setSid(user.getSid());
-            this.setEmail(user.getEmail());
-            this.setPassword(user.getPassword());
-            this.setFirstName(user.getFirstName());
-            this.setLastName(user.getLastName());
-            this.setRoles(user.getRoles());
+            setSid(user.getSid());
+            setEmail(user.getEmail());
+            setPassword(user.getPassword());
+            setFirstName(user.getFirstName());
+            setLastName(user.getLastName());
+            setRoles(user.getRoles());
         }
     }
 

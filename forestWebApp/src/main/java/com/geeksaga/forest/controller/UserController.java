@@ -19,6 +19,7 @@ import java.io.IOException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -29,7 +30,11 @@ import org.springframework.web.context.request.WebRequest;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.message.AuthenticationMailMessage;
+import com.geeksaga.forest.message.SignupMessage;
 import com.geeksaga.forest.service.AuthenticationService;
+import com.geeksaga.forest.service.JabberService;
+import com.geeksaga.forest.service.SendMailService;
 import com.geeksaga.forest.service.UserCommandService;
 import com.geeksaga.forest.service.UserQueryService;
 
@@ -44,6 +49,15 @@ public class UserController
 
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private SendMailService sendMailService;
+
+    @Autowired
+    private TaskExecutor taskExecutor;
+
+    @Autowired
+    private JabberService jabberService;
 
     @RequestMapping(value = { "/signup" }, method = RequestMethod.GET)
     public String signup(ModelMap model)
@@ -65,8 +79,11 @@ public class UserController
 
         authenticationService.save(authentication);
 
-        // GeekSagaMessage message = new AuthenticationMailMessage(user, authentication.getAuthenticationKey());
-        // sendMailService.setMessage(message);
+        SignupMessage message = new AuthenticationMailMessage(user, authentication.getAuthenticationKey());
+        sendMailService.setMessage(message);
+
+        jabberService.sendMessage("smileemaker@gmail.com", user.toString());
+
         // taskExecutor.execute(sendMailService);
 
         return "redirect:/index";

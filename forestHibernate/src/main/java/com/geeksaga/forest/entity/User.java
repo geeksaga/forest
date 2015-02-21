@@ -45,6 +45,9 @@ public class User extends BaseEntity implements Serializable
     @Size(min = 4, max = 255)
     @Column(name = "password", nullable = false)
     private String password;
+    
+    @Transient
+    private String retypePassword;
 
     @Size(max = 255)
     @Column(name = "first_name", nullable = false)
@@ -139,6 +142,16 @@ public class User extends BaseEntity implements Serializable
     {
         this.password = password;
     }
+    
+    public String getRetypePassword()
+    {
+        return retypePassword;
+    }
+
+    public void setRetypePassword(String retypePassword)
+    {
+        this.retypePassword = retypePassword;
+    }
 
     public String getFirstName()
     {
@@ -223,6 +236,6 @@ public class User extends BaseEntity implements Serializable
     @Override
     public String toString()
     {
-        return "User [sid=" + sid + ", name=" + firstName + ", email=" + email + "]";
+        return "User [sid=" + sid + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
     }
 }

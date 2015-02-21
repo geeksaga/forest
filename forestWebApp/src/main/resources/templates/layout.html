@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <!--title th:include="this :: header"></title-->
+  <title layout:title-pattern="$CONTENT_TITLE :: $DECORATOR_TITLE" th:text="#{ui.application.name}"></title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" th:href="@{/css/default.css}" />
+</head>
+<body>
+  <nav>
+    <ul sec:authorize="hasRole('ROLE_USER')">
+      <li><a href="#" th:href="@{/}" th:text="#{ui.link.home}"></a></li>
+      <li><a href="#" th:href="@{/logout}" th:text="#{ui.link.logout}"></a></li>
+    </ul>
+    <ul sec:authorize="!hasRole('ROLE_USER')">
+      <li><a href="#" th:href="@{/}" th:text="#{ui.link.home}"></a></li>
+    </ul>
+  </nav>
+  <header layout:fragment="header"></header>
+  <section layout:fragment="content"></section>
+  <footer layout:fragment="footer"></footer>
+  <script type="text/javascript" th:src="@{/script/angular.min.js}"></script>
+  <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script-->
+  <script layout:fragment="custom-script" type="text/javascript"></script>
+</body>
+</html>

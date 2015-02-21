@@ -1,19 +1,25 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.common.util;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.springframework.context.support.MessageSourceAccessor;
-
-/**
- * @author geeksaga
- * @since 0.1
- */
 public class BundleUtils
 {
-    private static MessageSourceAccessor messageSourceAccessor;
-
     private static ResourceBundle resourceBundle;
 
     public static Locale getLocale()
@@ -43,7 +49,7 @@ public class BundleUtils
      */
     public static String getString(String bundleName, String key)
     {
-        return getString(bundleName, key, Locale.KOREA);
+        return getString(bundleName, key, Locale.KOREAN);
     }
 
     /**
@@ -72,15 +78,5 @@ public class BundleUtils
         }
 
         return value;
-    }
-
-    public static String getMessage(String code, Locale locale)
-    {
-        return messageSourceAccessor.getMessage(code, locale);
-    }
-
-    public static String getMessage(String code)
-    {
-        return messageSourceAccessor.getMessage(code);
     }
 }

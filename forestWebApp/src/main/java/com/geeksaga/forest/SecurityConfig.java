@@ -2,12 +2,13 @@ package com.geeksaga.forest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.geeksaga.forest.service.CustomAuthenticationProvider;
 import com.geeksaga.forest.service.CustomUserDetailService;
 import com.geeksaga.forest.service.LoginFailureHandler;
 import com.geeksaga.forest.service.LoginSuccessHandler;
@@ -18,6 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     @Autowired
     private CustomUserDetailService userDetailsService;
+
+    @Autowired
+    private CustomAuthenticationProvider userDetailsProvider;
 
     // @Autowired
     // private AuthenticationEntryPoint authenticationEntryPoint;
@@ -34,10 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(userDetailsProvider);
+        // auth.userDetailsService(userDetailsService)
+        // auth.passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    @Autowired
+    // @Autowired
     protected void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception
     {
         auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
@@ -47,13 +53,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         http.csrf();
 
-        http.authorizeRequests().antMatchers("/", "/resources/**", "/signup", "/about").permitAll();
+        http.authorizeRequests().antMatchers("/", "/resources/**", "/css/**", "/script/**", "/signup", "/about").permitAll();
         http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
         // http.authorizeRequests().antMatchers("/db/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_DBA')");
         http.authorizeRequests().anyRequest().authenticated();
         http.formLogin().loginPage("/login").successHandler(successHandler).failureHandler(failureHandler).permitAll().and().logout()
                 .permitAll();
-//         http.formLogin().loginPage("/login").loginProcessingUrl("/login_post").permitAll().and().logout().permitAll();
+        // http.formLogin().loginPage("/login").loginProcessingUrl("/login_post").permitAll().and().logout().permitAll();
         // .exceptionHandling()
         // .authenticationEntryPoint(authenticationEntryPoint)
         // .accessDeniedHandler(accessDeniedHandler)

@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.service;
 
 import org.springframework.dao.DataAccessException;
@@ -10,14 +24,9 @@ import org.springframework.stereotype.Service;
 
 import com.geeksaga.forest.entity.SecurityUser;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Service
 public class UserAuthenticationService implements AuthenticationManager
 {
-
     private SecurityUser user;
 
     /**

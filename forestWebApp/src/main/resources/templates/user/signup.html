@@ -1,43 +1,47 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    
-<head th:fragment="header">
-    <meta charset="utf-8" />
-    <link rel="stylesheet" th:href="@{/css/default.css}" />
-    <title th:text="#{login.title}">Login</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+  <title th:text="#{ui.signup.head.title}"></title>
 </head>
-
 <body>
-  <div class="content">
-    <div th:include="include :: banner"></div>
+  <header layout:fragment="header">
+    <h1 th:text="#{ui.signup.header}"></h1>
+  </header>
+  <section layout:fragment="content">
+    <form th:action="@{/signup?__${_csrf.parameterName}__=__${_csrf.token}__}" th:object="${user}" method="post">
+      <fieldset>
+        <div>
+          <label for="firstName" th:text="#{ui.user.firstName}"></label>
+          <input type="text" maxlength="255" th:field="*{firstName}" th:class="${#fields.hasErrors('firstName')}? fieldError" />
+        </div>
+        <div>
+          <label for="lastName" th:text="#{ui.user.lastName}"></label>
+          <input type="text" maxlength="255" th:field="*{lastName}" th:class="${#fields.hasErrors('lastName')}? fieldError" />
+        </div>
+        <div>
+          <label for="email" th:text="#{ui.user.email}"></label>
+          <input type="text" maxlength="255" th:field="*{email}" th:class="${#fields.hasErrors('lastName')}? fieldError" />
+        </div>
+        <div>
+          <label for="password" th:text="#{ui.user.password}"></label>
+          <input type="password" maxlength="255" th:field="*{password}" th:class="${#fields.hasErrors('password')}? fieldError" />
+        </div>
+        <div>
+          <label for="repassword" th:text="#{ui.user.retypePassword}"></label>
+          <input type="password" th:field="*{retypePassword}" maxlength="255" />
+        </div>
+        <button type="submit" th:text="#{ui.signup.button}"></button>
+      </fieldset>
+    </form>
+    <p><a href="#" th:href="@{/login}" th:text="#{ui.signup.hasaccount}"></a></p>
 
-    <div class="login signup">
-      <form action="#" th:action="@{/signup}" method="post" >
-        <fieldset>
-          <div>
-            <label for="firstName">First Name</label>
-            <input id="firstName" name="firstName" maxlength="255" type="text"/>
-          </div>
-          <div>
-            <label for="lastName">Last Name</label>
-            <input id="lastName" name="lastName" maxlength="255" type="text"/>
-          </div>
-          <div>
-              <label for="password">Password</label>
-              <input id="password" name="password" maxlength="255" type="password"/>
-          </div>
-          <div>
-            <label for="repassword">Retype password</label>
-            <input id="repassword" name="repassword" maxlength="255" type="password"/>
-          </div>
-          <button type="submit" th:text="#{signup.button}">Submit</button>
-        </fieldset>
-      </form>
-      <p><a href="#" th:href="@{/login}" th:text="#{signup.hasaccount}">Already have an account? Sign in!</a></p>
-    </div>
-    
-    <p class="status" th:if="${not #strings.isEmpty(status)}" th:text="#{'status.' + ${status}}">Status</p>
-  </div>    
-  <div th:include="include :: footer"></div>
+    <p th:if="${not #strings.isEmpty(status)}" th:text="#{'status.' + ${status}}"></p>
+  </section>    
+  <footer layout:fragment="footer"></footer>
+  <script layout:fragment="custom-script">
+  </script>
 </body>
 </html>

@@ -95,4 +95,14 @@ public class Authority extends BaseEntity implements Serializable
     {
         this.targetType = targetType;
     }
+    
+    public String getRegistTimestamp()
+    {
+        return registTimestamp;
+    }
+
+    public void setRegistTimestamp(String registTimestamp)
+    {
+        this.registTimestamp = registTimestamp;
+    }
 }
