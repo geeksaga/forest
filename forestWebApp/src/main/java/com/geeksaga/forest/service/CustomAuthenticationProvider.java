@@ -14,9 +14,6 @@
  */
 package com.geeksaga.forest.service;
 
-import java.util.Collection;
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +24,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.geeksaga.forest.common.util.BundleUtils;
 import com.geeksaga.forest.common.util.MessageUtils;
 import com.geeksaga.forest.entity.SecurityUser;
 
@@ -54,9 +48,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
     
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    // @Autowired
-    // private SaltSource saltSource;
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException
     {
@@ -64,35 +55,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
         String password = (String) authentication.getCredentials();
 
         SecurityUser user;
-        Collection<GrantedAuthority> authorities;
 
         try
         {
             user = (SecurityUser) userService.loadUserByUsername(username);
 
-            String hashedPassword = passwordEncoder.encode(password);
-
-            logger.debug("username : " + username + " / password : " + password + " / hash password : " + hashedPassword);
-            logger.debug("username : " + user.getUsername() + " / password : " + user.getPassword());
-            
-            logger.debug(messageSource.getMessage("forest.msg.usernameNotFound", null, Locale.KOREAN));
-            logger.debug(BundleUtils.getString("messages", "forest.msg.usernameNotFound"));
-            logger.debug(messageUtils.toString());
-            logger.debug(messageUtils.toString());
-            logger.debug(messageUtils.getMessage("forest.msg.usernameNotFound"));
-            
             if (user != null && user.getPassword() == null)
             {
                 throw new UsernameNotFoundException(messageUtils.getMessage("forest.msg.usernameNotFound"));
             }
 
-            if (user != null && !passwordEncoder.matches(user.getPassword(), hashedPassword))
+            if (user != null && !passwordEncoder.matches(password, user.getPassword()))
             {
                 throw new BadCredentialsException(messageUtils.getMessage("forest.msg.badCredentials"));
             }
-
-            authorities = user.getAuthorities();
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
         catch (UsernameNotFoundException e)
         {
@@ -107,7 +83,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
             throw new AuthenticationServiceException(e.getMessage());
         }
 
-        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+        return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
     }
 
     @Override

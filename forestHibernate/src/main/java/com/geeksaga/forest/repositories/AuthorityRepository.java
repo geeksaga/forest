@@ -14,10 +14,16 @@
  */
 package com.geeksaga.forest.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 import com.geeksaga.forest.entity.Authority;
 
 public interface AuthorityRepository extends JpaRepository<Authority, Long>, QueryDslPredicateExecutor<Authority>
-{}
+{
+    List<Authority> findByUserSid(Long userSid);
+
+    // List<Authority> findByUser(Predicate predicate);
+}

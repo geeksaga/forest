@@ -65,7 +65,7 @@ subprojects {
         //compile("org.springframework.boot:spring-boot-starter-log4j:$springBootVersion")
         compile "org.slf4j:slf4j-api:$slf4jVersion"
         compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
-        compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
+        // compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
         compile "joda-time:joda-time:$jodaTimeVersion"
 
         testCompile "junit:junit:4.12"

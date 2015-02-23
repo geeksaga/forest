@@ -12,7 +12,7 @@
  * @author geeksaga
  * @version 0.1
  */
-package com.geeksaga.forest.controller;
+package com.geeksaga.forest.controller.dev;
 
 import java.io.IOException;
 
@@ -20,7 +20,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,35 +30,18 @@ import org.springframework.web.context.request.WebRequest;
 import com.geeksaga.forest.Profiles;
 import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.entity.User;
-import com.geeksaga.forest.message.AuthenticationMailMessage;
-import com.geeksaga.forest.message.SignupMessage;
 import com.geeksaga.forest.service.AuthenticationService;
-import com.geeksaga.forest.service.JabberService;
-import com.geeksaga.forest.service.SendMailService;
 import com.geeksaga.forest.service.UserCommandService;
-import com.geeksaga.forest.service.UserQueryService;
 
-@Profile(Profiles.PRODUCTION)
+@Profile(Profiles.DEV)
 @Controller
-public class UserController
+public class UserDevController
 {
-    @Autowired
-    private UserQueryService userQueryServcie;
-
     @Autowired
     private UserCommandService userCommandServcie;
 
     @Autowired
     private AuthenticationService authenticationService;
-
-    @Autowired
-    private SendMailService sendMailService;
-
-    @Autowired
-    private TaskExecutor taskExecutor;
-
-    @Autowired
-    private JabberService jabberService;
 
     @RequestMapping(value = { "/signup" }, method = RequestMethod.GET)
     public String signup(ModelMap model)
@@ -68,21 +50,14 @@ public class UserController
 
         return "user/signup";
     }
-
+    
     @RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
     public String add(@Valid User user, BindingResult bindingResult, WebRequest request) throws IOException
     {
         userCommandServcie.save(user);
 
-        Authentication authentication = authenticationService.save(new Authentication(user.getSid()));
+        authenticationService.save(new Authentication(user.getSid()));
 
-        jabberService.sendMessage("smileemaker@gmail.com", user.toString());
-
-        SignupMessage message = new AuthenticationMailMessage(user, authentication.getAuthenticationKey());
-        sendMailService.setMessage(message);
-
-        taskExecutor.execute(sendMailService);
-
-        return "redirect:/index";
+        return "redirect:/";
     }
 }

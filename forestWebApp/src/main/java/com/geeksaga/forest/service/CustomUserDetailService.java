@@ -42,7 +42,7 @@ public class CustomUserDetailService implements UserDetailsService
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
     {
         // StringTokenizer st = new StringTokenizer(email, "___");
-
+        
         SecurityUser securityUser = new SecurityUser(username);
         
         // BCryptPasswordEncoder spe = new BCryptPasswordEncoder();

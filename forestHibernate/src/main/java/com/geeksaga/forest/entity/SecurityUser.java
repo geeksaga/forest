@@ -17,14 +17,14 @@ package com.geeksaga.forest.entity;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUser extends User implements UserDetails
 {
     private static final long serialVersionUID = 1L;
 
-    private Collection<GrantedAuthority> authorities;
+    private Collection<SimpleGrantedAuthority> authorities;
 
     public SecurityUser()
     {}
@@ -48,7 +48,7 @@ public class SecurityUser extends User implements UserDetails
     }
 
     public SecurityUser(String email, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
-            boolean accountNonLocked, Collection<GrantedAuthority> authorities) throws IllegalArgumentException
+            boolean accountNonLocked, Collection<SimpleGrantedAuthority> authorities) throws IllegalArgumentException
     {
         setEmail(email);
         setPassword(password);
@@ -78,7 +78,7 @@ public class SecurityUser extends User implements UserDetails
 
     public boolean existsAuthorities(String auth)
     {
-        for (GrantedAuthority authority : getAuthorities())
+        for (SimpleGrantedAuthority authority : getAuthorities())
         {
             if (authority.getAuthority().equals(auth))
             {
@@ -101,18 +101,24 @@ public class SecurityUser extends User implements UserDetails
         return super.getEmail();
     }
 
-    public Collection<GrantedAuthority> getAuthorities()
+    @Override
+    public Collection<SimpleGrantedAuthority> getAuthorities()
     {
         if (authorities == null)
         {
-            return new ArrayList<GrantedAuthority>();
+            return new ArrayList<SimpleGrantedAuthority>();
         }
 
         return authorities;
     }
     
-    public void setAuthorities(Collection<GrantedAuthority> authorities)
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities)
     {
         this.authorities = authorities;
+    }
+    
+    public String toString()
+    {
+        return "SecurityUser [sid=" + getSid() + ", firstName=" + getFirstName() + ", lastName=" + getLastName() + ", email=" + getEmail() + "]";
     }
 }

@@ -14,6 +14,9 @@
  */
 package com.geeksaga.forest.repositories;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -25,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
+import com.geeksaga.forest.entity.QUser;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.entity.UserManager;
 import com.geeksaga.forest.entity.UserPredicates;
@@ -75,7 +79,7 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     }
 
     @Test
-    public void save()
+    public void testSave()
     {
         User user = new User(KeyGenerator.generateKeyToLong(), "save@geeksaga.com", PasswordEncoderWrapper.encode("password"), "save", "user");
         user.setUserManager(savedUserManager);
@@ -87,7 +91,7 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     }
 
     @Test
-    public void findAll()
+    public void testFindAll()
     {
         List<User> users = (List<User>) userRepository.findAll();
 
@@ -95,7 +99,7 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     }
 
     @Test
-    public void findByFirstName()
+    public void testFindByFirstName()
     {
         List<User> users = (List<User>) userRepository.findAll(UserPredicates.firstNameLike("jihun"));
         
@@ -103,10 +107,16 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     }
 
     @Test
-    public void findByUserManager()
+    public void testFindByUserManager()
     {
         List<User> users = (List<User>) userRepository.findByUserManager(savedUserManager);
 
         assertEquals(4, users.size());
+    }
+    
+    @Test
+    public void testFindOne()
+    {
+        assertThat("geeksaga@geeksaga.com", is(userRepository.findOne(QUser.user.email.eq("geeksaga@geeksaga.com")).getEmail()));
     }
 }

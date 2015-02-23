@@ -47,7 +47,8 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 // @ComponentScan(basePackages = { "com.geeksaga.forest" }, excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
 // "com.geeksaga.forest.web.*" }))
 
-@ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller" })
+@ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller",
+        "com.geeksaga.forest.service.dev", "com.geeksaga.forest.controller.dev" })
 @PropertySources({ @PropertySource("classpath:application.properties"),
         @PropertySource("classpath:application-${spring.profiles.active}.properties") })
 @SpringBootApplication
@@ -56,10 +57,10 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 public class ForestWebApplication extends SpringBootServletInitializer
 {
     private static final Logger logger = LoggerFactory.getLogger(ForestWebApplication.class);
-    
+
     @Autowired
     private Environment env;
-    
+
     @Autowired
     private MessageSource messageSource;
 
@@ -166,13 +167,13 @@ public class ForestWebApplication extends SpringBootServletInitializer
     {
         return new ConcurrentMapCacheManager();
     }
-    
+
     @Bean
     public MessageUtils messageUtils()
     {
         return new MessageUtils(messageSource);
     }
-    
+
     public static void main(String[] args) throws Exception
     {
         SpringApplication.run(ForestWebApplication.class, args);

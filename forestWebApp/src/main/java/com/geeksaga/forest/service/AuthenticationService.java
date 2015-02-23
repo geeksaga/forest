@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.geeksaga.common.util.DateConvertor;
+import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.repositories.AuthenticationRepository;
 
@@ -39,6 +41,10 @@ public class AuthenticationService extends AbstractSpringData<Authentication>
     @Transactional
     public Authentication save(Authentication authentication)
     {
+        authentication.setSid(KeyGenerator.generateKeyToLong());
+        authentication.setAuthenticationKey(KeyGenerator.generateKeyToLong());
+        authentication.setRegistTimestamp(DateConvertor.getDateTimeFormat());
+        
         return authenticationRepository.save(authentication);
     }
 }

@@ -16,10 +16,9 @@ package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.geeksaga.common.annotation.PrintToString;
 
 @Entity
 @Table(name = "pw_authentication", schema = "")
@@ -27,19 +26,21 @@ public class Authentication extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @PrintToString
+    @Column(name = "user_sid", nullable = false)
     private Long userSid;
-    @PrintToString
+    
+    @Column(name = "authentication_key", nullable = false)
     private Long authenticationKey;
-    @PrintToString
+    
+    @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
 
     public Authentication()
     {}
 
-    public Authentication(Long authenticationKey)
+    public Authentication(Long userSid)
     {
-        this.authenticationKey = authenticationKey;
+        this.userSid = userSid;
     }
 
     public Long getUserSid()

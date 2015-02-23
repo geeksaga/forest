@@ -69,9 +69,6 @@ public class User extends BaseEntity implements Serializable
     @Column(name = "credentials_non_expired", nullable = false, columnDefinition = "boolean default true")
     private boolean credentialsNonExpired;
 
-    @Transient
-    private String authority;
-
     // @JsonManagedReference columnDefinition = "boolean default true"
     // @OneToOne(mappedBy = "user", cascade = { CascadeType.ALL })
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -213,16 +210,6 @@ public class User extends BaseEntity implements Serializable
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public String getAuthority()
-    {
-        return authority;
-    }
-
-    public void setAuthority(String authority)
-    {
-        this.authority = authority;
-    }
-
     public Set<Role> getRoles()
     {
         return roles;
@@ -236,6 +223,6 @@ public class User extends BaseEntity implements Serializable
     @Override
     public String toString()
     {
-        return "User [sid=" + sid + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+        return "User [sid=" + getSid() + ", firstName=" + getFirstName() + ", lastName=" + getLastName() + ", email=" + getEmail() + "]";
     }
 }

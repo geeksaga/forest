@@ -14,6 +14,8 @@
  */
 package com.geeksaga.forest.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.entity.Authority;
+import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.repositories.AuthorityRepository;
 
 @Service
@@ -33,20 +36,28 @@ public class AuthorityService extends AbstractSpringData<Authority>
 
     @Autowired
     protected AuthorityRepository authorityRepository;
-    
+
     public AuthorityService()
     {
         super(Authentication.class);
     }
-    
+
     @Transactional
     public Authority save(Authority authority)
     {
         authority.setSid(KeyGenerator.generateKeyToLong());
         authority.setRegistTimestamp(DateConvertor.getDateTimeFormat());
-        
+
         authorityRepository.save(authority);
-        
+
         return authority;
+    }
+
+    public List<Authority> findByUser(User user)
+    {
+         List<Authority> list = authorityRepository.findByUserSid(user.getSid());
+        // List<Authority> list = authorityRepository.findByUser(AuthorityPredicates.userSid(user.getSid()));
+
+        return list;
     }
 }

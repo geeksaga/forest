@@ -14,13 +14,18 @@
  */
 package com.geeksaga.forest.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.memory.UserAttribute;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geeksaga.common.util.KeyGenerator;
+import com.geeksaga.forest.Profiles;
 import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.entity.Authority;
 import com.geeksaga.forest.entity.QUser;
@@ -28,8 +33,8 @@ import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.enums.code.ROLE;
 import com.geeksaga.forest.repositories.UserRepository;
-import com.geeksaga.forest.security.UserGrantedAuthority;
 
+@Profile(Profiles.PRODUCTION)
 @Service
 public class UserCommandService extends AbstractSpringData<User>
 {
@@ -44,6 +49,11 @@ public class UserCommandService extends AbstractSpringData<User>
     public UserCommandService()
     {
         super(User.class);
+    }
+    
+    public UserCommandService(Class<User> clazz)
+    {
+        super(clazz);
     }
 
     /**
@@ -83,28 +93,32 @@ public class UserCommandService extends AbstractSpringData<User>
     @Transactional(readOnly = true)
     public SecurityUser authenticate(SecurityUser securityUser)
     {
-        SecurityUser authenrityUser = (SecurityUser) userRepository.findOne(QUser.user.email.eq(securityUser.getEmail()));
+        User user = userRepository.findOne(QUser.user.email.eq(securityUser.getEmail()));
+        
+        SecurityUser authenrityUser = new SecurityUser(user);
 
-        UserAttribute userAttributes = new UserAttribute();
-
-        if (authenrityUser == null || !securityUser.getPassword().equals(authenrityUser.getPassword()))
+        if (user == null)
         {
             return securityUser;
         }
 
-        UserGrantedAuthority authority = new UserGrantedAuthority(authenrityUser.getAuthority());
-
-        if (userAttributes.getAuthorities().contains(authority))
+        List<Authority> authorityList = authorityService.findByUser(authenrityUser);
+        
+        List<SimpleGrantedAuthority> grantedAuthority = new ArrayList<SimpleGrantedAuthority>();
+        
+        if(authorityList != null)
         {
-            int index = userAttributes.getAuthorities().indexOf(authority);
-            authority = (UserGrantedAuthority) userAttributes.getAuthorities().get(index);
+            for(Authority authority : authorityList)
+            {
+                grantedAuthority.add(new SimpleGrantedAuthority(authority.getRole()));
+            }
         }
         else
         {
-            userAttributes.addAuthority(authority);
+            grantedAuthority.add(new SimpleGrantedAuthority(ROLE.ANONYMOUS.getCode()));
         }
-
-        authenrityUser.setAuthorities(userAttributes.getAuthorities());
+        
+        authenrityUser.setAuthorities(grantedAuthority);
 
         return authenrityUser;
     }

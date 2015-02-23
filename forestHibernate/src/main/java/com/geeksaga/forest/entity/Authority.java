@@ -34,8 +34,8 @@ public class Authority extends BaseEntity implements Serializable
 
     @NotNull
     @Size(min = 2, max = 64)
-    @Column(name = "authority", nullable = false, length = 64)
-    private String authority;
+    @Column(name = "role", nullable = false, length = 64)
+    private String role;
 
     @Size(min = 6, max = 12)
     @Column(name = "target_type", length = 12)
@@ -48,21 +48,21 @@ public class Authority extends BaseEntity implements Serializable
     public Authority()
     {}
 
-    public Authority(Long userSid, String authority)
+    public Authority(Long userSid, String role)
     {
-        this(0L, userSid, authority, null);
+        this(0L, userSid, role, null);
     }
     
-    public Authority(Long sid, Long userSid, String authority)
+    public Authority(Long sid, Long userSid, String role)
     {
-        this(sid, userSid, authority, null);
+        this(sid, userSid, role, null);
     }
 
-    public Authority(Long sid, Long userSid, String authority, String targetType)
+    public Authority(Long sid, Long userSid, String role, String targetType)
     {
         setSid(sid);
         setUserSid(userSid);
-        setAuthority(authority);
+        setRole(role);
         setTargetType(targetType);
     }
 
@@ -76,14 +76,14 @@ public class Authority extends BaseEntity implements Serializable
         this.userSid = userSid;
     }
 
-    public String getAuthority()
+    public String getRole()
     {
-        return authority;
+        return role;
     }
 
-    public void setAuthority(String authority)
+    public void setRole(String role)
     {
-        this.authority = authority;
+        this.role = role;
     }
 
     public String getTargetType()
