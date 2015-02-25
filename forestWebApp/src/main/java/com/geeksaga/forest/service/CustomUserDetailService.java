@@ -42,16 +42,9 @@ public class CustomUserDetailService implements UserDetailsService
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
     {
         // StringTokenizer st = new StringTokenizer(email, "___");
+        // user.setPid(st.nextToken());
         
         SecurityUser securityUser = new SecurityUser(username);
-        
-        // BCryptPasswordEncoder spe = new BCryptPasswordEncoder();
-        // securityUser.setPassword(spe.encode("password"));
-        // securityUser.setEnabled(true);
-        // securityUser.setAccountNonLocked(true);
-        // securityUser.setAccountNonExpired(true);
-        // securityUser.setCredentialsNonExpired(true);
-        // user.setPid(st.nextToken());
 
         SecurityUser authenticateUser = null;
 

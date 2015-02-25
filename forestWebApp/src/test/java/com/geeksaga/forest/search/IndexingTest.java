@@ -31,6 +31,8 @@ import org.apache.lucene.util.Version;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.geeksaga.forest.common.util.BundleUtils;
+
 public class IndexingTest
 {
     private Directory directory;
@@ -38,7 +40,7 @@ public class IndexingTest
     @Before
     public void setUp() throws Exception
     {
-        directory = FSDirectory.open(new File("index"));
+        directory = FSDirectory.open(new File(BundleUtils.getString("application", LuceneEngine.LUCENE_INDEX_PATH)));
     }
 
     private IndexWriter getWriter() throws IOException

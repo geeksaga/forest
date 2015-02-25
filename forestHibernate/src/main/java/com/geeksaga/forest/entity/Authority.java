@@ -18,6 +18,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,10 +29,6 @@ import javax.validation.constraints.Size;
 public class Authority extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
-
-    @NotNull
-    @Column(name = "user_sid", nullable = false)
-    private Long userSid;
 
     @NotNull
     @Size(min = 2, max = 64)
@@ -45,6 +43,10 @@ public class Authority extends BaseEntity implements Serializable
     @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
+    private User user;
+
     public Authority()
     {}
 
@@ -52,7 +54,7 @@ public class Authority extends BaseEntity implements Serializable
     {
         this(0L, userSid, role, null);
     }
-    
+
     public Authority(Long sid, Long userSid, String role)
     {
         this(sid, userSid, role, null);
@@ -61,19 +63,9 @@ public class Authority extends BaseEntity implements Serializable
     public Authority(Long sid, Long userSid, String role, String targetType)
     {
         setSid(sid);
-        setUserSid(userSid);
+        setUser(new User(userSid));
         setRole(role);
         setTargetType(targetType);
-    }
-
-    public Long getUserSid()
-    {
-        return userSid;
-    }
-
-    public void setUserSid(Long userSid)
-    {
-        this.userSid = userSid;
     }
 
     public String getRole()
@@ -95,7 +87,7 @@ public class Authority extends BaseEntity implements Serializable
     {
         this.targetType = targetType;
     }
-    
+
     public String getRegistTimestamp()
     {
         return registTimestamp;
@@ -104,5 +96,21 @@ public class Authority extends BaseEntity implements Serializable
     public void setRegistTimestamp(String registTimestamp)
     {
         this.registTimestamp = registTimestamp;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Authority [sid=" + getSid() + ", user=" + getUser() + ", role=" + getRole() + ", targetType=" + getTargetType() + "]";
     }
 }

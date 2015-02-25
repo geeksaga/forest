@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.geeksaga.forest.Profiles;
 import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.enums.code.ROLE;
 import com.geeksaga.forest.message.AuthenticationMailMessage;
 import com.geeksaga.forest.message.SignupMessage;
 import com.geeksaga.forest.service.AuthenticationService;
@@ -84,5 +86,14 @@ public class UserController
         taskExecutor.execute(sendMailService);
 
         return "redirect:/index";
+    }
+
+    @Secured({ROLE.ROLE_ADMIN, ROLE.ROLE_SUPER_USER})
+    @RequestMapping(value = { "/user/list" }, method = RequestMethod.GET)
+    public String findAll(ModelMap model)
+    {
+        model.addAttribute("users", userQueryServcie.findAll());
+
+        return "user/list";
     }
 }

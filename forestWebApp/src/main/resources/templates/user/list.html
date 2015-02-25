@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+  <title th:text="#{ui.signup.head.title}"></title>
+</head>
+<body>
+  <header layout:fragment="header">
+    <h1 th:text="#{ui.signup.header}"></h1>
+  </header>
+  <section layout:fragment="content">
+    <table>
+      <caption th:text="#{ui.table.caption.userList}"></caption>
+      <thead>
+          <tr>
+              <th scope="col" th:text="#{ui.label.num}"></th>
+              <th scope="col" th:text="#{ui.user.email}"></th>
+              <th scope="col" th:text="#{ui.user.lastName}"></th>
+              <th scope="col" th:text="#{ui.user.firstName}"></th>
+              <th scope="col" th:text="#{ui.label.role}"></th>
+              <th scope="col" th:text="#{ui.label.enabled}"></th>
+              <th scope="col" th:text="#{ui.label.accountNonLocked}"></th>
+              <th scope="col" th:text="#{ui.label.accountNonExpired}"></th>
+              <th scope="col" th:text="#{ui.label.credentialsNonExpired}"></th>
+              <th scope="col"></th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr th:each="user,stat : ${users}">
+              <td th:text="${stat.count}"></td>
+              <td th:text="${user.email}"></td>
+              <td th:text="${user.lastName}"></td>
+              <td th:text="${user.firstName}"></td>
+              <td th:each="role : ${user.roles}">
+                <span th:text="${role}"></span>
+              </td>
+              <td th:text="${user.enabled}"></td>
+              <td th:text="${!user.accountNonLocked}"></td>
+              <td th:text="${!user.accountNonExpired}"></td>
+              <td th:text="${!user.credentialsNonExpired}"></td>
+              <td>
+                <a class="delete-button" href="#" th:href="@{/users/delete(sid=${user.sid})}">delete</a> <a
+                  class="edit-button" href="#" th:href="@{/users/edit(sid=${user.sid})}">edit</a>
+              </td>
+          </tr>
+      </tbody>
+    </table>
+  </section>    
+  <footer layout:fragment="footer"></footer>
+  <script layout:fragment="custom-script">
+  </script>
+</body>
+</html>

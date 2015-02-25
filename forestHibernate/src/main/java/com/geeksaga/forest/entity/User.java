@@ -71,10 +71,25 @@ public class User extends BaseEntity implements Serializable
 
     // @JsonManagedReference columnDefinition = "boolean default true"
     // @OneToOne(mappedBy = "user", cascade = { CascadeType.ALL })
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     // @JoinColumn(name = "user_sid", nullable = true, table = "pw_roles")
+//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Transient
     private Set<Role> roles = new HashSet<>();
+    
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_sid", nullable = true, table = "pw_authority")
+    private Set<Authority> authority = new HashSet<>();
+
+    public Set<Authority> getAuthority()
+    {
+        return authority;
+    }
+
+    public void setAuthority(Set<Authority> authority)
+    {
+        this.authority = authority;
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_manager_sid", nullable = true, insertable = true, updatable = false)
@@ -83,6 +98,11 @@ public class User extends BaseEntity implements Serializable
     public User()
     {}
 
+    public User(Long sid)
+    {
+        setSid(sid);
+    }
+    
     public User(Long sid, String email, String password, String firstName, String lastName)
     {
         this(email, password, firstName, lastName);

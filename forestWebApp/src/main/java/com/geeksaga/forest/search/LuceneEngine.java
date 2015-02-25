@@ -44,7 +44,7 @@ import com.geeksaga.forest.common.util.BundleUtils;
 
 public class LuceneEngine
 {
-    private static String LUCENE_INDEX_PATH = "lucene.index.path";
+    public static String LUCENE_INDEX_PATH = "lucene.index.path";
     
     private static LuceneEngine instance = new LuceneEngine();
     private static Analyzer analyzer = new KoreanAnalyzerWrapper();

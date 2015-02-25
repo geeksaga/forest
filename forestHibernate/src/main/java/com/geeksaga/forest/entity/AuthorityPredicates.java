@@ -20,6 +20,6 @@ public class AuthorityPredicates
 {
     public static BooleanExpression userSid(final Long userSid)
     {
-        return QAuthority.authority.userSid.eq(userSid);
+        return QAuthority.authority.user.sid.eq(userSid);
     }
 }

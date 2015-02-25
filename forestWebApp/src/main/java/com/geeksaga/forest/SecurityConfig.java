@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         http.csrf();
 
-        http.authorizeRequests().antMatchers("/", "/resources/**", "/css/**", "/script/**", "/signup", "/about").permitAll();
+        http.authorizeRequests().antMatchers("/", "/resources/**", "/signup", "/about").permitAll();
         http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
         // http.authorizeRequests().antMatchers("/db/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_DBA')");
         http.authorizeRequests().anyRequest().authenticated();

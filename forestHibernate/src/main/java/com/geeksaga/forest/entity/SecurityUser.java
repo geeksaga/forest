@@ -16,6 +16,7 @@ package com.geeksaga.forest.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,7 @@ public class SecurityUser extends User implements UserDetails
 
     public SecurityUser()
     {}
-    
+
     public SecurityUser(String email)
     {
         setEmail(email);
@@ -58,23 +59,6 @@ public class SecurityUser extends User implements UserDetails
         setAccountNonLocked(accountNonLocked);
         setAuthorities(authorities);
     }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities()
-//    {
-//        Collection<GrantedAuthority> authorities = new ArrayList<>();
-//        Set<Role> userRoles = this.getRoles();
-//        if (userRoles != null)
-//        {
-//            for (Role role : userRoles)
-//            {
-//                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
-//                authorities.add(authority);
-//            }
-//        }
-//
-//        return authorities;
-//    }
 
     public boolean existsAuthorities(String auth)
     {
@@ -106,19 +90,29 @@ public class SecurityUser extends User implements UserDetails
     {
         if (authorities == null)
         {
-            return new ArrayList<SimpleGrantedAuthority>();
+            authorities = new ArrayList<SimpleGrantedAuthority>();
+        }
+
+        Set<Role> userRoles = getRoles();
+        if (userRoles != null)
+        {
+            for (Role role : userRoles)
+            {
+                authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+            }
         }
 
         return authorities;
     }
-    
+
     public void setAuthorities(Collection<SimpleGrantedAuthority> authorities)
     {
         this.authorities = authorities;
     }
-    
+
     public String toString()
     {
-        return "SecurityUser [sid=" + getSid() + ", firstName=" + getFirstName() + ", lastName=" + getLastName() + ", email=" + getEmail() + "]";
+        return "SecurityUser [sid=" + getSid() + ", firstName=" + getFirstName() + ", lastName=" + getLastName() + ", email=" + getEmail()
+                + "]";
     }
 }

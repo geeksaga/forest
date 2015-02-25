@@ -68,9 +68,8 @@ public class UserCommandDevService extends UserCommandService
 
         if (user != null)
         {
-            Authority authority = new Authority(user.getSid(), ROLE.USER.getCode());
-            
-            authorityService.save(authority);
+            authorityService.save(new Authority(user.getSid(), ROLE.USER.getCode()));
+            authorityService.save(new Authority(user.getSid(), ROLE.ADMIN.getCode()));
         }
 
         logger.info(user.toString());

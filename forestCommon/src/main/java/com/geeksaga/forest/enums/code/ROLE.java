@@ -19,13 +19,15 @@ public enum ROLE
     SUPER_USER(Code.SUPER_USER), //
     ADMIN(Code.ADMIN), //
     USER(Code.USER), //
+    USER_VERIFIED(Code.USER_VERIFIED), //
     ANONYMOUS(Code.ANONYMOUS);
 
     private Code code;
-    private static final String ROLE_SUPER_USER = "ROLE_SUPER_USER";
-    private static final String ROLE_ADMIN = "ROLE_ADMIN";
-    private static final String ROLE_USER = "ROLE_USER";
-    private static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
+    public static final String ROLE_SUPER_USER = "ROLE_SUPER_USER";
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
+    public static final String ROLE_USER_VERIFIED = "ROLE_USER_VERIFIED";
+    public static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
 
     ROLE(Code code)
     {
@@ -55,6 +57,14 @@ public enum ROLE
             String getCode()
             {
                 return ROLE_USER;
+            }
+        },
+        
+        USER_VERIFIED
+        {
+            String getCode()
+            {
+                return ROLE_USER_VERIFIED;
             }
         },
 

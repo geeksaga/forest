@@ -32,11 +32,15 @@ import com.geeksaga.forest.entity.Authentication;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.service.AuthenticationService;
 import com.geeksaga.forest.service.UserCommandService;
+import com.geeksaga.forest.service.UserQueryService;
 
 @Profile(Profiles.DEV)
 @Controller
 public class UserDevController
 {
+    @Autowired
+    private UserQueryService userQueryServcie;
+
     @Autowired
     private UserCommandService userCommandServcie;
 
@@ -50,7 +54,7 @@ public class UserDevController
 
         return "user/signup";
     }
-    
+
     @RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
     public String add(@Valid User user, BindingResult bindingResult, WebRequest request) throws IOException
     {
@@ -59,5 +63,13 @@ public class UserDevController
         authenticationService.save(new Authentication(user.getSid()));
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value = { "/user/list" }, method = RequestMethod.GET)
+    public String findAll(ModelMap model)
+    {
+        model.addAttribute("users", userQueryServcie.findAll());
+
+        return "user/list";
     }
 }
