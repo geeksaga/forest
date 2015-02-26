@@ -18,6 +18,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -43,7 +44,7 @@ public class Authority extends BaseEntity implements Serializable
     @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
     private User user;
 

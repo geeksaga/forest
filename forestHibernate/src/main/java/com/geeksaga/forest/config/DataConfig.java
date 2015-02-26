@@ -19,6 +19,8 @@ import java.io.IOException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,8 +42,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @PropertySources({ @PropertySource("classpath:application.properties"), @PropertySource("classpath:spring.properties") })
 @Configuration
-@ComponentScan(basePackages = { "com.geeksaga.forest.dao", "com.geeksaga.forest.repositories.jpa",
-        "com.geeksaga.forest.entity", "com.geeksaga.forest.repositories.querydsl" })
+@ComponentScan(basePackages = { "com.geeksaga.forest.dao", "com.geeksaga.forest.repositories.jpa", "com.geeksaga.forest.entity",
+        "com.geeksaga.forest.repositories.querydsl" })
 @EnableTransactionManagement
 @EnableJpaRepositories("com.geeksaga.forest.repositories")
 public class DataConfig
@@ -114,5 +116,11 @@ public class DataConfig
     public HibernateExceptionTranslator hibernateExceptionTranslator()
     {
         return new HibernateExceptionTranslator();
+    }
+
+    @Bean
+    public SessionFactory sessionFactory(HibernateEntityManagerFactory hibernateEntityManagerFactory)
+    {
+        return hibernateEntityManagerFactory.getSessionFactory();
     }
 }

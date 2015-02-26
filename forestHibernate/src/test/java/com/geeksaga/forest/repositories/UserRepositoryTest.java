@@ -23,6 +23,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,7 @@ import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authority;
+import com.geeksaga.forest.entity.QAuthority;
 import com.geeksaga.forest.entity.QUser;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.entity.UserManager;
@@ -38,6 +44,7 @@ import com.geeksaga.forest.entity.UserPredicates;
 import com.geeksaga.forest.enums.code.ROLE;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
 import com.google.common.collect.Lists;
+import com.mysema.query.jpa.hibernate.HibernateQuery;
 
 public class UserRepositoryTest extends AbstractRepositoryTestSupport
 {
@@ -49,6 +56,14 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
 
     private UserManager savedUserManager;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+    
+    private Session getCurrentSession()
+    {
+        return entityManager.unwrap(Session.class);
+    }
+    
     @Before
     public void setup()
     {
@@ -86,6 +101,14 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
         userRepository.save(users);
     }
 
+    @Autowired
+    protected SessionFactory sessionFactory;
+
+    protected HibernateQuery getSelectQuery()
+    {
+        return new HibernateQuery(getCurrentSession());
+    }
+
     @Test
     public void testSave()
     {
@@ -114,6 +137,18 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
         assertEquals(4, users.size());
     }
 
+    @Test
+    public void testJoinFindAll()
+    {
+        QUser user = QUser.user;
+        QAuthority authority = QAuthority.authority;
+
+        List<User> users = getSelectQuery().from(QUser.user).leftJoin(user.authority, authority).where(QUser.user.firstName.eq("jihun"))
+                .list(QUser.user);
+
+        assertEquals(4, users.size());
+    }
+    
     @Test
     public void testFindByFirstName()
     {

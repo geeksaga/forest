@@ -45,7 +45,7 @@ public class User extends BaseEntity implements Serializable
     @Size(min = 4, max = 255)
     @Column(name = "password", nullable = false)
     private String password;
-    
+
     @Transient
     private String retypePassword;
 
@@ -59,13 +59,13 @@ public class User extends BaseEntity implements Serializable
 
     @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
     private boolean enabled;
-    
+
     @Column(name = "account_non_locked", nullable = false, columnDefinition = "boolean default true")
     private boolean accountNonLocked;
-    
+
     @Column(name = "account_non_expired", nullable = false, columnDefinition = "boolean default true")
     private boolean accountNonExpired;
-    
+
     @Column(name = "credentials_non_expired", nullable = false, columnDefinition = "boolean default true")
     private boolean credentialsNonExpired;
 
@@ -73,12 +73,11 @@ public class User extends BaseEntity implements Serializable
     // @OneToOne(mappedBy = "user", cascade = { CascadeType.ALL })
     // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     // @JoinColumn(name = "user_sid", nullable = true, table = "pw_roles")
-//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Transient
     private Set<Role> roles = new HashSet<>();
-    
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_sid", nullable = true, table = "pw_authority")
     private Set<Authority> authority = new HashSet<>();
 
     public Set<Authority> getAuthority()
@@ -102,7 +101,7 @@ public class User extends BaseEntity implements Serializable
     {
         setSid(sid);
     }
-    
+
     public User(Long sid, String email, String password, String firstName, String lastName)
     {
         this(email, password, firstName, lastName);
@@ -159,7 +158,7 @@ public class User extends BaseEntity implements Serializable
     {
         this.password = password;
     }
-    
+
     public String getRetypePassword()
     {
         return retypePassword;
