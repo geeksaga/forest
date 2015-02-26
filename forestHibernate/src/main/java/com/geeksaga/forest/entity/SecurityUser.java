@@ -1,44 +1,55 @@
-package com.geeksaga.forest.entity;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
 
 /**
  * @author geeksaga
  * @version 0.1
  */
+package com.geeksaga.forest.entity;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 public class SecurityUser extends User implements UserDetails
 {
     private static final long serialVersionUID = 1L;
 
-    // TODO 권한 관련 내용을 DB 상에는 varchar(1)로 저장하고 있다.
-    // boolean 타입을 사용해야 하나? 아니면 변환해서 처리 해야하나?
-    private boolean enabled;
-    private boolean accountNonExpired;
-    private boolean credentialsNonExpired;
-    private boolean accountNonLocked;
-    private Collection<GrantedAuthority> authorities;
+    private Collection<SimpleGrantedAuthority> authorities;
 
     public SecurityUser()
     {}
+
+    public SecurityUser(String email)
+    {
+        setEmail(email);
+    }
 
     public SecurityUser(User user)
     {
         if (user != null)
         {
-            this.setSid(user.getSid());
-            this.setEmail(user.getEmail());
-            this.setPassword(user.getPassword());
-            this.setName(user.getName());
-            this.setRoles(user.getRoles());
+            setSid(user.getSid());
+            setEmail(user.getEmail());
+            setPassword(user.getPassword());
+            setFirstName(user.getFirstName());
+            setLastName(user.getLastName());
+            setRoles(user.getRoles());
         }
     }
 
     public SecurityUser(String email, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
-            boolean accountNonLocked, Collection<GrantedAuthority> authorities) throws IllegalArgumentException
+            boolean accountNonLocked, Collection<SimpleGrantedAuthority> authorities) throws IllegalArgumentException
     {
         setEmail(email);
         setPassword(password);
@@ -49,26 +60,9 @@ public class SecurityUser extends User implements UserDetails
         setAuthorities(authorities);
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities()
-//    {
-//        Collection<GrantedAuthority> authorities = new ArrayList<>();
-//        Set<Role> userRoles = this.getRoles();
-//        if (userRoles != null)
-//        {
-//            for (Role role : userRoles)
-//            {
-//                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
-//                authorities.add(authority);
-//            }
-//        }
-//
-//        return authorities;
-//    }
-
     public boolean existsAuthorities(String auth)
     {
-        for (GrantedAuthority authority : getAuthorities())
+        for (SimpleGrantedAuthority authority : getAuthorities())
         {
             if (authority.getAuthority().equals(auth))
             {
@@ -92,61 +86,33 @@ public class SecurityUser extends User implements UserDetails
     }
 
     @Override
-    public boolean isAccountNonExpired()
-    {
-        return accountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked()
-    {
-        return accountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired()
-    {
-        return credentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled)
-    {
-        this.enabled = enabled;
-    }
-
-    public void setAccountNonExpired(boolean accountNonExpired)
-    {
-        this.accountNonExpired = accountNonExpired;
-    }
-
-    public void setCredentialsNonExpired(boolean credentialsNonExpired)
-    {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked)
-    {
-        this.accountNonLocked = accountNonLocked;
-    }
-
-    public Collection<GrantedAuthority> getAuthorities()
+    public Collection<SimpleGrantedAuthority> getAuthorities()
     {
         if (authorities == null)
         {
-            return new ArrayList<GrantedAuthority>();
+            authorities = new ArrayList<SimpleGrantedAuthority>();
+        }
+
+        Set<Role> userRoles = getRoles();
+        if (userRoles != null)
+        {
+            for (Role role : userRoles)
+            {
+                authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+            }
         }
 
         return authorities;
     }
-    
-    public void setAuthorities(Collection<GrantedAuthority> authorities)
+
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities)
     {
         this.authorities = authorities;
+    }
+
+    public String toString()
+    {
+        return "SecurityUser [sid=" + getSid() + ", firstName=" + getFirstName() + ", lastName=" + getLastName() + ", email=" + getEmail()
+                + "]";
     }
 }

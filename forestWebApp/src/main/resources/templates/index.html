@@ -7,7 +7,20 @@
 <body>
   <P>My name is ${name}.</P>
   <p th:text="'Hello, ' + ${name} + '!'" />
-  <a th:href="@{/seed/add}">add</a>
-  <a th:href="@{/seeds/list}">list</a>
+  <p>
+    <a th:href="@{/signup}">signup</a>
+  </p>
+  <p>
+    <a th:href="@{/login}">login</a>
+  </p>
+  <p>
+    <a th:href="@{/user/list}">user/list</a>
+  </p>
+  <p>  
+    <a th:href="@{/seed/add}">add</a>
+  </p>
+  <p>
+    <a th:href="@{/seeds/list}">list</a>
+  </p>
 </body>
 </html>

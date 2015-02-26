@@ -6,7 +6,7 @@ import com.geeksaga.forest.entity.User;
 
 public interface SimpleUserRepository extends CrudRepository<User, Integer>
 {
-    User findByName(String name);
+    User findByFirstName(String firstName);
 
 //    List<User> findByName(String name);
 

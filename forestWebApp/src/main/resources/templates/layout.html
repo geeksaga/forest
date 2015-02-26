@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <!--title th:include="this :: header"></title-->
+  <title layout:title-pattern="$CONTENT_TITLE :: $DECORATOR_TITLE" th:text="#{ui.application.name}"></title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"-->
+  <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"-->
+  <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/resources/css/default.css}" />
+  <link rel="stylesheet" th:href="@{/resources/fontawesome/css/font-awesome.min.css}" />
+  <!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"-->
+</head>
+<body>
+  <nav>
+    <ul sec:authorize="hasRole('ROLE_USER')">
+      <li><a href="#" th:href="@{/}" th:text="#{ui.link.home}"></a></li>
+      <li><a href="#" th:href="@{/logout}" th:text="#{ui.link.logout}"></a></li>
+    </ul>
+    <ul sec:authorize="!hasRole('ROLE_USER')">
+      <li><a href="#" th:href="@{/}" th:text="#{ui.link.home}"></a></li>
+    </ul>
+  </nav>
+  <header layout:fragment="header"></header>
+  <section layout:fragment="content"></section>
+  <footer layout:fragment="footer"></footer>
+  <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
+  <!--script type="text/javascript" th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script-->
+  <script type="text/javascript" th:src="@{/resources/script/angular.min.js}"></script>
+  <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script-->
+  <script layout:fragment="custom-script" type="text/javascript"></script>
+</body>
+</html>

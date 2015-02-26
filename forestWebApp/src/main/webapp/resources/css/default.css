@@ -1,0 +1,60 @@
+@CHARSET "UTF-8";
+header, footer, section, article, aside, nav, hgroup, details, menu, figure, figcaption
+{ 
+  display: block 
+}
+
+html,body,div,form,fieldset,legend,label,img,select
+{
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+table
+{
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img
+{
+  border: 0;
+}
+
+body
+{
+  font-family: Verdana, sans-serif;
+  font-size: 12px;
+  height: 100%;
+  min-width: 800px;
+  padding: 10px 30px 0 30px;
+}
+
+h1
+{
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4
+{
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+}
+
+hr { display:none; }
+dl { list-style:none; }
+li { list-style:none; }
+
+a, a:link, a:visited
+{
+  color: #2A5685;
+  text-decoration:none;
+}
+
+a:hover
+{
+  color:#2A5685;
+  text-decoration:none;
+}

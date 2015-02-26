@@ -86,131 +86,6 @@ public class TagMap implements Serializable
     // @JoinTable(name = "student_class", catalog = "tutorials", joinColumns = { @JoinColumn(name = "ID_STUDENT", nullable = false,
     // updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "CLASS_ID", nullable = false, updatable = false) })
 
-    public TagMap()
-    {}
-    
-    public TagMap(Seed seed, Tag tag)
-    {
-        this.pk.seed = seed;
-        this.pk.tag = tag;
-    }
-
-    public PK getPk()
-    {
-        return pk;
-    }
-
-    public void setPk(PK pk)
-    {
-        this.pk = pk;
-    }
-
-    @Transient
-    public Seed getSeed()
-    {
-        return getPk().getSeed();
-    }
-
-    public void setSeed(Seed seed)
-    {
-        getPk().setSeed(seed);
-    }
-
-    @Transient
-    public Tag getTag()
-    {
-        return getPk().getTag();
-    }
-
-    public void setTag(Tag tag)
-    {
-        getPk().setTag(tag);
-    }
-
-    // public Long getTargetSid()
-    // {
-    // return targetSid;
-    // }
-    //
-    // public void setTargetSid(Long targetSid)
-    // {
-    // this.targetSid = targetSid;
-    // }
-
-    public String getRegistTimestamp()
-    {
-        return registTimestamp;
-    }
-
-    public void setRegistTimestamp(String registTimestamp)
-    {
-        this.registTimestamp = registTimestamp;
-    }
-
-    // @Embeddable
-    // public static class PK implements Serializable
-    // {
-    // private static final long serialVersionUID = 1L;
-    //
-    // public PK()
-    // {}
-    //
-    // public PK(Long targetSid)
-    // {
-    // this.targetSid = targetSid;
-    // }
-    //
-    // @Column(name = "target_sid", nullable = false)
-    // private Long targetSid;
-    //
-    // @Column(name = "tag_sid", nullable = false)
-    // private Long tagSid;
-    //
-    // public Long getTargetSid()
-    // {
-    // return targetSid;
-    // }
-    //
-    // public void setTargetSid(Long targetSid)
-    // {
-    // this.targetSid = targetSid;
-    // }
-    //
-    // public Long getTagSid()
-    // {
-    // return tagSid;
-    // }
-    //
-    // public void setTagSid(Long tagSid)
-    // {
-    // this.tagSid = tagSid;
-    // }
-    //
-    // @Override
-    // public boolean equals(Object o)
-    // {
-    // if (o == this)
-    // {
-    // return true;
-    // }
-    //
-    // if (!(o instanceof PK))
-    // {
-    // return false;
-    // }
-    //
-    // PK other = (PK) o;
-    //
-    // return this.targetSid.equals(other.targetSid) && this.tagSid.equals(other.tagSid);
-    // }
-    //
-    // @Override
-    // public int hashCode()
-    // {
-    // return this.targetSid.hashCode() ^ this.tagSid.hashCode();
-    // }
-    // }
-
     @Embeddable
     public static class PK implements Serializable
     {
@@ -259,7 +134,9 @@ public class TagMap implements Serializable
             {
                 return false;
             }
+            
             PK other = (PK) o;
+            
             if (tag == null)
             {
                 if (other.tag != null)
@@ -290,15 +167,67 @@ public class TagMap implements Serializable
         @Override
         public int hashCode()
         {
-            int result = (seed != null ? seed.hashCode() : 0);
-            result = 17 * result + (tag != null ? tag.hashCode() : 0);
+            int result = 17;
+            result = 31 * result + (seed != null ? seed.hashCode() : 0);
+            result = 31 * result + (tag != null ? tag.hashCode() : 0);
 
             return result;
         }
     }
+    
+    public TagMap()
+    {}
+    
+    public TagMap(Seed seed, Tag tag)
+    {
+        getPk().setSeed(seed);
+        getPk().setTag(tag);
+    }
+
+    public PK getPk()
+    {
+        return pk;
+    }
+
+    public void setPk(PK pk)
+    {
+        this.pk = pk;
+    }
+
+    @Transient
+    public Seed getSeed()
+    {
+        return getPk().getSeed();
+    }
+
+    public void setSeed(Seed seed)
+    {
+        getPk().setSeed(seed);
+    }
+
+    @Transient
+    public Tag getTag()
+    {
+        return getPk().getTag();
+    }
+
+    public void setTag(Tag tag)
+    {
+        getPk().setTag(tag);
+    }
+
+    public String getRegistTimestamp()
+    {
+        return registTimestamp;
+    }
+
+    public void setRegistTimestamp(String registTimestamp)
+    {
+        this.registTimestamp = registTimestamp;
+    }
 
     public String toString()
     {
-        return "TagMap [PK.seed = " + pk.seed + ", PK.tag = " + pk.tag + "]";
+        return "TagMap [PK.seed = " + getPk().getSeed() + ", PK.tag = " + getPk().getTag() + "]";
     }
 }

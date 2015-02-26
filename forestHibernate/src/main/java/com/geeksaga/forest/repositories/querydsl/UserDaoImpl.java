@@ -11,8 +11,8 @@ public abstract class UserDaoImpl extends AbstractQueryDslDao<User, QUser>
         super(User.class, QUser.user);
     }
 
-    public User findByName(String name)
+    public User findByFirstName(String firstName)
     {
-        return getSelectQuery().where(q.name.eq(name)).uniqueResult(q);
+        return getSelectQuery().where(q.firstName.eq(firstName)).uniqueResult(q);
     }
 }

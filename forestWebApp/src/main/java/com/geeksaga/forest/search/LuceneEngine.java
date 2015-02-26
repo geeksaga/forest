@@ -28,8 +28,8 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser.Operator;
 import org.apache.lucene.search.IndexSearcher;
@@ -44,7 +44,7 @@ import com.geeksaga.forest.common.util.BundleUtils;
 
 public class LuceneEngine
 {
-    private static String LUCENE_INDEX_PATH = "lucene.index.path";
+    public static String LUCENE_INDEX_PATH = "lucene.index.path";
     
     private static LuceneEngine instance = new LuceneEngine();
     private static Analyzer analyzer = new KoreanAnalyzerWrapper();

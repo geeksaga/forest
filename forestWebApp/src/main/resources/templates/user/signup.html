@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+  <title th:text="#{ui.signup.head.title}"></title>
+</head>
+<body>
+  <header layout:fragment="header">
+    <h1 th:text="#{ui.signup.header}"></h1>
+  </header>
+  <section layout:fragment="content">
+    <form th:action="@{/signup?__${_csrf.parameterName}__=__${_csrf.token}__}" th:object="${user}" method="post">
+      <fieldset>
+        <div>
+          <label for="firstName" th:text="#{ui.user.firstName}"></label>
+          <input type="text" maxlength="255" th:field="*{firstName}" th:class="${#fields.hasErrors('firstName')}? fieldError" />
+        </div>
+        <div>
+          <label for="lastName" th:text="#{ui.user.lastName}"></label>
+          <input type="text" maxlength="255" th:field="*{lastName}" th:class="${#fields.hasErrors('lastName')}? fieldError" />
+        </div>
+        <div>
+          <label for="email" th:text="#{ui.user.email}"></label>
+          <input type="text" maxlength="255" th:field="*{email}" th:class="${#fields.hasErrors('lastName')}? fieldError" />
+        </div>
+        <div>
+          <label for="password" th:text="#{ui.user.password}"></label>
+          <input type="password" maxlength="255" th:field="*{password}" th:class="${#fields.hasErrors('password')}? fieldError" />
+        </div>
+        <div>
+          <label for="repassword" th:text="#{ui.user.retypePassword}"></label>
+          <input type="password" th:field="*{retypePassword}" maxlength="255" />
+        </div>
+        <button type="submit" th:text="#{ui.signup.button}"></button>
+      </fieldset>
+    </form>
+    <p><a href="#" th:href="@{/login}" th:text="#{ui.signup.hasaccount}"></a></p>
+
+    <p th:if="${not #strings.isEmpty(status)}" th:text="#{'status.' + ${status}}"></p>
+  </section>    
+  <footer layout:fragment="footer"></footer>
+  <script layout:fragment="custom-script">
+  </script>
+</body>
+</html>

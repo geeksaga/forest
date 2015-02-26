@@ -14,23 +14,22 @@
  */
 package com.geeksaga.forest.service;
 
-import java.util.Collection;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.geeksaga.forest.common.util.MessageUtils;
 import com.geeksaga.forest.entity.SecurityUser;
 
 @Service
@@ -39,12 +38,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
 
     @Autowired
-    AuthorityService userService;
+    private CustomUserDetailService userService;
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private MessageSource messageSource;
     
-    // @Autowired
-    // private SaltSource saltSource;
+    @Autowired
+    private MessageUtils messageUtils;
+    
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException
@@ -53,47 +55,35 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
         String password = (String) authentication.getCredentials();
 
         SecurityUser user;
-        // Collection<? extends GrantedAuthority> authorities;
-        Collection<GrantedAuthority> authorities;
 
         try
         {
             user = (SecurityUser) userService.loadUserByUsername(username);
 
-            String hashedPassword = passwordEncoder.encode(password);
-
-            System.out.println("authenticate");
-            System.out.println("authenticate");
-            System.out.println("authenticate");
-            System.out.println("authenticate");
-            logger.info("username : " + username + " / password : " + password + " / hash password : " + hashedPassword);
-            logger.info("username : " + user.getUsername() + " / password : " + user.getPassword());
-
-            if (!hashedPassword.equals(user.getPassword()))
+            if (user != null && user.getPassword() == null)
             {
-                throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+                throw new UsernameNotFoundException(messageUtils.getMessage("forest.msg.usernameNotFound"));
             }
 
-            authorities = user.getAuthorities();
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+            if (user != null && !passwordEncoder.matches(password, user.getPassword()))
+            {
+                throw new BadCredentialsException(messageUtils.getMessage("forest.msg.badCredentials"));
+            }
         }
         catch (UsernameNotFoundException e)
         {
-            logger.info(e.toString());
-            throw new UsernameNotFoundException(e.getMessage());
+            throw e;
         }
         catch (BadCredentialsException e)
         {
-            logger.info(e.toString());
-            throw new BadCredentialsException(e.getMessage());
+            throw e;
         }
         catch (Exception e)
         {
-            logger.info(e.toString());
-            throw new RuntimeException(e.getMessage());
+            throw new AuthenticationServiceException(e.getMessage());
         }
 
-        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+        return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
     }
 
     @Override

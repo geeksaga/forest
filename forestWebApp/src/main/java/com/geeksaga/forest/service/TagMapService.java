@@ -59,9 +59,9 @@ public class TagMapService extends QueryDslRepositorySupport
      * @throws DataAccessException
      */
     @Transactional
-    public Tag add(Seed seed, Tag tags, TagMap.CNT_TYPE type)
+    public Tag save(Seed seed, Tag tags, TagMap.CNT_TYPE type)
     {
-        return add(seed, tags, type, false);
+        return save(seed, tags, type, false);
     }
     
     /**
@@ -75,7 +75,7 @@ public class TagMapService extends QueryDslRepositorySupport
      * @return
      * @throws DataAccessException
      */
-    public Tag add(Seed seed, Tag tags, TagMap.CNT_TYPE type, boolean update)
+    public Tag save(Seed seed, Tag tags, TagMap.CNT_TYPE type, boolean update)
     {
         Tag resultTag = null;
 

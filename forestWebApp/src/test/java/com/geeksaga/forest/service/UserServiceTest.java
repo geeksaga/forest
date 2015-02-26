@@ -25,7 +25,6 @@ import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.AbstractTestSupport;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.repositories.UserRepository;
-import com.geeksaga.forest.service.UserQueryService;
 
 public class UserServiceTest extends AbstractTestSupport
 {
@@ -47,30 +46,18 @@ public class UserServiceTest extends AbstractTestSupport
 
     private void addTestData()
     {
-        User user1 = new User();
+        User user1 = new User(KeyGenerator.generateKeyToLong(), "geeksaga99@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon");
         // user1.setPoint(99);
-        user1.setSid(KeyGenerator.generateKeyToLong());
-        user1.setName("point99");
-        user1.setEmail("geeksaga99@geeksaga.com");
-        user1.setPassword(PasswordEncoderWrapper.encode("password"));
         // user1.setLevel(UserLevel.NORMAL);
         userRepository.saveAndFlush(user1);
 
-        User user2 = new User();
-        user2.setSid(KeyGenerator.generateKeyToLong());
+        User user2 = new User(KeyGenerator.generateKeyToLong(), "geeksaga199@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon");
         // user2.setPoint(299);
-        user2.setName("point199");
-        user2.setEmail("geeksaga199@geeksaga.com");
-        user2.setPassword(PasswordEncoderWrapper.encode("password"));
         // user2.setLevel(UserLevel.MASTER);
         userRepository.saveAndFlush(user2);
 
-        User user3 = new User();
+        User user3 = new User(KeyGenerator.generateKeyToLong(), "geeksaga299@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon");
         // user3.setPoint(301);
-        user3.setSid(KeyGenerator.generateKeyToLong());
-        user3.setName("point299");
-        user3.setEmail("geeksaga299@geeksaga.com");
-        user3.setPassword(PasswordEncoderWrapper.encode("password"));
         // user3.setLevel(UserLevel.MVP);
         userRepository.saveAndFlush(user3);
     }

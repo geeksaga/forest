@@ -1,10 +1,23 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,64 +26,109 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @Entity
 @Table(name = "pw_users", schema = "")
 public class User extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
+    @NotNull
+    @Size(min = 4, max = 255)
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @NotNull
+    @Size(min = 4, max = 255)
     @Column(name = "password", nullable = false)
     private String password;
+    
+    @Transient
+    private String retypePassword;
 
-    @Basic
-    @Column(name = "name")
-    private String name;
+    @Size(max = 255)
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "authority")
-    private String authority;
+    @Size(max = 255)
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    // @JsonManagedReference
+    @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
+    private boolean enabled;
+    
+    @Column(name = "account_non_locked", nullable = false, columnDefinition = "boolean default true")
+    private boolean accountNonLocked;
+    
+    @Column(name = "account_non_expired", nullable = false, columnDefinition = "boolean default true")
+    private boolean accountNonExpired;
+    
+    @Column(name = "credentials_non_expired", nullable = false, columnDefinition = "boolean default true")
+    private boolean credentialsNonExpired;
+
+    // @JsonManagedReference columnDefinition = "boolean default true"
     // @OneToOne(mappedBy = "user", cascade = { CascadeType.ALL })
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     // @JoinColumn(name = "user_sid", nullable = true, table = "pw_roles")
+//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Transient
     private Set<Role> roles = new HashSet<>();
+    
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_sid", nullable = true, table = "pw_authority")
+    private Set<Authority> authority = new HashSet<>();
+
+    public Set<Authority> getAuthority()
+    {
+        return authority;
+    }
+
+    public void setAuthority(Set<Authority> authority)
+    {
+        this.authority = authority;
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_manager_sid", nullable = true, insertable = true, updatable = false)
     private UserManager userManager;
 
-    // public User(String id, String password, Collection<GrantedAuthority> authorities)
-    // {
-    // setId(id);
-    // setPassword(password);
-    // setEnabled(true);
-    // setAccountNonExpired(true);
-    // setCredentialsNonExpired(true);
-    // setAccountNonLocked(true);
-    // setAuthorities(authorities);
-    // }
-    //
-    // public User(String id, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
-    // boolean accountNonLocked, Collection<GrantedAuthority> authorities) throws IllegalArgumentException
-    // {
-    //
-    // setId(id);
-    // setPassword(password);
-    // setEnabled(enabled);
-    // setAccountNonExpired(accountNonLocked);
-    // setCredentialsNonExpired(credentialsNonExpired);
-    // setAccountNonLocked(accountNonLocked);
-    // setAuthorities(authorities);
-    // }
+    public User()
+    {}
+
+    public User(Long sid)
+    {
+        setSid(sid);
+    }
+    
+    public User(Long sid, String email, String password, String firstName, String lastName)
+    {
+        this(email, password, firstName, lastName);
+
+        setSid(sid);
+    }
+
+    public User(String email, String password, String firstName, String lastName)// , Collection<GrantedAuthority> authorities)
+    {
+        this(email, password, firstName, lastName, true, true, true, true);
+
+        // setAuthorities(authorities);
+    }
+
+    public User(String email, String password, String firstName, String lastName, boolean enabled, boolean accountNonExpired,
+            boolean credentialsNonExpired, boolean accountNonLocked)
+    {
+        setEmail(email);
+        setPassword(password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEnabled(enabled);
+        setAccountNonExpired(accountNonLocked);
+        setCredentialsNonExpired(credentialsNonExpired);
+        setAccountNonLocked(accountNonLocked);
+    }
 
     public UserManager getUserManager()
     {
@@ -101,27 +159,77 @@ public class User extends BaseEntity implements Serializable
     {
         this.password = password;
     }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public String getAuthority()
-    {
-        return authority;
-    }
-
-    public void setAuthority(String authority)
-    {
-        this.authority = authority;
-    }
     
+    public String getRetypePassword()
+    {
+        return retypePassword;
+    }
+
+    public void setRetypePassword(String retypePassword)
+    {
+        this.retypePassword = retypePassword;
+    }
+
+    public String getFirstName()
+    {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
+
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
+
+    public boolean isAccountNonLocked()
+    {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked)
+    {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public boolean isAccountNonExpired()
+    {
+        return accountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired)
+    {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    public boolean isCredentialsNonExpired()
+    {
+        return credentialsNonExpired;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired)
+    {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
     public Set<Role> getRoles()
     {
         return roles;
@@ -135,6 +243,6 @@ public class User extends BaseEntity implements Serializable
     @Override
     public String toString()
     {
-        return "User [sid=" + sid + ", name=" + name + ", email=" + email + "]";
+        return "User [sid=" + getSid() + ", firstName=" + getFirstName() + ", lastName=" + getLastName() + ", email=" + getEmail() + "]";
     }
 }

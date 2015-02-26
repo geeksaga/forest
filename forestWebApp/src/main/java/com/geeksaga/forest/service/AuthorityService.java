@@ -14,103 +14,50 @@
  */
 package com.geeksaga.forest.service;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.security.config.BeanIds;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.geeksaga.forest.entity.SecurityUser;
+import com.geeksaga.common.util.DateConvertor;
+import com.geeksaga.common.util.KeyGenerator;
+import com.geeksaga.forest.entity.Authentication;
+import com.geeksaga.forest.entity.Authority;
+import com.geeksaga.forest.entity.User;
+import com.geeksaga.forest.repositories.AuthorityRepository;
 
-@Service(BeanIds.USER_DETAILS_SERVICE)
-public class AuthorityService implements UserDetailsService
+@Service
+public class AuthorityService extends AbstractSpringData<Authority>
 {
-    private static final Log logger = LogFactory.getLog(AuthorityService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Autowired
-    protected UserCommandService userCommandService;
+    protected AuthorityRepository authorityRepository;
 
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, DataAccessException
+    public AuthorityService()
     {
-        // StringTokenizer st = new StringTokenizer(email, "___");
-
-        SecurityUser securityUser = new SecurityUser();
-        securityUser.setEmail(email);
-        BCryptPasswordEncoder spe = new BCryptPasswordEncoder();
-        securityUser.setPassword(spe.encode("password"));
-        securityUser.setEnabled(true);
-        securityUser.setAccountNonLocked(true);
-        securityUser.setAccountNonExpired(true);
-        securityUser.setCredentialsNonExpired(true);
-        
-        // user.setPid(st.nextToken());
-
-        SecurityUser authenticateUser = null;
-
-        try
-        {
-            authenticateUser = userCommandService.authenticate(securityUser);
-        }
-        catch (Exception e)
-        {
-            logger.info(e.getMessage(), e);
-        }
-
-        return (authenticateUser == null) ? securityUser : authenticateUser;
+        super(Authentication.class);
     }
 
-    public static SecurityUser getUser(Object object)
+    @Transactional
+    public Authority save(Authority authority)
     {
-        SecurityContextImpl securityContextImpl = null;
+        authority.setSid(KeyGenerator.generateKeyToLong());
+        authority.setRegistTimestamp(DateConvertor.getDateTimeFormat());
 
-        if (object instanceof HttpSession)
-        {
-            securityContextImpl = (SecurityContextImpl) ((HttpSession) object).getAttribute("SPRING_SECURITY_CONTEXT");
+        authorityRepository.save(authority);
 
-            Authentication authentication = securityContextImpl.getAuthentication();
-
-            return (SecurityUser) authentication.getPrincipal();
-        }
-
-        return new SecurityUser();
+        return authority;
     }
 
-    public static SecurityUser getUser(WebRequest request)
+    public List<Authority> findByUser(User user)
     {
-        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getAttribute("SPRING_SECURITY_CONTEXT",
-                WebRequest.SCOPE_SESSION);
+         List<Authority> list = authorityRepository.findByUserSid(user.getSid());
+        // List<Authority> list = authorityRepository.findByUser(AuthorityPredicates.userSid(user.getSid()));
 
-        if (securityContextImpl == null)
-        {
-            return new SecurityUser();
-        }
-
-        Authentication authentication = securityContextImpl.getAuthentication();
-
-        return (SecurityUser) authentication.getPrincipal();
-    }
-
-    public static SecurityUser getUser(HttpSession session)
-    {
-        SecurityContextImpl securityContextImpl = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-
-        if (securityContextImpl == null)
-        {
-            return new SecurityUser();
-        }
-
-        Authentication authentication = securityContextImpl.getAuthentication();
-
-        return (SecurityUser) authentication.getPrincipal();
+        return list;
     }
 }

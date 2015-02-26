@@ -80,7 +80,6 @@ public class SeedCommandService extends AbstractSpringData<Seed>
             luceneEngine.addDocument(seed.getIndexingData(), seed.getSid());
 
             seed.setSid(KeyGenerator.generateKeyToLong());
-            seed.setDelYn("N");
             seed.setRegistTimestamp(DateConvertor.getDateTimeFormat());
             seed.setModifyTimestamp(DateConvertor.getDateTimeFormat());
 
@@ -92,7 +91,7 @@ public class SeedCommandService extends AbstractSpringData<Seed>
                     tags.setTargetSid(seed.getSid());
                     tags.setTagName(seed.getTag());
 
-                    tagMapService.add(seed, tags, CNT_TYPE.TAG_PLUS_CNT);
+                    tagMapService.save(seed, tags, CNT_TYPE.TAG_PLUS_CNT);
                 }
             }
         }
@@ -114,7 +113,6 @@ public class SeedCommandService extends AbstractSpringData<Seed>
         {
             Seed seed = iter.next();
             seed.setSid(KeyGenerator.generateKeyToLong());
-            seed.setDelYn("N");
             seed.setRegistTimestamp(DateConvertor.getDateTimeFormat());
             seed.setModifyTimestamp(DateConvertor.getDateTimeFormat());
         }

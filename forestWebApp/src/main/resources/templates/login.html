@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layout">
 <head>
-<title>Spring Security Example</title>
+  <title th:text="#{ui.login.head.title}"></title>
 </head>
 <body>
-    <div th:if="${param.error}">Invalid username and password.</div>
-    <div th:if="${param.logout}">You have been logged out.</div>
-    <form th:action="@{/login}" method="post">
+  <header layout:fragment="header">
+    <h1 th:text="#{ui.login.header}"></h1>
+  </header>
+  <p th:text="${session}"></p>
+  <section layout:fragment="content">
+    <p th:if="${session.loginMessage}"><strong th:text="${session.loginMessage}"></strong></p>
+    <form th:action="@{/login}" th:object="${user}" method="post">
+      <fieldset>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div>
-            <label>User Name</label> : <input type="text" name="username" value="user" />
+          <label for="username" th:text="#{ui.user.email}"></label>
+          <input id="username" type="text" name="username" maxlength="255" value="user" />
         </div>
         <div>
-            <label>Password</label> : <input type="password" name="password" value="password"/>
+          <label for="password" th:text="#{ui.user.password}"></label>
+          <input id="password" type="password" name="password" maxlength="255" />
         </div>
         <div>
-            <input type="submit" value="Sign In" />
+          <button type="submit" th:text="#{ui.signin.button}"></button>
         </div>
+      </fieldset>
     </form>
+  </section>
 </body>
 </html>

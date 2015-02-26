@@ -1,54 +1,81 @@
-package com.geeksaga.forest.entity;
-
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import com.geeksaga.common.annotation.PrintToString;
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
 
 /**
  * @author geeksaga
  * @version 0.1
  */
+package com.geeksaga.forest.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Entity
 @Table(name = "pw_authority", schema = "")
 public class Authority extends BaseEntity implements Serializable
 {
-    private static final long serialVersionUID = 3751748648764883216L;
+    private static final long serialVersionUID = 1L;
 
-    @PrintToString
-    private String authority;
-    @PrintToString
+    @NotNull
+    @Size(min = 2, max = 64)
+    @Column(name = "role", nullable = false, length = 64)
+    private String role;
+
+    @Size(min = 6, max = 12)
+    @Column(name = "target_type", length = 12)
     private String targetType;
-    @PrintToString
-    private Long targetSid;
+
+    @NotNull
+    @Column(name = "regist_timestamp", nullable = false)
+    private String registTimestamp;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
+    private User user;
 
     public Authority()
     {}
 
-    public Authority(String authority, String targetType)
+    public Authority(Long userSid, String role)
     {
-        this.authority = authority;
-        this.targetType = targetType;
+        this(0L, userSid, role, null);
     }
 
-    public Authority(Long sid, String authority, String targetType, Long targetSid)
+    public Authority(Long sid, Long userSid, String role)
     {
-        this.sid = sid;
-        this.authority = authority;
-        this.targetType = targetType;
-        this.targetSid = targetSid;
+        this(sid, userSid, role, null);
     }
 
-    public String getAuthority()
+    public Authority(Long sid, Long userSid, String role, String targetType)
     {
-        return authority;
+        setSid(sid);
+        setUser(new User(userSid));
+        setRole(role);
+        setTargetType(targetType);
     }
 
-    public void setAuthority(String authority)
+    public String getRole()
     {
-        this.authority = authority;
+        return role;
+    }
+
+    public void setRole(String role)
+    {
+        this.role = role;
     }
 
     public String getTargetType()
@@ -61,13 +88,29 @@ public class Authority extends BaseEntity implements Serializable
         this.targetType = targetType;
     }
 
-    public Long getTargetSid()
+    public String getRegistTimestamp()
     {
-        return targetSid;
+        return registTimestamp;
     }
 
-    public void setTargetSid(Long targetSid)
+    public void setRegistTimestamp(String registTimestamp)
     {
-        this.targetSid = targetSid;
+        this.registTimestamp = registTimestamp;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Authority [sid=" + getSid() + ", user=" + getUser() + ", role=" + getRole() + ", targetType=" + getTargetType() + "]";
     }
 }

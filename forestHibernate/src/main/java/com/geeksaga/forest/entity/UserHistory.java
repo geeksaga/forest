@@ -1,13 +1,28 @@
-package com.geeksaga.forest.entity;
-
-import java.io.Serializable;
-
-import com.geeksaga.common.annotation.PrintToString;
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
 
 /**
  * @author geeksaga
  * @version 0.1
  */
+package com.geeksaga.forest.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import com.geeksaga.common.annotation.PrintToString;
+
+@Entity
+@Table(name = "pw_history", schema = "")
 public class UserHistory extends BaseEntity implements Serializable
 {
 	private static final long serialVersionUID = 1L;

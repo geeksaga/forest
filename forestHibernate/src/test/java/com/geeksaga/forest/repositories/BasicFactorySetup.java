@@ -12,6 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 
+import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.User;
 
@@ -38,23 +39,17 @@ public class BasicFactorySetup
 
         em.getTransaction().begin();
 
-        user = new User();
-        user.setSid(KeyGenerator.generateKeyToLong());
-        user.setName("geeksaga");
-        user.setEmail("geeksaga@geeksaga.com");
+        user = new User(KeyGenerator.generateKeyToLong(), "geeksaga@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon");
 
-//        UserManager manager = new UserManager();
-//        manager.setId(2);
-//        manager.setName("new_manager");
-//
-//        List<User> users = Lists.newArrayList();
-//        manager.setUsers(users);
-//        users.add(user);
-//
-//        user.setUserManager(manager);
-        // user.setUsername("username");
-        // user.setFirstname("firstname");
-        // user.setLastname("lastname");
+        // UserManager manager = new UserManager();
+        // manager.setId(2);
+        // manager.setName("new_manager");
+        //
+        // List<User> users = Lists.newArrayList();
+        // manager.setUsers(users);
+        // users.add(user);
+        //
+        // user.setUserManager(manager);
 
         user = userRepository.save(user);
 
@@ -70,7 +65,7 @@ public class BasicFactorySetup
     @Test
     public void executingFinders()
     {
-        assertEquals(user, userRepository.findByName("geeksaga"));
+        assertEquals(user, userRepository.findByFirstName("jihun"));
         // assertEquals(user, userRepository.findByName("geeksaga").get(0));
         // assertEquals(user, userRepository.findByTheName("geeksaga"));
 

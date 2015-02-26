@@ -41,14 +41,16 @@ public class UserManagerRepositoryTest //extends AbstractRepositoryTestSupport
 
         User user1 = new User();
         user1.setSid(KeyGenerator.generateKeyToLong());
-        user1.setName("geeksaga5");
+        user1.setFirstName("geeksaga");
+        user1.setLastName("5");
         user1.setEmail("geeksaga5@geeksaga.com");
         user1.setPassword(PasswordEncoderWrapper.encode("password"));
         user1.setUserManager(userManager);
 
         User user2 = new User();
         user2.setSid(KeyGenerator.generateKeyToLong());
-        user2.setName("geeksaga6");
+        user2.setFirstName("geeksaga");
+        user2.setLastName("6");
         user2.setEmail("geeksaga6@geeksaga.com");
         user2.setPassword(PasswordEncoderWrapper.encode("password"));
         user2.setUserManager(userManager);
