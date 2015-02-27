@@ -44,7 +44,7 @@ public class SecurityUser extends User implements UserDetails
             setPassword(user.getPassword());
             setFirstName(user.getFirstName());
             setLastName(user.getLastName());
-            setRoles(user.getRoles());
+            setAuthority(user.getAuthority());
         }
     }
 
@@ -93,12 +93,12 @@ public class SecurityUser extends User implements UserDetails
             authorities = new ArrayList<SimpleGrantedAuthority>();
         }
 
-        Set<Role> userRoles = getRoles();
+        Set<Authority> userRoles = getAuthority();
         if (userRoles != null)
         {
-            for (Role role : userRoles)
+            for (Authority role : userRoles)
             {
-                authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+                authorities.add(new SimpleGrantedAuthority(role.getRole()));
             }
         }
 

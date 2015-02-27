@@ -5,8 +5,19 @@ jar {
     version =  '0.1.0'
 }
 
+configurations {
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'ch.qos.logback', module: 'logback-classic'
+    
+    providedRuntime
+}
+
 dependencies {
     // compile("org.springframework.boot:spring-boot-starter:$rootProject.ext.springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter:$rootProject.ext.springBootVersion") {
+       	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    
     compile("org.springframework.boot:spring-boot-starter-data-jpa:$rootProject.ext.springBootVersion") {
         exclude group: 'commons-logging' //by group
     }
@@ -33,7 +44,7 @@ dependencies {
     
     provided("com.fasterxml.jackson.core:jackson-annotations:2.5.0")
     
-    provided("org.springframework.security:spring-security-core:3.2.5.RELEASE")
+    provided("org.springframework.security:spring-security-core:3.2.6.RELEASE")
     
     provided("org.springframework.boot:spring-boot-starter-security:$rootProject.ext.springBootVersion")
     

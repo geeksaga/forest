@@ -25,16 +25,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.HangleParser;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.entity.Tag;
 import com.geeksaga.forest.entity.TagMap;
+import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
 
 public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
 {
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private SeedRepository seedRepository;
 
@@ -50,13 +55,20 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
         TagMapRepositoryTest.tagMapRepository = tagMapRepository;
     }
 
+    private User user;
+
     @Before
     public void setup()
     {
+        userRepository.deleteAll();
         seedRepository.deleteAll();
         tagRepository.deleteAll();
 
-        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 데이터", "태그 맵을 위한 데이터 내용", 0l, DateConvertor.getDateTimeFormat(),
+        user = new User(KeyGenerator.generateKeyToLong(), "geeksaga@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "0");
+
+        userRepository.save(user);
+
+        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 데이터", "태그 맵을 위한 데이터 내용", user, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
 
         seedRepository.saveAndFlush(seed);
@@ -76,7 +88,7 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
     @Test
     public void testSave()
     {
-        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 테스트", "태그 맵을 위한 테스트 내용", 0l, DateConvertor.getDateTimeFormat(),
+        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 테스트", "태그 맵을 위한 테스트 내용", user, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
 
         seedRepository.saveAndFlush(seed);

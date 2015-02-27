@@ -14,6 +14,8 @@
  */
 package com.geeksaga.forest.util;
 
+import javax.transaction.Transactional;
+
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,5 +29,6 @@ import com.geeksaga.forest.config.DataConfig;
 // , loader = AnnotationConfigWebContextLoader.class)
 @SpringApplicationConfiguration(classes = { DataConfig.class })
 @TransactionConfiguration(defaultRollback = true)
+@Transactional
 public abstract class AbstractRepositoryTestSupport
 {}

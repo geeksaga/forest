@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest.repositories;
 
 import static org.junit.Assert.assertNotNull;
@@ -18,10 +32,6 @@ import com.geeksaga.forest.entity.UserManager;
 import com.geeksaga.forest.repositories.UserManagerRepository;
 import com.google.common.collect.Lists;
 
-/**
- * @author geeksaga
- * @version 0.1
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DataConfig.class)
 public class UserManagerRepositoryTest //extends AbstractRepositoryTestSupport

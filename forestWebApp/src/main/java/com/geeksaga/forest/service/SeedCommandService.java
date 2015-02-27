@@ -127,7 +127,7 @@ public class SeedCommandService extends AbstractSpringData<Seed>
         QSeed qSeed = QSeed.seed;
 
         update(qSeed).where(qSeed.sid.eq(seed.getSid())).set(qSeed.content, seed.getContent()).execute();
-
+        
         return 0L;
     }
 

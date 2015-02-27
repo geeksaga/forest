@@ -7,7 +7,7 @@ apply plugin: 'cargo'
 
 buildscript {
     ext {
-        tomcatVersion = '8.0.15'
+        tomcatVersion = '8.0.20'
         cargoVersion = '1.4.5'
         mailVersion = '1.5.2'
     }
@@ -38,6 +38,13 @@ repositories {
    flatDir {
        dirs 'libs'
    }
+}
+
+configurations {
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'ch.qos.logback', module: 'logback-classic'
+    
+    providedRuntime
 }
 
 dependencies

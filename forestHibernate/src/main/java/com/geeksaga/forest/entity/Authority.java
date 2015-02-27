@@ -18,6 +18,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -26,6 +27,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "pw_authority", schema = "")
+//@AssociationOverrides({ @AssociationOverride(name = "user", joinColumns = @JoinColumn(name = "user_sid")) })
 public class Authority extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -43,7 +45,7 @@ public class Authority extends BaseEntity implements Serializable
     @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
     private User user;
 

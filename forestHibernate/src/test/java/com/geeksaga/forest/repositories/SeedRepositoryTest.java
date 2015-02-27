@@ -28,10 +28,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.QSeed;
 import com.geeksaga.forest.entity.Seed;
+import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
@@ -39,22 +41,32 @@ import com.mysema.query.types.Predicate;
 public class SeedRepositoryTest extends AbstractRepositoryTestSupport
 {
     @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
     private SeedRepository seedRepository;
 
+    private User user;
+    
     @Before
     public void setup()
     {
+        user = new User(KeyGenerator.generateKeyToLong(), "geeksaga@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun",
+                "0");
+        
+        userRepository.save(user);
+        
         seedRepository.deleteAll();
 
         List<Seed> seeds = Lists.newArrayList();
 
-        Seed seed1 = new Seed(KeyGenerator.generateKeyToLong(), "Test 1", "Content 1", 0l, DateConvertor.getDateTimeFormat(),
+        Seed seed1 = new Seed(KeyGenerator.generateKeyToLong(), "Test 1", "Content 1", user, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
 
-        Seed seed2 = new Seed(KeyGenerator.generateKeyToLong(), "Test 2", "Content 2", 0l, DateConvertor.getDateTimeFormat(),
+        Seed seed2 = new Seed(KeyGenerator.generateKeyToLong(), "Test 2", "Content 2", user, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
 
-        Seed seed3 = new Seed(KeyGenerator.generateKeyToLong(), "Test 3", "Content 3", 0l, DateConvertor.getDateTimeFormat(),
+        Seed seed3 = new Seed(KeyGenerator.generateKeyToLong(), "Test 3", "Content 3", user, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
 
         seeds.add(seed1);
@@ -68,7 +80,7 @@ public class SeedRepositoryTest extends AbstractRepositoryTestSupport
     @Test
     public void save()
     {
-        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "Test Save 1", "Save Content 1", 0l, DateConvertor.getDateTimeFormat(),
+        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "Test Save 1", "Save Content 1", user, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
 
         Seed savedSeed = seedRepository.saveAndFlush(seed);

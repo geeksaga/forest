@@ -2,12 +2,12 @@ apply plugin: 'base'
 
 buildscript {
     ext {
-        springBootVersion = '1.2.1.RELEASE'
+        springBootVersion = '1.2.2.RELEASE'
 	    javaVersion = 1.8
 	    slf4jVersion = '1.7.10'
 	    log4jVersion = '2.1'
 	    jodaTimeVersion = '2.6'
-	    springVersion = '4.1.4.RELEASE'
+	    springVersion = '4.1.5.RELEASE'
 	    springjpaVersion = '1.7.1.RELEASE'
 	    querydslVersion = '3.6.0'
 	    hibernateVersion = '4.3.4.Final'
@@ -38,6 +38,9 @@ repositories {
 }
 
 configurations {
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'ch.qos.logback', module: 'logback-classic'
+    
     providedRuntime
 }
 
@@ -62,9 +65,10 @@ subprojects {
 
     dependencies
     {
-        //compile("org.springframework.boot:spring-boot-starter-log4j:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion")
         compile "org.slf4j:slf4j-api:$slf4jVersion"
-        compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
+        // compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
+        // compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
         // compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
         compile "joda-time:joda-time:$jodaTimeVersion"
 

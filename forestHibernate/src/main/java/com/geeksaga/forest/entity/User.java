@@ -15,6 +15,8 @@
 package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,7 +47,7 @@ public class User extends BaseEntity implements Serializable
     @Size(min = 4, max = 255)
     @Column(name = "password", nullable = false)
     private String password;
-    
+
     @Transient
     private String retypePassword;
 
@@ -59,38 +61,23 @@ public class User extends BaseEntity implements Serializable
 
     @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
     private boolean enabled;
-    
+
     @Column(name = "account_non_locked", nullable = false, columnDefinition = "boolean default true")
     private boolean accountNonLocked;
-    
+
     @Column(name = "account_non_expired", nullable = false, columnDefinition = "boolean default true")
     private boolean accountNonExpired;
-    
+
     @Column(name = "credentials_non_expired", nullable = false, columnDefinition = "boolean default true")
     private boolean credentialsNonExpired;
 
     // @JsonManagedReference columnDefinition = "boolean default true"
-    // @OneToOne(mappedBy = "user", cascade = { CascadeType.ALL })
-    // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    // @JoinColumn(name = "user_sid", nullable = true, table = "pw_roles")
-//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Transient
-    private Set<Role> roles = new HashSet<>();
-    
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_sid", nullable = true, table = "pw_authority")
     private Set<Authority> authority = new HashSet<>();
 
-    public Set<Authority> getAuthority()
-    {
-        return authority;
-    }
-
-    public void setAuthority(Set<Authority> authority)
-    {
-        this.authority = authority;
-    }
-
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Collection<Seed> seeds = new ArrayList<Seed>();
+    
     @ManyToOne
     @JoinColumn(name = "user_manager_sid", nullable = true, insertable = true, updatable = false)
     private UserManager userManager;
@@ -102,7 +89,7 @@ public class User extends BaseEntity implements Serializable
     {
         setSid(sid);
     }
-    
+
     public User(Long sid, String email, String password, String firstName, String lastName)
     {
         this(email, password, firstName, lastName);
@@ -130,16 +117,6 @@ public class User extends BaseEntity implements Serializable
         setAccountNonLocked(accountNonLocked);
     }
 
-    public UserManager getUserManager()
-    {
-        return userManager;
-    }
-
-    public void setUserManager(UserManager userManager)
-    {
-        this.userManager = userManager;
-    }
-
     public String getEmail()
     {
         return email;
@@ -159,7 +136,7 @@ public class User extends BaseEntity implements Serializable
     {
         this.password = password;
     }
-    
+
     public String getRetypePassword()
     {
         return retypePassword;
@@ -230,14 +207,34 @@ public class User extends BaseEntity implements Serializable
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public Set<Role> getRoles()
+    public UserManager getUserManager()
     {
-        return roles;
+        return userManager;
     }
 
-    public void setRoles(Set<Role> roles)
+    public void setUserManager(UserManager userManager)
     {
-        this.roles = roles;
+        this.userManager = userManager;
+    }
+    
+    public Set<Authority> getAuthority()
+    {
+        return authority;
+    }
+
+    public void setAuthority(Set<Authority> authority)
+    {
+        this.authority = authority;
+    }
+    
+    public Collection<Seed> getSeeds()
+    {
+        return seeds;
+    }
+
+    public void setSeeds(Collection<Seed> seeds)
+    {
+        this.seeds = seeds;
     }
 
     @Override

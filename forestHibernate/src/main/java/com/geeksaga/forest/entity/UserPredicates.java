@@ -19,9 +19,9 @@ import com.mysema.query.types.expr.BooleanExpression;
 
 public class UserPredicates
 {
-    public static BooleanExpression firstNameLike(final String searchTerm)
+    public static BooleanExpression firstNameLike(final String firstName)
     {
-        return QUser.user.firstName.contains(searchTerm);
+        return QUser.user.firstName.contains(firstName);
     }
 
     public static BooleanExpression findMatchUsers(final Long userManagerId)

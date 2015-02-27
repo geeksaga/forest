@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +31,7 @@ import com.geeksaga.forest.common.util.FileUtil;
 import com.geeksaga.forest.common.util.RequestUtils;
 import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.entity.Seed;
+import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.service.CustomUserDetailService;
 import com.geeksaga.forest.service.SeedCommandService;
 import com.geeksaga.forest.service.SeedQueryService;
@@ -45,7 +46,7 @@ public class SeedController
     private SeedCommandService seedCommandServcie;
 
     @RequestMapping(value = { "/seed/add" }, method = RequestMethod.GET)
-    public String save(Seed seed, Model model)
+    public String save(Seed seed, ModelMap model)
     {
         return "seed/add";
     }
@@ -57,11 +58,11 @@ public class SeedController
 
         if (user != null && !StringUtils.isEmpty(user.getSid()))
         {
-            seed.setUserSid(user.getSid());
+            seed.setUser(user);
         }
         else
         {
-            seed.setUserSid(0L);
+            seed.setUser(new User(0L));
         }
 
         System.out.println(seed);
@@ -79,6 +80,14 @@ public class SeedController
         seedCommandServcie.save(seed);
 
         return "redirect:/index";
+    }
+    
+    @RequestMapping(value = { "/seed/list" }, method = RequestMethod.GET)
+    public String list(Seed seed, ModelMap model)
+    {
+        model.addAttribute("seeds", seedQueryServcie.findAll());
+        
+        return "seed/list";
     }
 
     // @RequestMapping(value = "/form", method = RequestMethod.POST)
