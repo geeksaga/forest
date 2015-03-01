@@ -71,18 +71,16 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
         Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 데이터", "태그 맵을 위한 데이터 내용", user, DateConvertor.getDateTimeFormat(),
                 DateConvertor.getDateTimeFormat());
 
-        seedRepository.saveAndFlush(seed);
+        seedRepository.save(seed);
 
-        Tag tag = new Tag("숲지도", HangleParser.parse("숲지도"));
-        tag.setSid(KeyGenerator.generateKeyToLong());
-        tag.setTargetSid(KeyGenerator.generateKeyToLong());
+        Tag tag = new Tag(KeyGenerator.generateKeyToLong(), user.getSid(), "숲지도", HangleParser.parse("숲지도"));
 
-        tagRepository.saveAndFlush(tag);
+        tagRepository.save(tag);
 
         TagMap tagMap = new TagMap(seed, tag);
         tagMap.setRegistTimestamp(DateConvertor.getDateTimeFormat());
 
-        tagMapRepository.saveAndFlush(tagMap);
+        tagMapRepository.save(tagMap);
     }
 
     @Test
@@ -93,8 +91,7 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
 
         seedRepository.saveAndFlush(seed);
 
-        Tag tag = new Tag("저장지도", HangleParser.parse("저장지도"));
-        tag.setSid(KeyGenerator.generateKeyToLong());
+        Tag tag = new Tag(KeyGenerator.generateKeyToLong(), "저장지도", HangleParser.parse("저장지도"));
         tag.setTargetSid(KeyGenerator.generateKeyToLong());
 
         tagRepository.saveAndFlush(tag);

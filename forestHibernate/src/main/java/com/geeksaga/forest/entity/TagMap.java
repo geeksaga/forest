@@ -44,6 +44,7 @@ public class TagMap implements Serializable
     @EmbeddedId
     private PK pk = new PK();
 
+    // @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "regist_timestamp", nullable = false, length = 14)
     private String registTimestamp;
 
@@ -134,9 +135,9 @@ public class TagMap implements Serializable
             {
                 return false;
             }
-            
+
             PK other = (PK) o;
-            
+
             if (tag == null)
             {
                 if (other.tag != null)
@@ -174,10 +175,10 @@ public class TagMap implements Serializable
             return result;
         }
     }
-    
+
     public TagMap()
     {}
-    
+
     public TagMap(Seed seed, Tag tag)
     {
         getPk().setSeed(seed);
@@ -228,6 +229,7 @@ public class TagMap implements Serializable
 
     public String toString()
     {
-        return "TagMap [PK.seed = " + getPk().getSeed() + ", PK.tag = " + getPk().getTag() + "]";
+        return "TagMap [PK.seed = " + getPk().getSeed() + ", PK.tag = " + getPk().getTag() + ", registTimestamp = " + getRegistTimestamp()
+                + "]";
     }
 }

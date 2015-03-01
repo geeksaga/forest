@@ -24,8 +24,8 @@ public class UserPredicates
         return QUser.user.firstName.contains(firstName);
     }
 
-    public static BooleanExpression findMatchUsers(final Long userManagerId)
+    public static BooleanExpression findMatchUsers(final Long userSid)
     {
-        return QUser.user.userManager.sid.eq(userManagerId);
+        return QUser.user.sid.eq(userSid);
     }
 }

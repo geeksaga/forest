@@ -16,6 +16,7 @@ package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
+// @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "pw_authority", schema = "")
 //@AssociationOverrides({ @AssociationOverride(name = "user", joinColumns = @JoinColumn(name = "user_sid")) })
 public class Authority extends BaseEntity implements Serializable
@@ -44,9 +46,15 @@ public class Authority extends BaseEntity implements Serializable
     @NotNull
     @Column(name = "regist_timestamp", nullable = false)
     private String registTimestamp;
+    
+    // @NotNull
+    // @Column(name = "user_sid", nullable = false)
+    // private Long userSid;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
+    // @Fetch(FetchMode.SELECT)
+    //    @Transient
     private User user;
 
     public Authority()

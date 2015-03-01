@@ -26,11 +26,10 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.Session;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.QueryDslJpaRepository;
 
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.DateConvertor;
@@ -39,47 +38,24 @@ import com.geeksaga.forest.entity.Authority;
 import com.geeksaga.forest.entity.QAuthority;
 import com.geeksaga.forest.entity.QUser;
 import com.geeksaga.forest.entity.User;
-import com.geeksaga.forest.entity.UserPredicates;
 import com.geeksaga.forest.enums.code.ROLE;
 import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
-import com.google.common.collect.Lists;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import com.mysema.query.jpa.hibernate.sql.HibernateSQLQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.sql.H2Templates;
-import com.mysema.query.sql.SQLTemplates;
 
-public class UserRepositoryTest extends AbstractRepositoryTestSupport
+public class AuthorityRepositoryTest extends AbstractRepositoryTestSupport
 {
     @Autowired
-    private AuthorityRepository authorityRepository;
-
-    @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    private Session getSession()
-    {
-        return (Session) entityManager.getDelegate();
-    }
-
-    private HibernateQuery getSelectQuery()
-    {
-        return new HibernateQuery(getSession());
-    }
-
     private JPAQuery getSelectQuery3()
     {
         return new JPAQuery(entityManager);
-    }
-
-    private HibernateSQLQuery getSelectQuery2()
-    {
-        SQLTemplates templates = new H2Templates();
-
-        return new HibernateSQLQuery(getSession(), templates);
     }
 
     private User user;
@@ -87,46 +63,24 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     @Before
     public void setup()
     {
-        List<User> users = Lists.newArrayList();
-
         user = new User(KeyGenerator.generateKeyToLong(), "geeksaga@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "0");
 
-        User user1 = new User(KeyGenerator.generateKeyToLong(), "geeksaga1@geeksaga.com", PasswordEncoderWrapper.encode("password"),
-                "jihun", "1");
-
-        User user2 = new User(KeyGenerator.generateKeyToLong(), "geeksaga2@geeksaga.com", PasswordEncoderWrapper.encode("password"),
-                "jihun", "2");
-
-        User user3 = new User(KeyGenerator.generateKeyToLong(), "geeksaga3@geeksaga.com", PasswordEncoderWrapper.encode("password"),
-                "jihun", "3");
-
-        users.add(user);
-        users.add(user1);
-        users.add(user2);
-        users.add(user3);
-
-        // userRepository.save(user);
         Authority authority = new Authority(KeyGenerator.generateKeyToLong(), user.getSid(), ROLE.USER.getCode());
         authority.setRegistTimestamp(DateConvertor.getDateTimeFormat());
+
         Set<Authority> set = new HashSet<Authority>();
         set.add(authority);
 
         user.setAuthority(set);
 
-        userRepository.save(users);
-
-        // authorityRepository.save(set);
-
-        // userRepository.flush();
-        // authorityRepository.flush();
+        userRepository.save(user);
+        
+//        authorityRepository.save(authority);
     }
 
     @Test
     public void testSave()
     {
-        User user = new User(KeyGenerator.generateKeyToLong(), "save@geeksaga.com", PasswordEncoderWrapper.encode("password"), "save",
-                "user");
-
         Set<Authority> authorities = new HashSet<>();
         Authority authority = new Authority(KeyGenerator.generateKeyToLong(), user.getSid(), ROLE.USER.getCode());
         authority.setRegistTimestamp(DateConvertor.getDateTimeFormat());
@@ -134,25 +88,20 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
 
         // user.setAuthority(authorities);
 
-        User savedUser = userRepository.saveAndFlush(user);
+        Authority savedUser = authorityRepository.save(authority);
 
         assertNotNull(savedUser);
-        assertEquals(user.getSid(), savedUser.getSid());
+        assertEquals(user.getSid(), authority.getUser().getSid());
     }
 
     @Test
     public void testFindAll()
     {
-        userRepository.flush();
-        entityManager.clear();
-        System.out.println("testFindAll");
-        // System.out.println(entityManager.find(User.class, user.getSid()).getAuthority());
-
-        List<User> users = (List<User>) userRepository.findAll();
+        List<Authority> users = (List<Authority>) authorityRepository.findAll();
 
         // assertEquals(4, users.size());
 
-        System.out.println(users.get(0).getAuthority());
+        System.out.println(users);
     }
 
     @Test
@@ -178,25 +127,8 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     }
 
     @Test
-    public void testFindListForSeedByUser()
-    {
-        // List<User> users = getSelectQuery().from(QUser.user).leftJoin(QUser.user.seeds, QSeed.seed)
-        // .where(QUser.user.sid.eq(QSeed.seed.user.sid)).list(QUser.user);
-
-        // System.out.println(users.get(0).getSeed());
-    }
-
-    @Test
-    public void testFindByFirstName()
-    {
-        List<User> users = (List<User>) userRepository.findAll(UserPredicates.firstNameLike("jihun"));
-
-        assertEquals(4, users.size());
-    }
-
-    @Test
     public void testFindOne()
     {
-        assertThat("geeksaga@geeksaga.com", is(userRepository.findOne(QUser.user.email.eq("geeksaga@geeksaga.com")).getEmail()));
+        assertThat(ROLE.USER.getCode(), is(authorityRepository.findOne(QAuthority.authority.user.sid.eq(user.getSid())).getRole()));
     }
 }

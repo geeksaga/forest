@@ -95,6 +95,18 @@ public class Tag extends BaseEntity implements Serializable
 
     public Tag(String tagName, String parsing)
     {
+        this(0L, tagName, parsing);
+    }
+    
+    public Tag(Long sid, String tagName, String parsing)
+    {
+        this(sid, 0L, tagName, parsing);
+    }
+    
+    public Tag(Long sid, Long targetSid, String tagName, String parsing)
+    {
+        this.sid = sid;
+        this.targetSid = targetSid;
         this.tagName = tagName;
         this.parsing = parsing;
     }

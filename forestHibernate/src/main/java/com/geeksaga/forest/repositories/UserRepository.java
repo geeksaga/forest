@@ -24,13 +24,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 import com.geeksaga.forest.entity.User;
-import com.geeksaga.forest.entity.UserManager;
 
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User>, QueryDslPredicateExecutor<User>
 {
-    Page<User> findByUserManagerSid(Long userManagerSid, Pageable pageable);
+    Page<User> findBySid(Long sid, Pageable pageable);
 
-    List<User> findByUserManagerSid(Long userManagerSid, Sort sort);
-
-    List<User> findByUserManager(UserManager userManager);
+    List<User> findBySid(Long sid, Sort sort);
 }
