@@ -10,35 +10,62 @@
   <header layout:fragment="header">
     <h1 th:text="#{ui.signup.header}"></h1>
   </header>
-  <section layout:fragment="content">
-    <form th:action="@{/signup?__${_csrf.parameterName}__=__${_csrf.token}__}" th:object="${user}" method="post">
-      <fieldset>
-        <div>
-          <label for="firstName" th:text="#{ui.user.firstName}"></label>
-          <input type="text" maxlength="255" th:field="*{firstName}" th:class="${#fields.hasErrors('firstName')}? fieldError" />
+  <section layout:fragment="content" class="container">
+    <div class="row">
+      <form th:action="@{/signup?__${_csrf.parameterName}__=__${_csrf.token}__}" th:object="${user}" method="post" role="form">
+         <div class="col-lg-6">
+            <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>
+            <div class="form-group">
+              <label for="firstName" th:text="#{ui.user.firstName}"></label>
+              <div class="input-group">
+                <input type="text" th:field="*{firstName}" maxlength="255" th:class="${#fields.hasErrors('firstName')}? fieldError : form-control" th:placeholder="#{ui.user.firstName}" required="required" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName" th:text="#{ui.user.lastName}"></label>
+              <div class="input-group">
+                <input type="text" th:field="*{lastName}" maxlength="255" th:class="${#fields.hasErrors('lastName')}? fieldError : form-control" th:placeholder="#{ui.user.lastName}" required="required" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email" th:text="#{ui.user.email}"></label>
+              <div class="input-group">
+                <input type="text" th:field="*{email}" maxlength="255" th:class="${#fields.hasErrors('lastName')}? fieldError : form-control" th:placeholder="#{ui.user.email}" required="required" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" th:text="#{ui.user.password}"></label>
+              <div class="input-group">
+                <input type="password" th:field="*{password}" maxlength="255" th:class="${#fields.hasErrors('password')}? fieldError : form-control" th:placeholder="#{ui.user.password}" required="required" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="retypePassword" th:text="#{ui.user.retypePassword}"></label>
+              <div class="input-group">
+                <input type="password" th:field="*{retypePassword}" maxlength="255" th:placeholder="#{ui.user.retypePassword}" class="form-control" required="required" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+              </div>
+            </div>
+            <button type="submit" th:text="#{ui.signup.button}" class="btn btn-info pull-right"></button>
+          </div>      
+      </form>
+      <!--div class="col-lg-5 col-md-push-1">
+        <div class="col-md-12">
+          <div class="alert alert-success">
+            <strong><span class="glyphicon glyphicon-ok"></span> Success! Message sent.</strong>
+          </div>
+          <div class="alert alert-danger">
+            <span class="glyphicon glyphicon-remove"></span><strong> Error! Please check all page inputs.</strong>
+          </div>
         </div>
-        <div>
-          <label for="lastName" th:text="#{ui.user.lastName}"></label>
-          <input type="text" maxlength="255" th:field="*{lastName}" th:class="${#fields.hasErrors('lastName')}? fieldError" />
-        </div>
-        <div>
-          <label for="email" th:text="#{ui.user.email}"></label>
-          <input type="text" maxlength="255" th:field="*{email}" th:class="${#fields.hasErrors('lastName')}? fieldError" />
-        </div>
-        <div>
-          <label for="password" th:text="#{ui.user.password}"></label>
-          <input type="password" maxlength="255" th:field="*{password}" th:class="${#fields.hasErrors('password')}? fieldError" />
-        </div>
-        <div>
-          <label for="repassword" th:text="#{ui.user.retypePassword}"></label>
-          <input type="password" th:field="*{retypePassword}" maxlength="255" />
-        </div>
-        <button type="submit" th:text="#{ui.signup.button}"></button>
-      </fieldset>
-    </form>
-    <p><a href="#" th:href="@{/login}" th:text="#{ui.signup.hasaccount}"></a></p>
-
-    <p th:if="${not #strings.isEmpty(status)}" th:text="#{'status.' + ${status}}"></p>
+      </div-->
+    </div>
+      <p><a href="#" th:href="@{/login}" th:text="#{ui.signup.hasaccount}"></a></p>
+      <p th:if="${not #strings.isEmpty(status)}" th:text="#{'status.' + ${status}}"></p>
   </section>    
   <footer layout:fragment="footer"></footer>
   <script layout:fragment="custom-script">

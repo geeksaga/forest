@@ -13,8 +13,6 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 // import org.jivesoftware.smack.ConnectionConfiguration;
 // import org.jivesoftware.smack.SASLAuthentication;
 // import org.jivesoftware.smack.XMPPConnection;
@@ -56,8 +54,6 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 @EntityScan(basePackageClasses = { User.class, AuditableUser.class })
 public class ForestWebApplication extends SpringBootServletInitializer
 {
-    private static final Logger logger = LoggerFactory.getLogger(ForestWebApplication.class);
-
     @Autowired
     private Environment env;
 
