@@ -15,8 +15,6 @@
 package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,16 +22,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "pw_users", schema = "")
@@ -75,17 +68,16 @@ public class User extends BaseEntity implements Serializable
     private boolean credentialsNonExpired;
 
     // @JsonManagedReference columnDefinition = "boolean default true"
-    // @Fetch(FetchMode.SELECT)
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    // @Fetch(FetchMode.SELECT)
     // @OneToMany(cascade = { CascadeType.ALL })
-    // @Fetch(FetchMode.JOIN)
     // @JoinTable(name = "pw_authority", joinColumns = { @JoinColumn(name = "user_sid", referencedColumnName = "sid") }, inverseJoinColumns
     // = { @JoinColumn(name = "sid", referencedColumnName = "user_sid") })
     // @BatchSize(size = 10)
     private Set<Authority> authority = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-    private Collection<Seed> seeds = new ArrayList<>();
+    // @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    // private Collection<Seed> seeds = new ArrayList<>();
 
     public User()
     {}
@@ -102,7 +94,7 @@ public class User extends BaseEntity implements Serializable
         setSid(sid);
     }
 
-    public User(String email, String password, String firstName, String lastName)// , Collection<GrantedAuthority> authorities)
+    public User(String email, String password, String firstName, String lastName)
     {
         this(email, password, firstName, lastName, true, true, true, true);
 
@@ -222,15 +214,15 @@ public class User extends BaseEntity implements Serializable
         this.authority = authority;
     }
 
-    public Collection<Seed> getSeeds()
-    {
-        return seeds;
-    }
-
-    public void setSeeds(Collection<Seed> seeds)
-    {
-        this.seeds = seeds;
-    }
+    // public Collection<Seed> getSeeds()
+    // {
+    // return seeds;
+    // }
+    //
+    // public void setSeeds(Collection<Seed> seeds)
+    // {
+    // this.seeds = seeds;
+    // }
 
     @Override
     public String toString()

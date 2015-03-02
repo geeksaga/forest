@@ -27,6 +27,10 @@ import com.geeksaga.forest.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User>, QueryDslPredicateExecutor<User>
 {
+    // @Query(value = "SELECT A, B FROM User A, Authority B WHERE A.sid = B.user.sid")
+    // @Query(value = "SELECT A FROM User A")
+    // List<User> findAll();
+
     Page<User> findBySid(Long sid, Pageable pageable);
 
     List<User> findBySid(Long sid, Sort sort);

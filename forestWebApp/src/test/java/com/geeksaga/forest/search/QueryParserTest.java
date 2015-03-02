@@ -21,6 +21,8 @@ import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.junit.Test;
 
+import com.geeksaga.forest.common.util.Logger;
+
 public class QueryParserTest
 {
     private Directory index = new RAMDirectory();
@@ -31,7 +33,9 @@ public class QueryParserTest
         String querystr = "만성";
 
         index();
-        System.out.println("===search");
+        
+        Logger.info("===search");
+        
         KoreanAnalyzerWrapper analyzer = new KoreanAnalyzerWrapper();
         analyzer.setOriginCNoun(false);
         analyzer.setHasOrigin(false);
@@ -40,7 +44,7 @@ public class QueryParserTest
         qp.setDefaultOperator(Operator.AND);
         Query query = qp.parse(querystr);
 
-        System.out.println(query.toString());
+        Logger.info(query.toString());
 
         int hitsPerPage = 10;
 
@@ -53,13 +57,14 @@ public class QueryParserTest
 
         ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
-        System.out.println("Found " + hits.length + " hits.");
+        Logger.info("Found " + hits.length + " hits.");
+        
         for (int i = 0; i < hits.length; i++)
         {
             int docid = hits[i].doc;
             Document d = searcher.doc(docid);
 
-            System.out.println(d.get("title"));
+            Logger.info(d.get("title"));
         }
     }
 

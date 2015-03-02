@@ -18,17 +18,16 @@ public class InstantMessageServiceTest
     {
         ApplicationContext context = new ClassPathXmlApplicationContext("InstantMessage.xml");
 
-         Message<String> xmppOutboundMsg = MessageBuilder.withPayload("Hello, XMPP!" )
-         .setHeader(XmppHeaders.CHAT, "userhandle")
+        Message<String> xmppOutboundMsg = MessageBuilder.withPayload("Hello, XMPP!").setHeader(XmppHeaders.CHAT, "userhandle")
         // .setHeader(XmppHeaders.FROM, "sns@geeksaga.com")
         // .setHeader(XmppHeaders.TO, "smileemaker@gmail.com")
-         .build();
+                .build();
 
         MessageChannel toUserChannel = context.getBean("toUserChannel", MessageChannel.class);
 
         Message<String> message = new GenericMessage<String>("Hello from Spring Integration XMPP");
 
-         toUserChannel.send(xmppOutboundMsg);
-//        toUserChannel.send(message);
+        toUserChannel.send(xmppOutboundMsg);
+        // toUserChannel.send(message);
     }
 }

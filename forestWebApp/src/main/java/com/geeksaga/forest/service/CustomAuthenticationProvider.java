@@ -14,8 +14,6 @@
  */
 package com.geeksaga.forest.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -35,8 +33,6 @@ import com.geeksaga.forest.entity.SecurityUser;
 @Service
 public class CustomAuthenticationProvider implements AuthenticationProvider
 {
-    private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
-
     @Autowired
     private CustomUserDetailService userService;
 

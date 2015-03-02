@@ -27,12 +27,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
-import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authority;
 import com.geeksaga.forest.entity.QAuthority;
@@ -66,7 +64,6 @@ public class AuthorityRepositoryTest extends AbstractRepositoryTestSupport
         user = new User(KeyGenerator.generateKeyToLong(), "geeksaga@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "0");
 
         Authority authority = new Authority(KeyGenerator.generateKeyToLong(), user.getSid(), ROLE.USER.getCode());
-        authority.setRegistTimestamp(DateConvertor.getDateTimeFormat());
 
         Set<Authority> set = new HashSet<Authority>();
         set.add(authority);
@@ -83,7 +80,6 @@ public class AuthorityRepositoryTest extends AbstractRepositoryTestSupport
     {
         Set<Authority> authorities = new HashSet<>();
         Authority authority = new Authority(KeyGenerator.generateKeyToLong(), user.getSid(), ROLE.USER.getCode());
-        authority.setRegistTimestamp(DateConvertor.getDateTimeFormat());
         authorities.add(authority);
 
         // user.setAuthority(authorities);

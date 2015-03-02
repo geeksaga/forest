@@ -11,7 +11,7 @@
     <h1 th:text="#{ui.signup.header}"></h1>
   </header>
   <section layout:fragment="content">
-    <table>
+    <table class="table table-hover">
       <caption th:text="#{ui.table.caption.userList}"></caption>
       <thead>
           <tr>
@@ -26,17 +26,28 @@
       <tbody>
           <tr th:each="seed,stat : ${seeds}">
               <td th:text="${stat.count}"></td>
-              <td th:text="${seed.title}"></td>
-              <td th:text="${seed.lastName}"></td>
-              <td th:text="${seed.firstName}"></td>
-              <td th:text="${seed.enabled}"></td>
+              <td><a th:text="${seed.title}" href="#" th:href="@{/users/edit(sid=${seed.sid})}"></a></td>
+              <td th:text="${seed.content}"></td>
+              <td th:text="${seed.registTimestamp}"></td>
+              <td th:text="${seed.modifyTimestamp}"></td>
               <td>
-                <a class="delete-button" href="#" th:href="@{/users/delete(sid=${user.sid})}">delete</a> <a
-                  class="edit-button" href="#" th:href="@{/users/edit(sid=${user.sid})}">edit</a>
+                <button type="button" class="btn btn-danger btn-xs">delete</button>
+                <button type="button" class="btn btn-primary btn-xs">edit</button>
+                <a class="btn btn-danger btn-xs" href="#" th:href="@{/seed/delete(sid=${seed.sid})}">delete</a> <a
+                  class="btn btn-primary btn-xs" href="#" th:href="@{/seed/edit(sid=${seed.sid})}">edit</a>
               </td>
           </tr>
       </tbody>
     </table>
+    <ul class="pagination">
+        <li><a href="#">&laquo;</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&raquo;</a></li>
+    </ul>
   </section>    
   <footer layout:fragment="footer"></footer>
   <script layout:fragment="custom-script">

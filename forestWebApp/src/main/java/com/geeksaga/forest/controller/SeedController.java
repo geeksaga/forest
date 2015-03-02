@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
 import com.geeksaga.forest.common.util.FileUtil;
+import com.geeksaga.forest.common.util.Logger;
 import com.geeksaga.forest.common.util.RequestUtils;
 import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.entity.Seed;
-import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.service.CustomUserDetailService;
 import com.geeksaga.forest.service.SeedCommandService;
 import com.geeksaga.forest.service.SeedQueryService;
@@ -58,14 +58,14 @@ public class SeedController
 
         if (user != null && !StringUtils.isEmpty(user.getSid()))
         {
-            seed.setUser(user);
+            seed.setUserSid(user.getSid());
         }
         else
         {
-            seed.setUser(new User(0L));
+            seed.setUserSid(0L);
         }
-
-        System.out.println(seed);
+        
+        Logger.info(seed.toString());
 
         // if (!file.isEmpty())
         // {

@@ -17,6 +17,7 @@ package com.geeksaga.forest.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -26,10 +27,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -54,9 +55,9 @@ public class Seed extends BaseEntity implements Serializable
     @Column(name = "content", nullable = false, updatable = true)
     private String content;
 
-//    @NotNull
-//    @Column(name = "user_sid", nullable = false)
-//    private Long userSid;
+    @NotNull
+    @Column(name = "user_sid", nullable = false)
+    private Long userSid;
 
     @Column(name = "tag_sid", updatable = true)
     private Long tagSid;
@@ -65,16 +66,18 @@ public class Seed extends BaseEntity implements Serializable
     private boolean del;
 
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "regist_timestamp", nullable = false)
-    private String registTimestamp;
+    private Date registTimestamp;
 
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modify_timestamp", nullable = false)
-    private String modifyTimestamp;
+    private Date modifyTimestamp;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
-    private User user;
+    // @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
+    // private User user;
 
     @Transient
     private String tag;
@@ -124,13 +127,18 @@ public class Seed extends BaseEntity implements Serializable
 
     public Seed()
     {}
-    
-    public Seed(Long sid, String title, String content, User user, String registTimestamp, String modifyTimeStamp)
+
+    public Seed(Long sid, String title, String content, Long userSid)
+    {
+        this(sid, title, content, userSid, new Date(), new Date());
+    }
+
+    public Seed(Long sid, String title, String content, Long userSid, Date registTimestamp, Date modifyTimeStamp)
     {
         setSid(sid);
         setTitle(title);
         setContent(content);
-        setUser(user);
+        setUserSid(userSid);
         setRegistTimestamp(registTimestamp);
         setModifyTimestamp(modifyTimeStamp);
     }
@@ -181,15 +189,15 @@ public class Seed extends BaseEntity implements Serializable
         this.content = content;
     }
 
-//    public Long getUserSid()
-//    {
-//        return userSid;
-//    }
-//
-//    public void setUserSid(Long userSid)
-//    {
-//        this.userSid = userSid;
-//    }
+    public Long getUserSid()
+    {
+        return userSid;
+    }
+
+    public void setUserSid(Long userSid)
+    {
+        this.userSid = userSid;
+    }
 
     public Long getTagSid()
     {
@@ -212,36 +220,36 @@ public class Seed extends BaseEntity implements Serializable
     {
         this.del = del;
     }
-    
-    public String getRegistTimestamp()
+
+    public Date getRegistTimestamp()
     {
         return registTimestamp;
     }
 
-    public void setRegistTimestamp(String registTimestamp)
+    public void setRegistTimestamp(Date registTimestamp)
     {
         this.registTimestamp = registTimestamp;
     }
 
-    public String getModifyTimestamp()
+    public Date getModifyTimestamp()
     {
         return modifyTimestamp;
     }
 
-    public void setModifyTimestamp(String modifyTimestamp)
+    public void setModifyTimestamp(Date modifyTimestamp)
     {
         this.modifyTimestamp = modifyTimestamp;
     }
 
-    public User getUser()
-    {
-        return user;
-    }
-
-    public void setUser(User user)
-    {
-        this.user = user;
-    }
+    // public User getUser()
+    // {
+    // return user;
+    // }
+    //
+    // public void setUser(User user)
+    // {
+    // this.user = user;
+    // }
 
     @JsonIgnore
     @JsonProperty(value = "tag")

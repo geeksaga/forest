@@ -68,8 +68,7 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
 
         userRepository.save(user);
 
-        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 데이터", "태그 맵을 위한 데이터 내용", user, DateConvertor.getDateTimeFormat(),
-                DateConvertor.getDateTimeFormat());
+        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 데이터", "태그 맵을 위한 데이터 내용", user.getSid());
 
         seedRepository.save(seed);
 
@@ -86,8 +85,7 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
     @Test
     public void testSave()
     {
-        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 테스트", "태그 맵을 위한 테스트 내용", user, DateConvertor.getDateTimeFormat(),
-                DateConvertor.getDateTimeFormat());
+        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "태그 맵을 위한 테스트", "태그 맵을 위한 테스트 내용", user.getSid());
 
         seedRepository.saveAndFlush(seed);
 

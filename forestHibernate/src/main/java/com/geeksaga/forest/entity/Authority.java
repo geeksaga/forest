@@ -15,6 +15,7 @@
 package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,13 +24,15 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 // @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "pw_authority", schema = "")
-//@AssociationOverrides({ @AssociationOverride(name = "user", joinColumns = @JoinColumn(name = "user_sid")) })
+// @AssociationOverrides({ @AssociationOverride(name = "user", joinColumns = @JoinColumn(name = "user_sid")) })
 public class Authority extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -44,17 +47,18 @@ public class Authority extends BaseEntity implements Serializable
     private String targetType;
 
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "regist_timestamp", nullable = false)
-    private String registTimestamp;
-    
+    private Date registTimestamp;
+
     // @NotNull
     // @Column(name = "user_sid", nullable = false)
     // private Long userSid;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
     // @Fetch(FetchMode.SELECT)
-    //    @Transient
+    // @Transient
     private User user;
 
     public Authority()
@@ -62,20 +66,21 @@ public class Authority extends BaseEntity implements Serializable
 
     public Authority(Long userSid, String role)
     {
-        this(0L, userSid, role, null);
+        this(0L, userSid, role);
     }
 
     public Authority(Long sid, Long userSid, String role)
     {
-        this(sid, userSid, role, null);
+        this(sid, userSid, role, null, new Date());
     }
 
-    public Authority(Long sid, Long userSid, String role, String targetType)
+    public Authority(Long sid, Long userSid, String role, String targetType, Date registTimestamp)
     {
         setSid(sid);
         setUser(new User(userSid));
         setRole(role);
         setTargetType(targetType);
+        setRegistTimestamp(registTimestamp);
     }
 
     public String getRole()
@@ -98,12 +103,12 @@ public class Authority extends BaseEntity implements Serializable
         this.targetType = targetType;
     }
 
-    public String getRegistTimestamp()
+    public Date getRegistTimestamp()
     {
         return registTimestamp;
     }
 
-    public void setRegistTimestamp(String registTimestamp)
+    public void setRegistTimestamp(Date registTimestamp)
     {
         this.registTimestamp = registTimestamp;
     }

@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>index</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-  <P>My name is ${name}.</P>
-  <p th:text="'Hello, ' + ${name} + '!'" />
-  <p>
-    <a th:href="@{/signup}">signup</a>
-  </p>
-  <p>
-    <a th:href="@{/login}">login</a>
-  </p>
-  <p>
-    <a th:href="@{/user/list}">user/list</a>
-  </p>
-  <p>  
-    <a th:href="@{/seed/add}">add</a>
-  </p>
-  <p>  
-    <a th:href="@{/seed/list}">list</a>
-  </p>
-  <p>
-    <a th:href="@{/seeds/list}">list</a>
-  </p>
+	<P>My name is ${name}.</P>
+	<p th:text="'Hello, ' + ${name} + '!'" />
+	<p>
+		<a th:href="@{/signup}">signup</a>
+	</p>
+	<p>
+		<a th:href="@{/login}">login</a>
+	</p>
+	<p>
+		<a th:href="@{/user/list}">user/list</a>
+	</p>
+	<p>
+		<a th:href="@{/seed/add}">add</a>
+	</p>
+	<p>
+		<a th:href="@{/seed/list}">list</a>
+	</p>
+	<p>
+		<a th:href="@{/seeds/list}">list</a>
+	</p>
 </body>
 </html>

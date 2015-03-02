@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.geeksaga.common.util.DateConvertor;
+import com.geeksaga.forest.common.util.Logger;
 import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.service.SeedCommandService;
 import com.geeksaga.forest.service.SeedQueryService;
@@ -45,7 +46,7 @@ public class SeedRestController
     @RequestMapping("/seeds/save")
     public Seed save(Seed seed)
     {
-        System.out.println(seed);
+        Logger.debug(seed.toString());
 
         seed.setTitle("Test 1 " + DateConvertor.getDateTimeFormat());
         seed.setContent("Test Content 1");

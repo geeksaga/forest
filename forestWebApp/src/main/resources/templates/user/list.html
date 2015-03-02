@@ -11,7 +11,7 @@
     <h1 th:text="#{ui.signup.header}"></h1>
   </header>
   <section layout:fragment="content">
-    <table>
+    <table class="table table-hover">
       <caption th:text="#{ui.table.caption.userList}"></caption>
       <thead>
           <tr>
@@ -33,14 +33,16 @@
               <td th:text="${user.email}"></td>
               <td th:text="${user.lastName}"></td>
               <td th:text="${user.firstName}"></td>
-              <td th:each="role : ${user.roles}">
-                <span th:text="${role}"></span>
+              <td th:each="authority : ${user.authority}">
+                <span th:text="${authority.role}"></span>
               </td>
               <td th:text="${user.enabled}"></td>
               <td th:text="${!user.accountNonLocked}"></td>
               <td th:text="${!user.accountNonExpired}"></td>
               <td th:text="${!user.credentialsNonExpired}"></td>
               <td>
+                <button type="button" class="btn btn-danger btn-xs">delete</button>
+                <button type="button" class="btn btn-primary btn-xs">edit</button>
                 <a class="delete-button" href="#" th:href="@{/users/delete(sid=${user.sid})}">delete</a> <a
                   class="edit-button" href="#" th:href="@{/users/edit(sid=${user.sid})}">edit</a>
               </td>

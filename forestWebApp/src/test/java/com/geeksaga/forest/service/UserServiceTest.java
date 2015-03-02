@@ -14,6 +14,7 @@
  */
 package com.geeksaga.forest.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.AbstractTestSupport;
+import com.geeksaga.forest.common.util.Logger;
 import com.geeksaga.forest.entity.User;
 import com.geeksaga.forest.repositories.UserRepository;
 
@@ -46,20 +48,14 @@ public class UserServiceTest extends AbstractTestSupport
 
     private void addTestData()
     {
-        User user1 = new User(KeyGenerator.generateKeyToLong(), "geeksaga99@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon");
-        // user1.setPoint(99);
-        // user1.setLevel(UserLevel.NORMAL);
-        userRepository.saveAndFlush(user1);
+        List<User> users = new ArrayList<>();
+        
+        users.add(new User(KeyGenerator.generateKeyToLong(), "geeksaga99@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon"));
+        users.add(new User(KeyGenerator.generateKeyToLong(), "geeksaga199@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon"));
+        users.add(new User(KeyGenerator.generateKeyToLong(), "geeksaga299@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon"));
 
-        User user2 = new User(KeyGenerator.generateKeyToLong(), "geeksaga199@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon");
-        // user2.setPoint(299);
-        // user2.setLevel(UserLevel.MASTER);
-        userRepository.saveAndFlush(user2);
-
-        User user3 = new User(KeyGenerator.generateKeyToLong(), "geeksaga299@geeksaga.com", PasswordEncoderWrapper.encode("password"), "jihun", "jeon");
-        // user3.setPoint(301);
-        // user3.setLevel(UserLevel.MVP);
-        userRepository.saveAndFlush(user3);
+        userRepository.save(users);
+        userRepository.flush();
     }
 
     @Test
@@ -68,7 +64,7 @@ public class UserServiceTest extends AbstractTestSupport
         List<User> listup = userQueryService.findAll();
         for (User user : listup)
         {
-            System.out.println(user);
+            Logger.info(user.toString());
         }
     }
 

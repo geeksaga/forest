@@ -20,9 +20,6 @@ import com.geeksaga.forest.entity.BaseEntity;
 
 public abstract class AbstractSpringData<T extends BaseEntity> extends QueryDslRepositorySupport
 {
-    // @Autowired
-    // protected JpaRepository<T, Long> repository;
-    
     public AbstractSpringData(Class<?> domainClass)
     {
         super(domainClass);
