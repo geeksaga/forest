@@ -16,6 +16,7 @@
 package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
@@ -25,8 +26,12 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "pw_tag_map", catalog = "", schema = "")
@@ -44,9 +49,10 @@ public class TagMap implements Serializable
     @EmbeddedId
     private PK pk = new PK();
 
-    // @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "regist_timestamp", nullable = false, length = 14)
-    private String registTimestamp;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "regist_timestamp", nullable = false)
+    private Date registTimestamp;
 
     // @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     // // @MapsId("tag_sid")
@@ -185,6 +191,12 @@ public class TagMap implements Serializable
         getPk().setTag(tag);
     }
 
+    @PrePersist
+    public void prePersist()
+    {
+        setRegistTimestamp(new Date());
+    }
+    
     public PK getPk()
     {
         return pk;
@@ -194,7 +206,7 @@ public class TagMap implements Serializable
     {
         this.pk = pk;
     }
-
+    
     @Transient
     public Seed getSeed()
     {
@@ -217,12 +229,12 @@ public class TagMap implements Serializable
         getPk().setTag(tag);
     }
 
-    public String getRegistTimestamp()
+    public Date getRegistTimestamp()
     {
         return registTimestamp;
     }
 
-    public void setRegistTimestamp(String registTimestamp)
+    public void setRegistTimestamp(Date registTimestamp)
     {
         this.registTimestamp = registTimestamp;
     }

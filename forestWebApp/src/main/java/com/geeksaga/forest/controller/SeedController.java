@@ -41,7 +41,7 @@ public class SeedController
 {
     @Autowired
     private SeedQueryService seedQueryServcie;
-    
+
     @Autowired
     private SeedCommandService seedCommandServcie;
 
@@ -64,29 +64,29 @@ public class SeedController
         {
             seed.setUserSid(0L);
         }
-        
+
         Logger.info(seed.toString());
 
-        // if (!file.isEmpty())
-        // {
-        // byte[] bytes = file.getBytes();
+        if (!seed.getFile().isEmpty())
+        {
+            seed.setFiles(FileUtil.processFile(RequestUtils.getRequest(request), seed.getFile(), "0"));
+        }
+        
+        if (bindingResult.hasErrors())
+        {
 
-        seed.setFiles(FileUtil.processFile(RequestUtils.getRequest(request), seed.getFile(), "0"));
-        // }
-        // if (bindingResult.hasErrors()) {
-        //
-        // }
+        }
 
         seedCommandServcie.save(seed);
 
         return "redirect:/index";
     }
-    
+
     @RequestMapping(value = { "/seed/list" }, method = RequestMethod.GET)
     public String list(Seed seed, ModelMap model)
     {
         model.addAttribute("seeds", seedQueryServcie.findAll());
-        
+
         return "seed/list";
     }
 

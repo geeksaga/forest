@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
-import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.HangleParser;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Seed;
@@ -76,10 +75,7 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
 
         tagRepository.save(tag);
 
-        TagMap tagMap = new TagMap(seed, tag);
-        tagMap.setRegistTimestamp(DateConvertor.getDateTimeFormat());
-
-        tagMapRepository.save(tagMap);
+        tagMapRepository.save(new TagMap(seed, tag));
     }
 
     @Test
@@ -94,10 +90,7 @@ public class TagMapRepositoryTest extends AbstractRepositoryTestSupport
 
         tagRepository.saveAndFlush(tag);
 
-        TagMap tagMap = new TagMap(seed, tag);
-        tagMap.setRegistTimestamp(DateConvertor.getDateTimeFormat());
-
-        TagMap savedTagMap = tagMapRepository.saveAndFlush(tagMap);
+        TagMap savedTagMap = tagMapRepository.saveAndFlush(new TagMap(seed, tag));
 
         assertThat(savedTagMap, is(notNullValue()));
         assertThat(tag, is(savedTagMap.getTag()));

@@ -35,7 +35,6 @@ import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
 import com.geeksaga.forest.entity.Authority;
 import com.geeksaga.forest.entity.QAuthority;
-import com.geeksaga.forest.entity.QSeed;
 import com.geeksaga.forest.entity.QUser;
 import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.entity.User;
@@ -176,12 +175,13 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     @Test
     public void testFindListForSeedByUser()
     {
-        entityManager.clear();
-
-        List<User> users = getQuery().from(QUser.user).leftJoin(QUser.user.seeds, QSeed.seed).where(QUser.user.sid.eq(QSeed.seed.user.sid))
-                .list(QUser.user);
-
-        System.out.println(users.get(0));
+        // entityManager.clear();
+        //
+        // List<User> users = getQuery().from(QUser.user).leftJoin(QUser.user.seeds,
+        // QSeed.seed).where(QUser.user.sid.eq(QSeed.seed.user.sid))
+        // .list(QUser.user);
+        //
+        // System.out.println(users.get(0));
     }
 
     @Test

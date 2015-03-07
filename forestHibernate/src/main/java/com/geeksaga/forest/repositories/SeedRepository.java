@@ -25,12 +25,17 @@ import org.springframework.stereotype.Repository;
 import com.geeksaga.forest.entity.Seed;
 
 @Repository
+// @RepositoryRestResource(collectionResourceRel = "seed", path = "seed")
 public interface SeedRepository extends JpaRepository<Seed, Long>, QueryDslPredicateExecutor<Seed>, JpaSpecificationExecutor<Seed>
 {
     // @Query(value = "SELECT s FROM pw_seeds s WHERE s.delYn = ?1", nativeQuery = false)
     // List<Seed> findByDelYn(String delYn);
-    
-    List<Seed> findByModifyTimestamp(String modifyTimestamp, Pageable page);
-    
-    List<Seed> findTop10ByModifyTimestampOrderByModifyTimestampDesc(String modifyTimestamp);
+
+    List<Seed> findByUserSid(Long userSid);
+
+    // List<Seed> findByUser(User user);
+
+    List<Seed> findByModifyTimestamp(Pageable pageable);
+
+    List<Seed> findTop10ByOrderByModifyTimestampDesc();
 }

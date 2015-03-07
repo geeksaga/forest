@@ -28,6 +28,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -74,10 +75,6 @@ public class Seed extends BaseEntity implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modify_timestamp", nullable = false)
     private Date modifyTimestamp;
-
-    // @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "user_sid", referencedColumnName = "sid", nullable = false)
-    // private User user;
 
     @Transient
     private String tag;
@@ -130,17 +127,10 @@ public class Seed extends BaseEntity implements Serializable
 
     public Seed(Long sid, String title, String content, Long userSid)
     {
-        this(sid, title, content, userSid, new Date(), new Date());
-    }
-
-    public Seed(Long sid, String title, String content, Long userSid, Date registTimestamp, Date modifyTimeStamp)
-    {
         setSid(sid);
         setTitle(title);
         setContent(content);
         setUserSid(userSid);
-        setRegistTimestamp(registTimestamp);
-        setModifyTimestamp(modifyTimeStamp);
     }
 
     /**
@@ -169,6 +159,13 @@ public class Seed extends BaseEntity implements Serializable
         return sb.toString();
     }
 
+    @PrePersist
+    public void prePersist()
+    {
+        setRegistTimestamp(new Date());
+        setModifyTimestamp(new Date());
+    }
+
     public String getTitle()
     {
         return title;
@@ -189,11 +186,13 @@ public class Seed extends BaseEntity implements Serializable
         this.content = content;
     }
 
+    @Transient
     public Long getUserSid()
     {
         return userSid;
     }
 
+    @Transient
     public void setUserSid(Long userSid)
     {
         this.userSid = userSid;
@@ -241,16 +240,6 @@ public class Seed extends BaseEntity implements Serializable
         this.modifyTimestamp = modifyTimestamp;
     }
 
-    // public User getUser()
-    // {
-    // return user;
-    // }
-    //
-    // public void setUser(User user)
-    // {
-    // this.user = user;
-    // }
-
     @JsonIgnore
     @JsonProperty(value = "tag")
     public String getTag()
@@ -287,6 +276,6 @@ public class Seed extends BaseEntity implements Serializable
 
     public String toString()
     {
-        return "Seed [title = " + title + ", content =" + content + "]";
+        return "Seed [sid = " + getSid() + ", title = " + getTitle() + ", content =" + getContent() + "]";
     }
 }

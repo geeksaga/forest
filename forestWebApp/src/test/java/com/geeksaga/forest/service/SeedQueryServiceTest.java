@@ -22,6 +22,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import com.geeksaga.common.crypt.PasswordEncoderWrapper;
 import com.geeksaga.common.util.KeyGenerator;
@@ -30,7 +31,7 @@ import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.entity.User;
 import com.google.common.collect.Lists;
 
-public class SeedServiceTest extends AbstractTestSupport
+public class SeedQueryServiceTest extends AbstractTestSupport
 {
     @Autowired
     private UserCommandService userCOmmandServce;
@@ -71,18 +72,18 @@ public class SeedServiceTest extends AbstractTestSupport
     }
 
     @Test
-    public void testSave()
-    {
-        Seed seed = new Seed(KeyGenerator.generateKeyToLong(), "Test Save 1", "Save Content 1", user.getSid());
-
-        seedCommandService.save(seed);
-    }
-
-    @Test
     public void testFindTopN()
     {
-        List<Seed> list = seedQueryService.findTopN(0, 2);
+        Page<Seed> page = seedQueryService.findTopN(0, 2);
 
-        assertThat(2, is(list.size()));
+        assertThat(2, is(page.getContent().size()));
+    }
+    
+    @Test
+    public void testFindTop10ByOrderByModifyTimestampDesc()
+    {
+        List<Seed> list = seedQueryService.findTop10ByOrderByModifyTimestampDesc();
+
+        assertThat(3, is(list.size()));
     }
 }

@@ -9,14 +9,13 @@
  */
 
 /**
- * http://www.java2s.com/Tutorials/Java/JPA/4330__JPA_Query_Exists.htm 
+ * http://www.java2s.com/Tutorials/Java/JPA/4330__JPA_Query_Exists.htm
  * 
  * @author geeksaga
  * @version 0.1
  */
 package com.geeksaga.forest.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.geeksaga.common.util.DateConvertor;
 import com.geeksaga.common.util.HangleParser;
 import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.entity.Tag;
@@ -42,12 +40,12 @@ public class TagMapService extends QueryDslRepositorySupport
 
     @Autowired
     private TagService tagService;
-    
+
     public TagMapService()
     {
         super(TagMap.class);
     }
-    
+
     /**
      * Tag 를 파싱 한 후 등록 한다. 이미 등록된 Tag 인지 조회 하여 등록된 Tag 는 카운트만 증가 시키고 등록되어 있지 않으면 등록 시킨다.
      * 
@@ -63,7 +61,7 @@ public class TagMapService extends QueryDslRepositorySupport
     {
         return save(seed, tags, type, false);
     }
-    
+
     /**
      * Tag 를 파싱 한 후 등록 한다. 이미 등록된 Tag 인지 조회 하여 등록된 Tag 는 카운트만 증가 시키고, 등록되어 있지 않으면 등록 시킨 후 대상에 대한 Tag 내용을 수정 한다.
      * 
@@ -90,20 +88,20 @@ public class TagMapService extends QueryDslRepositorySupport
                 String t = st.nextToken().trim();
 
                 Tag tag = new Tag(t, HangleParser.parse(t));
-                
+
                 Tag targetTag = tagService.findByTagName(tag);
 
                 if (targetTag == null)
                 {
                     targetTag = tagService.save(tag);
                 }
-                
+
                 TagMap tagMap = new TagMap(seed, targetTag);
 
                 if (!tagMapRepository.exists(tagMap.getPk()))
                 {
                     tagMapRepository.save(tagMap);
-                    
+
                     tagService.updateCnt(targetTag);
                 }
 
@@ -129,7 +127,7 @@ public class TagMapService extends QueryDslRepositorySupport
 
         return resultTag;
     }
-    
+
     /**
      * 태그를 등록 한다.
      * 
@@ -138,7 +136,7 @@ public class TagMapService extends QueryDslRepositorySupport
      */
     public TagMap save(TagMap tagMap)
     {
-        tagMap.setRegistTimestamp(DateConvertor.getDateTimeFormat());
+        // tagMap.setRegistTimestamp(DateConvertor.getDateTimeFormat());
 
         tagMapRepository.save(tagMap);
 
@@ -147,21 +145,21 @@ public class TagMapService extends QueryDslRepositorySupport
 
     public List<TagMap> save(Iterable<TagMap> list)
     {
-        Iterator<TagMap> iter = list.iterator();
-
-        while (iter.hasNext())
-        {
-            TagMap tagMap = iter.next();
-            tagMap.setRegistTimestamp(DateConvertor.getDateTimeFormat());
-        }
+        // Iterator<TagMap> iter = list.iterator();
+        //
+        // while (iter.hasNext())
+        // {
+        // TagMap tagMap = iter.next();
+        // tagMap.setRegistTimestamp(DateConvertor.getDateTimeFormat());
+        // }
 
         tagMapRepository.save(list);
-        
+
         return (List<TagMap>) list;
     }
 
     /**
-     * 이미  등록되어 있는 태그 인지 확인 한다.
+     * 이미 등록되어 있는 태그 인지 확인 한다.
      * 
      * @param tagMap
      * @return
