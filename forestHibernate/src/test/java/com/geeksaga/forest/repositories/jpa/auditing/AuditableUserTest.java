@@ -6,37 +6,35 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-@ContextConfiguration(classes = AuditingConfiguration.class)
-public class AuditableUserTest {
+import com.geeksaga.forest.util.AbstractRepositoryTestSupport;
 
-	@Autowired AuditableUserRepository repository;
-	@Autowired AuditorAwareImpl auditorAware;
-	@Autowired AuditingEntityListener listener;
+public class AuditableUserTest extends AbstractRepositoryTestSupport
+{
+    @Autowired
+    private AuditableUserRepository repository;
+    @Autowired
+    private AuditorAwareImpl auditorAware;
+    @Autowired
+    private AuditingEntityListener listener;
 
-	@Test
-	public void auditEntityCreation() throws Exception {
+    @Test
+    public void auditEntityCreation() throws Exception
+    {
+        assertThat(ReflectionTestUtils.getField(listener, "handler"), is(notNullValue()));
 
-		assertThat(ReflectionTestUtils.getField(listener, "handler"), is(notNullValue()));
+        AuditableUser user = new AuditableUser();
+        user.setUsername("geeksaga");
 
-		AuditableUser user = new AuditableUser();
-		user.setUsername("geeksaga");
+        auditorAware.setAuditor(user);
 
-		auditorAware.setAuditor(user);
+        user = repository.save(user);
+        user = repository.save(user);
 
-		user = repository.save(user);
-		user = repository.save(user);
-
-		assertEquals(user, user.getCreatedBy());
-		assertEquals(user, user.getLastModifiedBy());
-	}
+        assertEquals(user, user.getCreatedBy());
+        assertEquals(user, user.getLastModifiedBy());
+    }
 }

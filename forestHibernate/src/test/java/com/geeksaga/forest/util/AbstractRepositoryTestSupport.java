@@ -24,9 +24,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.geeksaga.forest.config.DataConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-// @ContextConfiguration(classes = { DataConfig.class })
-// @ContextConfiguration(classes = AuditingConfiguration.class)
-// , loader = AnnotationConfigWebContextLoader.class)
 @SpringApplicationConfiguration(classes = { DataConfig.class })
 @TransactionConfiguration(defaultRollback = true)
 @Transactional

@@ -29,6 +29,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -161,6 +162,13 @@ public class Seed extends BaseEntity implements Serializable
 
     @PrePersist
     public void prePersist()
+    {
+        setRegistTimestamp(new Date());
+        setModifyTimestamp(new Date());
+    }
+    
+    @PreUpdate
+    public void preUpdate()
     {
         setRegistTimestamp(new Date());
         setModifyTimestamp(new Date());

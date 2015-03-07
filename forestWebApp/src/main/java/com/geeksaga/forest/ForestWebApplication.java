@@ -1,3 +1,17 @@
+/*
+ * GeekSaga Class Infomation Library v0.0.1
+ * 
+ * http://geeksaga.com/
+ * 
+ * Copyright 2014 GeekSaga Foundation, Inc. and other contributors
+ * 
+ * Released under the MIT license http://geeksaga.com/license
+ */
+
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 package com.geeksaga.forest;
 
 import java.nio.charset.Charset;
@@ -59,19 +73,6 @@ public class ForestWebApplication extends SpringBootServletInitializer
 
     @Autowired
     private MessageSource messageSource;
-
-    // @Override
-    // public void onStartup(ServletContext servletContext) throws ServletException
-    // {
-    // AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-    // rootContext.register(ApplicationContext.class);
-    //
-    // ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
-    // dispatcher.setLoadOnStartup(1);
-    // dispatcher.addMapping("/");
-    //
-    // servletContext.addListener(new ContextLoaderListener(rootContext));
-    // }
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException
