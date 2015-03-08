@@ -16,7 +16,6 @@ package com.geeksaga.forest.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -61,9 +60,6 @@ public class Seed extends BaseEntity implements Serializable
     @Column(name = "user_sid", nullable = false)
     private Long userSid;
 
-    @Column(name = "tag_sid", updatable = true)
-    private Long tagSid;
-
     @Column(name = "del_yn", updatable = true, columnDefinition = "boolean default false")
     private boolean del;
 
@@ -93,35 +89,8 @@ public class Seed extends BaseEntity implements Serializable
     @Transient
     private List<AttachFile> files = new ArrayList<AttachFile>();
 
-    // @OneToMany(mappedBy = "seed", fetch = FetchType.LAZY)//, cascade = CascadeType.ALL)
-    // @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    // @JoinColumn(name = "sid", nullable = true, insertable = true, updatable = false)
-    @Transient
-    private Collection<Tag> tags = new ArrayList<Tag>();
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.seed", cascade = CascadeType.ALL)
     private Set<TagMap> tagSet = new HashSet<TagMap>(0);
-
-    public Set<TagMap> getTagSet()
-    {
-        return tagSet;
-    }
-
-    public void setTagSet(Set<TagMap> tagSet)
-    {
-        this.tagSet = tagSet;
-    }
-
-    // @OneToMany(mappedBy = "seed")//, fetch = FetchType.LAZY)
-    public Collection<Tag> getTags()
-    {
-        return tags;
-    }
-
-    public void setTags(Collection<Tag> tags)
-    {
-        setTags(tags);
-    }
 
     public Seed()
     {}
@@ -206,16 +175,6 @@ public class Seed extends BaseEntity implements Serializable
         this.userSid = userSid;
     }
 
-    public Long getTagSid()
-    {
-        return tagSid;
-    }
-
-    public void setTagSid(Long tagSid)
-    {
-        this.tagSid = tagSid;
-    }
-
     @JsonIgnore
     @JsonProperty(value = "del")
     public boolean isDel()
@@ -280,6 +239,16 @@ public class Seed extends BaseEntity implements Serializable
     public void setFiles(List<AttachFile> files)
     {
         this.files = files;
+    }
+    
+    public Set<TagMap> getTagSet()
+    {
+        return tagSet;
+    }
+
+    public void setTagSet(Set<TagMap> tagSet)
+    {
+        this.tagSet = tagSet;
     }
 
     public String toString()

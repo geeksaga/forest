@@ -58,13 +58,13 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 
 // @ComponentScan(basePackages = { "com.geeksaga.forest" }, excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
 // "com.geeksaga.forest.web.*" }))
+// @ImportResource("classpath:InstantMessage.xml")
 
 @ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller",
         "com.geeksaga.forest.service.dev", "com.geeksaga.forest.controller.dev" })
 @PropertySources({ @PropertySource("classpath:application.properties"),
         @PropertySource("classpath:application-${spring.profiles.active}.properties") })
 @SpringBootApplication
-// @ImportResource("classpath:InstantMessage.xml")
 @EntityScan(basePackageClasses = { User.class, AuditableUser.class })
 public class ForestWebApplication extends SpringBootServletInitializer
 {

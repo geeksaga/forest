@@ -14,7 +14,6 @@
  */
 package com.geeksaga.forest.service;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geeksaga.common.util.KeyGenerator;
+import com.geeksaga.forest.common.util.Logger;
 import com.geeksaga.forest.entity.QSeed;
 import com.geeksaga.forest.entity.Seed;
 import com.geeksaga.forest.entity.Tag;
@@ -80,8 +80,6 @@ public class SeedCommandService extends AbstractSpringData<Seed>
             luceneEngine.addDocument(seed.getIndexingData(), seed.getSid());
 
             seed.setSid(KeyGenerator.generateKeyToLong());
-            seed.setRegistTimestamp(new Date());
-            seed.setModifyTimestamp(new Date());
 
             if (seed.getSid().equals(seedRepository.save(seed).getSid()))
             {
@@ -99,7 +97,7 @@ public class SeedCommandService extends AbstractSpringData<Seed>
         {
             luceneEngine.deleteDocument(seed.getSid());
 
-            thr.printStackTrace();
+            Logger.error(thr);
         }
 
         return seed;
@@ -113,8 +111,6 @@ public class SeedCommandService extends AbstractSpringData<Seed>
         {
             Seed seed = iter.next();
             seed.setSid(KeyGenerator.generateKeyToLong());
-            seed.setRegistTimestamp(new Date());
-            seed.setModifyTimestamp(new Date());
         }
 
         seedRepository.save(list);

@@ -10,7 +10,7 @@
   <header layout:fragment="header">
     <h1 th:text="#{ui.signup.header}"></h1>
   </header>
-  <section layout:fragment="content" class="container">
+  <section layout:fragment="content">
     <div class="row">
       <form th:action="@{/signup?__${_csrf.parameterName}__=__${_csrf.token}__}" th:object="${user}" method="post" role="form">
          <div class="col-lg-6">

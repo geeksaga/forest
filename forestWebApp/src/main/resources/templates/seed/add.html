@@ -1,24 +1,55 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
 <head>
-  <title>Seed Add</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title th:text="#{ui.seed.head.title}"></title>
 </head>
 <body>
-    <div th:if="${param.error}">error.</div>
+  <header layout:fragment="header">
+    <h1 th:text="#{ui.seed.header}"></h1>
+  </header>
+  <section layout:fragment="content">
+    <div class="row">
+    <div th:if="${param.error}"></div>
     <form th:action="@{/seed/add?__${_csrf.parameterName}__=__${_csrf.token}__}" th:object="${seed}" method="post" enctype="multipart/form-data">
-        <fieldset>
-            <label>title</label> : <input type="text" name="title" th:field="${seed.title}" />
-            <label>content</label> : <textarea cols="75" rows="7" name="content" th:field="${seed.content}"></textarea>
-            <div th:if="${#fields.hasErrors('content')}" th:errors="{content}">Name Error</div>
-            
-            <label>tags</label> : <input type="text" name="tag" th:field="${seed.tag}" />
-            
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label th:text="#{ui.seed.title}"></label>
+          <div class="input-group">
+            <input type="text" th:field="${seed.title}" th:class="${#fields.hasErrors('title')}? fieldError : form-control" th:placeholder="#{ui.seed.title}"  required="required" />
+            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:text="#{ui.seed.content}"></label>
+          <div class="input-group">
+            <textarea cols="75" rows="7" name="content" th:field="${seed.content}" th:class="${#fields.hasErrors('content')}? fieldError : form-control" th:placeholder="#{ui.seed.content}" required="required"></textarea>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+          </div>
+          <div th:if="${#fields.hasErrors('content')}" th:errors="{content}">Name Error</div>
+        </div>
+        <div class="form-group">
+          <label th:text="#{ui.seed.tags}"></label>
+          <div class="input-group">
+            <input th:field="${seed.tag}" th:class="${#fields.hasErrors('tag')}? fieldError : form-control" th:placeholder="#{ui.seed.tags.msg}" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:text="#{ui.seed.attach}"></label>
+          <div class="input-group">
             <input type="file" name="file" />
-            <input type="submit" value="Sign In" />
-        </fieldset>
+          </div>
+        </div>
+        <button type="submit" th:text="#{ui.seed.add.button}" class="btn btn-info pull-right"></button>
+      </div>
     </form>
+    </div>
+  </section>    
+  <footer layout:fragment="footer"></footer>
+  <script layout:fragment="custom-script">
+  </script>
 </body>
 </html>

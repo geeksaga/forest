@@ -41,8 +41,6 @@ public class IndexController
         model.put("time", new Date());
         model.put("message", this.message);
 
-        System.out.println("welcome");
-
         return "welcome";
     }
 

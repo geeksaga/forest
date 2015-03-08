@@ -8,16 +8,26 @@
 </head>
 <body>
   <section layout:fragment="content">
-    <div class="row">
-      <div th:each="seed,stat : ${seeds}" class="col-md-10">
-          <a th:text="${seed.title}" href="#" th:href="@{/users/edit(sid=${seed.sid})}"></a>
-          <div th:each="tag : ${seed.tags}" class="col-md-3">
-            <div th:text="${tag.tagName}"></div>
+    <div th:each="seed,stat : ${seeds}" class="col-md-10">
+      <div class="row">
+        <div class="col-md-1">
+          Read
+          <span class="badge">12</span>
+        </div>
+        <div class="col-md-1">
+          Read
+          <span class="badge">12</span>
+        </div>
+        <div class="col-md-10">
+          <div class="col-md-10"><a th:text="${seed.title}" th:href="@{/seed/read(sid=${seed.sid})}"></a></div>
+          <div th:each="tag : ${seed.tagSet}" class="col-md-3">
+            <div th:text="${tag.pk.tag.tagName}"></div>
           </div>
           <div th:text="${seed.modifyTimestamp}"></div>
+        </div>
       </div>
     </div>
-  </section>    
+  </section>
   <footer layout:fragment="footer"></footer>
   <script layout:fragment="custom-script">
   </script>

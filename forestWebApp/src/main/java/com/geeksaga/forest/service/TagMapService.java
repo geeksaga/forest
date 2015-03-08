@@ -100,7 +100,7 @@ public class TagMapService extends QueryDslRepositorySupport
 
                 if (!tagMapRepository.exists(tagMap.getPk()))
                 {
-                    tagMapRepository.save(tagMap);
+                    tagMapRepository.saveAndFlush(tagMap);
 
                     tagService.updateCnt(targetTag);
                 }
