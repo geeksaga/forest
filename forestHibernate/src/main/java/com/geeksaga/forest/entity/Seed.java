@@ -59,6 +59,18 @@ public class Seed extends BaseEntity implements Serializable
     @NotNull
     @Column(name = "user_sid", nullable = false)
     private Long userSid;
+    
+    @NotNull
+    @Column(name = "view_count", nullable = false)
+    private int viewCount;
+    
+    @NotNull
+    @Column(name = "comment_count", nullable = false)
+    private int commentCount;
+    
+    @NotNull
+    @Column(name = "good_count", nullable = false)
+    private int goodCount;
 
     @Column(name = "del_yn", updatable = true, columnDefinition = "boolean default false")
     private boolean del;
@@ -132,6 +144,9 @@ public class Seed extends BaseEntity implements Serializable
     @PrePersist
     public void prePersist()
     {
+        setViewCount(0);
+        setCommentCount(0);
+        setGoodCount(0);
         setRegistTimestamp(new Date());
         setModifyTimestamp(new Date());
     }
@@ -139,7 +154,6 @@ public class Seed extends BaseEntity implements Serializable
     @PreUpdate
     public void preUpdate()
     {
-        setRegistTimestamp(new Date());
         setModifyTimestamp(new Date());
     }
 
@@ -175,6 +189,36 @@ public class Seed extends BaseEntity implements Serializable
         this.userSid = userSid;
     }
 
+    public int getViewCount()
+    {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount)
+    {
+        this.viewCount = viewCount;
+    }
+
+    public int getCommentCount()
+    {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount)
+    {
+        this.commentCount = commentCount;
+    }
+
+    public int getGoodCount()
+    {
+        return goodCount;
+    }
+
+    public void setGoodCount(int goodCount)
+    {
+        this.goodCount = goodCount;
+    }
+    
     @JsonIgnore
     @JsonProperty(value = "del")
     public boolean isDel()
