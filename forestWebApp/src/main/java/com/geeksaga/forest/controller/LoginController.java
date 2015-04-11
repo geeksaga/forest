@@ -7,11 +7,6 @@
  * 
  * Released under the MIT license http://geeksaga.com/license
  */
-
-/**
- * @author geeksaga
- * @version 0.1
- */
 package com.geeksaga.forest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +24,10 @@ import com.geeksaga.forest.entity.SecurityUser;
 import com.geeksaga.forest.service.UserAuthenticationService;
 import com.geeksaga.forest.service.UserCommandService;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 @Controller
 public class LoginController
 {
