@@ -14,8 +14,13 @@ import com.geeksaga.common.enums.DateTimeFormatList;
 public class KeyGenerator
 {
     private static final AtomicReference<String> BEFORE_GEN_KEY = new AtomicReference<String>();
-    private static final AtomicInteger UNIQUE_KEY = new AtomicInteger();
+    private static final AtomicInteger UNIQUE_KEY = new AtomicInteger(0);
     private static final String SUFFIX_HIERARCHY = "999";
+
+    static
+    {
+        BEFORE_GEN_KEY.set(calculateDate());
+    }
 
     private KeyGenerator()
     {}
@@ -59,48 +64,23 @@ public class KeyGenerator
     public static String generateKey(String suffix)
     {
         StringBuilder generateKey = new StringBuilder(calculateDate());
-        generateKey.append(suffix);
 
         long newGenerateKey = Long.valueOf(generateKey.toString());
 
-        generateKey.delete(0, generateKey.length());
-        generateKey.append(String.valueOf(newGenerateKey + UNIQUE_KEY.updateAndGet(i -> i > 8 ? i = 0 : i + 1)));
-        // generateKey.append(String.valueOf(newGenerateKey + updateAndGet()));
-
-        // FIXME
-        // System.out.println(BEFORE_GEN_KEY.get());
-
-        if (BEFORE_GEN_KEY.get() != null)
+        if (Long.valueOf(BEFORE_GEN_KEY.get()) < newGenerateKey)
         {
-            newGenerateKey = Long.valueOf(generateKey.toString());
-
-            if (Long.valueOf(BEFORE_GEN_KEY.get()) >= newGenerateKey)
-            {
-                BEFORE_GEN_KEY.set(generateKey.toString());
-
-                return generateKey(suffix);
-            }
+            UNIQUE_KEY.set(0);
+        }
+        else
+        {
+            generateKey.delete(0, generateKey.length());
+            generateKey.append(String.valueOf(newGenerateKey + UNIQUE_KEY.incrementAndGet()));
         }
 
         BEFORE_GEN_KEY.set(generateKey.toString());
 
-        return generateKey.toString();
+        return generateKey.append(suffix).toString();
     }
-
-    // For JRE 1.7
-    // private static int updateAndGet()
-    // {
-    // if (UNIQUE_KEY.get() > 8)
-    // {
-    // UNIQUE_KEY.set(1);
-    // }
-    // else
-    // {
-    // UNIQUE_KEY.incrementAndGet();
-    // }
-    //
-    // return UNIQUE_KEY.get();
-    // }
 
     private static String calculateDate()
     {
