@@ -40,7 +40,7 @@ public class SendMailService implements Runnable
 
     private Message message;
     
-    @Value(value = "${spring.mail.default-encoding}")
+    @Value(value = "${spring.mail.default_encoding}")
     private String defaultEncoding;
 
     public SendMailService()

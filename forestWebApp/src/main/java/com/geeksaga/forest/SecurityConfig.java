@@ -7,11 +7,6 @@
  * 
  * Released under the MIT license http://geeksaga.com/license
  */
-
-/**
- * @author geeksaga
- * @version 0.1
- */
 package com.geeksaga.forest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +22,10 @@ import com.geeksaga.forest.service.CustomUserDetailService;
 import com.geeksaga.forest.service.LoginFailureHandler;
 import com.geeksaga.forest.service.LoginSuccessHandler;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
@@ -52,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     // @Autowired
     protected void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception
     {
-        auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+        auth.inMemoryAuthentication().withUser("user").password("password").roles(ROLE.USER.toString());
     }
 
     protected void configure(HttpSecurity http) throws Exception

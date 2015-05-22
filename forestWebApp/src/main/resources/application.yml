@@ -1,0 +1,153 @@
+# https://github.com/spring-projects/spring-boot/blob/6b83e0ad5de5f127cad5b12ab1738923c4a58a9f/docs/application.yml
+
+application:
+    message: Hello Forest
+
+spring:
+    application:
+        name: forest
+    profiles:
+        active: dev
+    datasource:
+        name: ForestDataSource
+        max_active: 10
+        max_idle: 5
+        min_idle: 3
+        initial_size: 2
+        validation_query: SELECT 1
+        max_wait: 10000
+    messages:
+        basename: messages
+        cache_seconds: 5
+        encoding: UTF-8
+    http:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+    thymeleaf:
+        check_template_location: true
+        prefix: classpath:/templates/
+        suffix: .html
+        mode: HTML5
+        encoding: UTF-8
+        content_type: text/html;UTF-8
+        cache: false
+    view:
+        prefix: /WEB-INF/jsp/
+        suffix: .jsp
+
+#server:
+#    server-path: /
+#    port: ${port:8080}
+logging:
+  file: logs/application_log
+  level:
+    ROOT: WARN
+    org.apache.http: WARN
+    org.apache.http.headers: WARN
+    org.hibernate: ERROR
+    org.springframework.web: INFO
+    # log generated password for admin endpoints, e.g. /env, /beans
+    # See http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
+    org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: INFO
+    com.geeksaga: DEBUG
+
+lucene:
+    index:
+        path: data/forest/index
+
+file:
+    upload:
+        path: default
+
+---
+
+spring:
+    profiles: dev
+    datasource:
+        driver_class_name: org.sqlite.JDBC
+        url: jdbc:sqlite:data/forest.db
+        username: geeksaga
+        password: geeksaga
+        max-wait: 10000
+    jpa:
+        open_in_view: true
+        show_sql: true
+        databse: DEFAULT
+        generate_ddl: true
+        hibernate:
+            naming_stratege: org.hibernate.cfg.ImprovedNamingStrategy
+            ddl_auto: create-drop
+        database_platform: com.geeksaga.forest.config.SQLiteDialect
+        #database-platform=org.hibernate.dialect.H2Dialect
+        #database-platform=org.hibernate.dialect.PostgreSQLDialect
+    data:
+        jpa:
+            repositories:
+                enabled: true
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: sns@geeksaga.com
+        password: elqldhfkzmf
+        default_encoding: UTF-8
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+    xmpp:
+        user:
+            login: sns@geeksaga.com
+            password: elqldhfkzmf
+            host: talk.google.com
+            service: gmail.com
+            resource: resource
+            port: 5222
+
+send:
+    to:
+        user: user@gmail.com
+
+server:
+    port: 18080
+
+---
+
+spring:
+    profiles: production
+    datasource:
+        driver_class_name: org.sqlite.JDBC
+        url: jdbc:sqlite:data/forest.db
+        username: geeksaga
+        password: geeksaga
+        max-wait: 10000
+    jpa:
+        properties:
+            hibernate:
+                globally_quoted_identifiers: true
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: geeksaga@geeksaga.com
+        password:
+        default_encoding: UTF-8
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+    xmpp:
+        user:
+            login: geeksaga@geeksaga.com
+            password:
+            host: talk.google.com
+            service: gmail.com
+            resource: resource
+            port: 5222
+
+server:
+    path: /

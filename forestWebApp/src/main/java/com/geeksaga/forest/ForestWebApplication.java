@@ -62,8 +62,7 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 
 @ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller",
         "com.geeksaga.forest.service.dev", "com.geeksaga.forest.controller.dev" })
-@PropertySources({ @PropertySource("classpath:application.properties"),
-        @PropertySource("classpath:application-${spring.profiles.active}.properties") })
+@PropertySources({ @PropertySource("classpath:application.yml")})
 @SpringBootApplication
 @EntityScan(basePackageClasses = { User.class, AuditableUser.class })
 public class ForestWebApplication extends SpringBootServletInitializer

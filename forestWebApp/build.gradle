@@ -291,9 +291,7 @@ eclipse {
 eclipseJdt << {
     File f = file('.settings/org.eclipse.core.resources.prefs')
     f.write('eclipse.preferences.version=1\n')
-    f.append('encoding//src/main/resources/application-dev.properties=UTF-8\n')
-    f.append('encoding//src/main/resources/application-production.properties=UTF-8\n')
-    f.append('encoding//src/main/resources/application.properties=UTF-8\n')
+    f.append('encoding//src/main/resources/application.yml=UTF-8\n')
     f.append('encoding//src/main/resources/messages_ko.properties=UTF-8\n')
     f.append('encoding//src/main/resources/messages.properties=UTF-8\n')
     f.append('encoding/<project>=utf-8')
