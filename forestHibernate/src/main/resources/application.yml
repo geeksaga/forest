@@ -1,8 +1,12 @@
-# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # https://github.com/spring-projects/spring-boot/blob/6b83e0ad5de5f127cad5b12ab1738923c4a58a9f/docs/application.yml
 
-application:
-    message: Hello Forest
+message:
+    source:
+        basename: i18n/messages
+    use.code.as.default.message: true
+
+entitymanager:
+    packages.to.scan: com.geeksaga.forest.repository.entity
 
 spring:
     application:
@@ -32,7 +36,7 @@ spring:
         suffix: .html
         mode: HTML5
         encoding: UTF-8
-        content_type: text/html
+        content_type: text/html;UTF-8
         cache: false
     view:
         prefix: /WEB-INF/jsp/
@@ -54,7 +58,9 @@ logging:
     org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: INFO
     com.geeksaga: DEBUG
 
-lucene.index.path: data/forest/index
+lucene:
+    index:
+        path: data/forest/index
 
 file:
     upload:
@@ -66,7 +72,7 @@ spring:
     profiles: dev
     datasource:
         driver_class_name: org.sqlite.JDBC
-        url: jdbc:sqlite:data/forest.db
+        url: jdbc:sqlite:../forestWebApp/data/forest.db
         username: geeksaga
         password: geeksaga
         max-wait: 10000
@@ -81,10 +87,7 @@ spring:
         database_platform: com.geeksaga.forest.config.SQLiteDialect
         #database-platform=org.hibernate.dialect.H2Dialect
         #database-platform=org.hibernate.dialect.PostgreSQLDialect
-    data:
-        jpa:
-            repositories:
-                enabled: true
+    data.jpa.repositories.enabled: true
     mail:
         host: smtp.gmail.com
         port: 587

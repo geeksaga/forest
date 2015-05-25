@@ -18,6 +18,7 @@ package com.geeksaga.forest.search;
 import java.io.File;
 import java.io.IOException;
 
+import com.geeksaga.forest.ForestWebApplication;
 import org.apache.lucene.analysis.ko.KoreanAnalyzerWrapper;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -32,15 +33,30 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.geeksaga.forest.common.util.BundleUtils;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+@Component
+@ConfigurationProperties(locations="classpath:application.yml", prefix = "lucene.index")
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = ForestWebApplication.class)
+//@WebAppConfiguration
 public class IndexingTest
 {
+    @Value("${lucene.index.path:data/forest/index}")
+    private String path;
     private Directory directory;
 
     @Before
     public void setUp() throws Exception
     {
-        directory = FSDirectory.open(new File(BundleUtils.getString("application", LuceneEngine.LUCENE_INDEX_PATH)));
+        //directory = FSDirectory.open(new File(BundleUtils.getString("application", LuceneEngine.LUCENE_INDEX_PATH)));
+        directory = FSDirectory.open(new File(path));
     }
 
     private IndexWriter getWriter() throws IOException

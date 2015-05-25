@@ -20,7 +20,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@PropertySources({ @PropertySource("classpath:application.properties") })
+@PropertySources({ @PropertySource("classpath:application.yml") })
 //@ComponentScan(basePackages = { "com.geeksaga.forest.repository.querydsl" })
 @EnableTransactionManagement
 public class HibernateConfiguration

@@ -1,3 +1,7 @@
+apply plugin: 'propdeps'
+apply plugin: 'propdeps-maven'
+apply plugin: 'propdeps-idea'
+apply plugin: 'propdeps-eclipse'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
@@ -62,7 +66,7 @@ dependencies
             "org.codehaus.cargo:cargo-ant:$cargoVersion"
     */
 
-
+    compile("org.springframework.boot:spring-boot-configuration-processor:$rootProject.ext.springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-parent:$rootProject.ext.springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-web:$rootProject.ext.springBootVersion")
     {
