@@ -7,17 +7,16 @@
  * 
  * Released under the MIT license http://geeksaga.com/license
  */
-
-/**
- * @author geeksaga
- * @version 0.1
- */
 package com.geeksaga.forest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 @SpringBootApplication
 public class ForestHibernateApplication
 {

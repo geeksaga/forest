@@ -37,6 +37,26 @@ spring:
     view:
         prefix: /WEB-INF/jsp/
         suffix: .jsp
+    jpa:
+        open_in_view: true
+        hibernate:
+            naming_stratege: org.hibernate.cfg.ImprovedNamingStrategy
+    data.jpa.repositories.enabled: true
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        default_encoding: UTF-8
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls.enable: true
+    xmpp:
+        user:
+            host: talk.google.com
+            service: gmail.com
+            resource: resource
+            port: 5222
 
 #server:
 #    server-path: /
@@ -54,7 +74,9 @@ logging:
     org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: INFO
     com.geeksaga: DEBUG
 
-lucene.index.path: data/forest/index
+lucene:
+    index:
+        path: data/forest/index
 
 file:
     upload:
@@ -65,46 +87,27 @@ file:
 spring:
     profiles: dev
     datasource:
-        driver_class_name: org.sqlite.JDBC
-        url: jdbc:sqlite:data/forest.db
+        #driver_class_name: org.sqlite.JDBC
+        #url: jdbc:sqlite:data/forest.db
         username: geeksaga
         password: geeksaga
         max-wait: 10000
     jpa:
-        open_in_view: true
         show_sql: true
         databse: DEFAULT
         generate_ddl: true
         hibernate:
-            naming_stratege: org.hibernate.cfg.ImprovedNamingStrategy
             ddl_auto: create-drop
-        database_platform: com.geeksaga.forest.config.SQLiteDialect
-        #database-platform=org.hibernate.dialect.H2Dialect
-        #database-platform=org.hibernate.dialect.PostgreSQLDialect
-    data:
-        jpa:
-            repositories:
-                enabled: true
+        #database_platform: com.geeksaga.forest.config.SQLiteDialect
+        database_platform: org.hibernate.dialect.H2Dialect
+        #database_platform: org.hibernate.dialect.PostgreSQLDialect
     mail:
-        host: smtp.gmail.com
-        port: 587
         username: sns@geeksaga.com
         password:
-        default_encoding: UTF-8
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    starttls:
-                        enable: true
     xmpp:
         user:
             login: sns@geeksaga.com
             password:
-            host: talk.google.com
-            service: gmail.com
-            resource: resource
-            port: 5222
 
 send:
     to:
@@ -118,35 +121,19 @@ server:
 spring:
     profiles: production
     datasource:
-        driver_class_name: org.sqlite.JDBC
-        url: jdbc:sqlite:data/forest.db
+        #driver_class_name: org.sqlite.JDBC
+        #url: jdbc:sqlite:data/forest.db
         username: geeksaga
         password: geeksaga
         max-wait: 10000
-    jpa:
-        properties:
-            hibernate:
-                globally_quoted_identifiers: true
+    jpa.properties.hibernate.globally_quoted_identifiers: true
     mail:
-        host: smtp.gmail.com
-        port: 587
         username: geeksaga@geeksaga.com
         password:
-        default_encoding: UTF-8
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    starttls:
-                        enable: true
     xmpp:
         user:
             login: geeksaga@geeksaga.com
             password:
-            host: talk.google.com
-            service: gmail.com
-            resource: resource
-            port: 5222
 
 server:
     path: /

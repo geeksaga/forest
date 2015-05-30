@@ -7,17 +7,16 @@
  * 
  * Released under the MIT license http://geeksaga.com/license
  */
-
-/**
- * @author geeksaga
- * @version 0.1
- */
 package com.geeksaga.forest.common.util;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+/**
+ * @author geeksaga
+ * @version 0.1
+ */
 public class BundleUtils
 {
     private static ResourceBundle resourceBundle;
@@ -67,7 +66,7 @@ public class BundleUtils
 
     private static String getString(ResourceBundle resourceBundle, String key)
     {
-        String value = null;
+        String value;
         try
         {
             value = resourceBundle.getString(key);

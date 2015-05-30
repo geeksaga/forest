@@ -51,6 +51,7 @@ public class LuceneEngine
     private Object monitor = new Object();
     private static String bundleName;
     private static boolean isInitialize = false;
+    private static String indexPath;
 
     private LuceneEngine()
     {}
@@ -59,17 +60,36 @@ public class LuceneEngine
     {
         return getInstance("application");
     }
-    
+
+    public static LuceneEngine getInstanceWithYaml(String indexPath)
+    {
+        if (!isInitialize)
+        {
+            LuceneEngine.indexPath = indexPath;
+
+            instance.initialize();
+        }
+
+        return instance;
+    }
+
     public static LuceneEngine getInstance(String bundleName)
     {
         LuceneEngine.bundleName = bundleName;
 
         if (!isInitialize)
         {
+            indexPath = BundleUtils.getString(LuceneEngine.bundleName, LUCENE_INDEX_PATH);
+
             instance.initialize();
         }
 
         return instance;
+    }
+
+    public static void setIndexPath(String indexPath)
+    {
+        LuceneEngine.indexPath = indexPath;
     }
 
     private void initialize()
@@ -81,7 +101,7 @@ public class LuceneEngine
         {
             try
             {
-                directory = FSDirectory.open(new File(BundleUtils.getString(LuceneEngine.bundleName, LUCENE_INDEX_PATH)));
+                directory = FSDirectory.open(new File(indexPath));
 
                 IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LATEST, analyzer);
                 indexWriterConfig.setOpenMode(OpenMode.CREATE);
@@ -121,13 +141,13 @@ public class LuceneEngine
 
     public List<String> search(String queryString)
     {
-        Directory directory = null;
-        IndexSearcher indexSearcher = null;
+        Directory directory;
+        IndexSearcher indexSearcher;
         List<String> list = new ArrayList<String>();
 
         try
         {
-            directory = FSDirectory.open(new File(BundleUtils.getString(LuceneEngine.bundleName, LUCENE_INDEX_PATH)));
+            directory = FSDirectory.open(new File(indexPath));
 
             IndexReader reader = DirectoryReader.open(directory);
             indexSearcher = new IndexSearcher(reader);
@@ -167,14 +187,14 @@ public class LuceneEngine
 
     public void addDocument(String content, String key)
     {
-        Directory directory = null;
+        Directory directory;
         IndexWriter indexWriter = null;
 
         synchronized (monitor)
         {
             try
             {
-                directory = FSDirectory.open(new File(BundleUtils.getString(LuceneEngine.bundleName, LUCENE_INDEX_PATH)));
+                directory = FSDirectory.open(new File(indexPath));
 
                 IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LATEST, analyzer);
                 indexWriter = new IndexWriter(directory, indexWriterConfig);
@@ -211,7 +231,7 @@ public class LuceneEngine
 
     public void deleteDocument(String key)
     {
-        Directory directory = null;
+        Directory directory;
         // IndexReader indexReader = null;
         IndexWriter indexWriter = null;
 
@@ -219,7 +239,7 @@ public class LuceneEngine
         {
             try
             {
-                directory = FSDirectory.open(new File(BundleUtils.getString(LuceneEngine.bundleName, LUCENE_INDEX_PATH)));
+                directory = FSDirectory.open(new File(indexPath));
                 // indexReader = IndexReader.open(directory, false);
                 // indexReader = IndexReader.open(directory);
                 // indexReader.deleteDocuments(new Term("key", key));

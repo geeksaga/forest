@@ -124,13 +124,13 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
     @Test
     public void testFindAll()
     {
-        List<User> users = (List<User>) userRepository.findAll();
+        List<User> users = userRepository.findAll();
 
         assertThat(4, is(users.size()));
 
         Set<Authority> authorities = users.get(0).getAuthority();
 
-        assertThat(authority.getRole(), is((authorities.toArray(new Authority[0])[0]).getRole()));
+        assertThat(authority.getRole(), is((authorities.toArray(new Authority[authorities.size()])[0]).getRole()));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class UserRepositoryTest extends AbstractRepositoryTestSupport
 
         Set<Authority> authorities = entityManager.find(User.class, user.getSid()).getAuthority();
 
-        assertThat(authority.getRole(), is((authorities.toArray(new Authority[0])[0]).getRole()));
+        assertThat(authority.getRole(), is((authorities.toArray(new Authority[authorities.size()])[0]).getRole()));
     }
 
     @Test

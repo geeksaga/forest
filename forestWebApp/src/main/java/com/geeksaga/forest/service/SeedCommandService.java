@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,11 +55,20 @@ public class SeedCommandService extends AbstractSpringData<Seed>
     @Autowired
     private TagMapService tagMapService;
 
-    private LuceneEngine luceneEngine = LuceneEngine.getInstance();
+    @Value("${lucene.index.path}")
+    private String path;
+
+    // private LuceneEngine luceneEngine = LuceneEngine.getInstance();
+    // private LuceneEngine luceneEngine = LuceneEngine.getInstanceWithYaml(path);
+    private LuceneEngine luceneEngine;
 
     public SeedCommandService()
     {
         super(Seed.class);
+
+        Logger.info(path);
+
+        luceneEngine = LuceneEngine.getInstanceWithYaml(path);
     }
 
     /**

@@ -38,7 +38,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.geeksaga.forest.repositories.jpa.auditing.AuditorAwareImpl;
 
-@PropertySources({ @PropertySource("classpath:application.yml"), @PropertySource("classpath:spring.properties") })
+//@PropertySources({ @PropertySource("classpath:application.yml"), @PropertySource("classpath:spring.properties") })
+@PropertySources({ @PropertySource("classpath:application.yml")})
 @Configuration
 @ComponentScan(basePackages = { "com.geeksaga.forest.dao", "com.geeksaga.forest.repositories.jpa", "com.geeksaga.forest.entity",
         "com.geeksaga.forest.repositories.querydsl" })

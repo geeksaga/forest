@@ -13,6 +13,7 @@ import org.springframework.messaging.support.GenericMessage;
 @Ignore
 public class InstantMessageServiceTest
 {
+    @Ignore
     @Test
     public void runDemo() throws Exception
     {
