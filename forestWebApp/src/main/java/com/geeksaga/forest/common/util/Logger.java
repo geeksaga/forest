@@ -31,6 +31,11 @@ public class Logger
         LoggerFactory.getLogger(getCallersClassName()).info(msg);
     }
 
+    public static void info(Throwable thr)
+    {
+        LoggerFactory.getLogger(getCallersClassName()).info(toString(thr));
+    }
+
     public static void warn(Throwable thr)
     {
         LoggerFactory.getLogger(getCallersClassName()).warn(toString(thr));

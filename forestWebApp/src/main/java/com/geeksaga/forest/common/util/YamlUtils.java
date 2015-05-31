@@ -12,6 +12,8 @@ package com.geeksaga.forest.common.util;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,18 +36,21 @@ public class YamlUtils
     {
         YamlUtils.yaml = new Yaml();
 
-        InputStream input = null;
-        try
+        try(InputStream in = Files.newInputStream(Paths.get(path)))
         {
-            input = new FileInputStream(new File(path));
+           // Lucense l = yaml.loadAs(in, Lucense.class);
 
-            for (Object data : yaml.loadAll(input))
+            //System.out.println(l.getPath());
+            for (Object data : yaml.loadAll(in))
             {
                 System.out.println(((LinkedHashMap<String,String>)data).keySet());
+                System.out.println(((LinkedHashMap<String,String>)data).containsKey("lucene"));
+                System.out.println(((LinkedHashMap<String,LinkedHashMap<String, String>>)data).get("lucene"));
+
                 //list.add((String) data);
             }
         }
-        catch (FileNotFoundException e)
+        catch (IOException e)
         {
             Logger.error(e);
         }
@@ -54,5 +59,18 @@ public class YamlUtils
     public static String getString()
     {
         return null;
+    }
+
+    public class Lucense
+    {
+        private String path;
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
     }
 }

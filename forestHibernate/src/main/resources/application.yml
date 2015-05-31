@@ -58,10 +58,6 @@ logging:
     org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: INFO
     com.geeksaga: DEBUG
 
-lucene.index.path: data/forest/index
-
-file.upload.path: default
-
 ---
 
 spring:

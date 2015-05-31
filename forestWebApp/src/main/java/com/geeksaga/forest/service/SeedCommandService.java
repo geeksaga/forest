@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,28 +48,40 @@ import com.geeksaga.forest.search.LuceneEngine;
 // Not findByLastnameNot … where x.lastname <> ?1
 // In findByAgeIn(Collection<Age> ages) … where x.age in ?1
 // NotIn findByAgeNotIn(Collection<Age> age) … where x.age not in ?1
+@PropertySource("classpath:application.yml")
 @Service
 public class SeedCommandService extends AbstractSpringData<Seed>
 {
-    @Autowired
-    private SeedRepository seedRepository;
+    // @Autowired
+    private final SeedRepository seedRepository;
 
-    @Autowired
-    private TagMapService tagMapService;
+    // @Autowired
+    private final TagMapService tagMapService;
 
-    @Value("${lucene.index.path}")
+    @Value(value = "${lucene.index.path:data/forest/index}")
     private String path;
 
     // private LuceneEngine luceneEngine = LuceneEngine.getInstance();
     // private LuceneEngine luceneEngine = LuceneEngine.getInstanceWithYaml(path);
     private LuceneEngine luceneEngine;
-
+/*
     public SeedCommandService()
     {
         super(Seed.class);
 
         Logger.info(path);
+        luceneEngine = LuceneEngine.getInstanceWithYaml(path);
+    }
+*/
+    @Autowired
+    public SeedCommandService(SeedRepository seedRepository, TagMapService tagMapService)
+    {
+        super(Seed.class);
 
+        this.seedRepository = seedRepository;
+        this.tagMapService = tagMapService;
+
+        Logger.info(path);
         luceneEngine = LuceneEngine.getInstanceWithYaml(path);
     }
 
@@ -115,11 +129,8 @@ public class SeedCommandService extends AbstractSpringData<Seed>
 
     public List<Seed> save(Iterable<Seed> list)
     {
-        Iterator<Seed> iter = list.iterator();
-
-        while (iter.hasNext())
+        for(Seed seed : list)
         {
-            Seed seed = iter.next();
             seed.setSid(KeyGenerator.generateKeyToLong());
         }
 

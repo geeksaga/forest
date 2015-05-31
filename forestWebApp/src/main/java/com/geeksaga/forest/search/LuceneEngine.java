@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.geeksaga.forest.common.util.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ko.KoreanAnalyzerWrapper;
 import org.apache.lucene.document.Document;
@@ -48,7 +49,7 @@ public class LuceneEngine
     
     private static LuceneEngine instance = new LuceneEngine();
     private static Analyzer analyzer = new KoreanAnalyzerWrapper();
-    private Object monitor = new Object();
+    private final Object monitor = new Object();
     private static String bundleName;
     private static boolean isInitialize = false;
     private static String indexPath;
@@ -87,11 +88,6 @@ public class LuceneEngine
         return instance;
     }
 
-    public static void setIndexPath(String indexPath)
-    {
-        LuceneEngine.indexPath = indexPath;
-    }
-
     private void initialize()
     {
         Directory directory = null;
@@ -110,7 +106,7 @@ public class LuceneEngine
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                Logger.info(e);
             }
             finally
             {
@@ -121,7 +117,9 @@ public class LuceneEngine
                         indexWriter.close();
                     }
                     catch (Exception e)
-                    {}
+                    {
+                        Logger.info(e);
+                    }
                 }
                 
                 if (directory != null)
@@ -131,7 +129,9 @@ public class LuceneEngine
                         directory.close();
                     }
                     catch (Exception e)
-                    {}
+                    {
+                        Logger.info(e);
+                    }
                 }
             }
 
@@ -143,7 +143,7 @@ public class LuceneEngine
     {
         Directory directory;
         IndexSearcher indexSearcher;
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
 
         try
         {
@@ -160,11 +160,11 @@ public class LuceneEngine
             TopScoreDocCollector collector = TopScoreDocCollector.create(10, true);
             indexSearcher.search(query, collector);
 
-            ScoreDoc[] hits = collector.topDocs().scoreDocs;
+            ScoreDoc[] scoreDocs = collector.topDocs().scoreDocs;
 
-            for (int i = 0, j = hits.length; i < j; i++)
+            for (ScoreDoc score : scoreDocs)
             {
-                Document document = indexSearcher.doc(hits[i].doc);
+                Document document = indexSearcher.doc(score.doc);
 
                 if (!list.contains(document.get("key")))
                 {
@@ -218,7 +218,9 @@ public class LuceneEngine
                         indexWriter.close();
                     }
                     catch (Exception e)
-                    {}
+                    {
+                        Logger.info(e);
+                    }
                 }
             }
         }
@@ -261,7 +263,9 @@ public class LuceneEngine
                         indexWriter.close();
                     }
                     catch (Exception e)
-                    {}
+                    {
+                        Logger.info(e);
+                    }
                 }
             }
         }

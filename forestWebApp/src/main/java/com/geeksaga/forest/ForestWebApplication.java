@@ -33,6 +33,7 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 // import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
@@ -40,12 +41,10 @@ import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
@@ -60,19 +59,25 @@ import com.geeksaga.forest.repositories.jpa.auditing.AuditableUser;
 // "com.geeksaga.forest.web.*" }))
 // @ImportResource("classpath:InstantMessage.xml")
 
-@ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller",
-        "com.geeksaga.forest.service.dev", "com.geeksaga.forest.controller.dev" })
-@PropertySources({ @PropertySource("classpath:application.yml")})
-@SpringBootApplication
-@EntityScan(basePackageClasses = { User.class, AuditableUser.class })
-public class ForestWebApplication extends SpringBootServletInitializer
+//@ComponentScan(basePackages = { "com.geeksaga.forest", "com.geeksaga.forest.service", "com.geeksaga.forest.controller",
+//        "com.geeksaga.forest.service.dev", "com.geeksaga.forest.controller.dev" })
+//@PropertySources({ @PropertySource("classpath:application.yml")})
+//@SpringBootApplication
+//@EntityScan(basePackageClasses = { User.class, AuditableUser.class })
+@EnableAutoConfiguration
+@Configuration
+@PropertySource("classpath:application.yml")
+@ComponentScan
+@EntityScan
+@EnableJpaRepositories
+public class ForestWebApplication //extends SpringBootServletInitializer
 {
     @Autowired
     private Environment env;
 
     @Autowired
     private MessageSource messageSource;
-
+/*
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException
     {
@@ -97,7 +102,7 @@ public class ForestWebApplication extends SpringBootServletInitializer
     {
         return application.sources(ForestWebApplication.class);
     }
-
+*/
     @Bean
     public HttpMessageConverter<String> responseBodyConverter()
     {

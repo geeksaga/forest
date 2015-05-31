@@ -32,7 +32,7 @@ public class IndexController
     @Autowired
     private SeedQueryService seedQueryServcie;
     
-    @Value("${application.message:Hello Forest}")
+    @Value(value = "${application.message:Hello Forest}")
     private String message = "Hello Forest";
 
     @RequestMapping("/welcome")
